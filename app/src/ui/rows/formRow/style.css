@@ -1,0 +1,6 @@
+.ui-form-row {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}

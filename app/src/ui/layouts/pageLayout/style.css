@@ -1,0 +1,8 @@
+.ui-page-layout {
+  width: 100%;
+  height: calc(100vh - 40px);
+  background-color: var(--color01);
+  box-sizing: border-box;
+  padding: 10px;
+  overflow-y: auto;
+}

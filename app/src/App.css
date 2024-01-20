@@ -1,0 +1,407 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --color00: #000000;
+  --color01: #ffffff;
+  --color02: #ebebeb;
+  --color03: #d1d1d1;
+  --color04: #a8c7e6;
+  --color05: #7b9bbb;
+  --color06: #454545;
+
+  --color10: #c4c0ff;
+  --color11: #c2f3e8;
+  --color12: #009f7c;
+  --color13: #49368d;
+  --color14: #220a77;
+
+  --text00: #000000;
+  --text01: #ffffff;
+  --text02: #8f8f8f;
+  --text03: #454545;
+}
+
+/* scroll width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* scroll track */
+::-webkit-scrollbar-track {
+  background-color: var(--color03);
+}
+
+/* scroll handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color13);
+}
+
+/* scroll hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color14);
+}
+
+.mt10 {
+  margin-top: 10px !important;
+}
+
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.6%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.3%;
+}
+.col-5 {
+  width: 41.65%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33;
+}
+.col-8 {
+  width: 66.66%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+.flex-direction-row {
+  flex-direction: row;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+.justify-content-flex-start {
+  justify-content: flex-start;
+}
+.justify-content-flex-end {
+  justify-content: flex-end;
+}
+.justify-content-space-between {
+  justify-content: space-between;
+}
+.gap5 {
+  gap: 5px;
+}
+.gap10 {
+  gap: 10px;
+}
+
+/* Geniş ekran için stil */
+@media only screen and (min-width: 1200px) {
+  .xl\:col-1 {
+    width: 8.33%;
+  }
+  .xl\:col-2 {
+    width: 16.6%;
+  }
+  .xl\:col-3 {
+    width: 25%;
+  }
+  .xl\:col-4 {
+    width: 33.3%;
+  }
+  .xl\:col-5 {
+    width: 41.65%;
+  }
+  .xl\:col-6 {
+    width: 50%;
+  }
+  .xl\:col-7 {
+    width: 58.33;
+  }
+  .xl\:col-8 {
+    width: 66.66%;
+  }
+  .xl\:col-9 {
+    width: 75%;
+  }
+  .xl\:col-10 {
+    width: 83.33%;
+  }
+  .xl\:col-11 {
+    width: 91.66%;
+  }
+  .xl\:col-12 {
+    width: 100%;
+  }
+
+  .xl\:flex {
+    display: flex;
+  }
+  .xl\:flex-direction-row {
+    flex-direction: row;
+  }
+  .xl\:flex-direction-column {
+    flex-direction: column;
+  }
+  .xl\:justify-content-flex-start {
+    justify-content: flex-start;
+  }
+  .xl\:justify-content-flex-end {
+    justify-content: flex-end;
+  }
+  .xl\:justify-content-space-between {
+    justify-content: space-between;
+  }
+}
+
+/* Orta genişlik için stil */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .lg\:col-1 {
+    width: 8.33%;
+  }
+  .lg\:col-2 {
+    width: 16.6%;
+  }
+  .lg\:col-3 {
+    width: 25%;
+  }
+  .lg\:col-4 {
+    width: 33.3%;
+  }
+  .lg\:col-5 {
+    width: 41.65%;
+  }
+  .lg\:col-6 {
+    width: 50%;
+  }
+  .lg\:col-7 {
+    width: 58.33;
+  }
+  .lg\:col-8 {
+    width: 66.66%;
+  }
+  .lg\:col-9 {
+    width: 75%;
+  }
+  .lg\:col-10 {
+    width: 83.33%;
+  }
+  .lg\:col-11 {
+    width: 91.66%;
+  }
+  .lg\:col-12 {
+    width: 100%;
+  }
+
+  .lg\:flex {
+    display: flex;
+  }
+  .lg\:flex-direction-row {
+    flex-direction: row;
+  }
+  .lg\:flex-direction-column {
+    flex-direction: column;
+  }
+  .lg\:justify-content-flex-start {
+    justify-content: flex-start;
+  }
+  .lg\:justify-content-flex-end {
+    justify-content: flex-end;
+  }
+  .lg\:justify-content-space-between {
+    justify-content: space-between;
+  }
+}
+
+/* Tablet (dik konumda) için stil */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .md\:col-1 {
+    width: 8.33%;
+  }
+  .md\:col-2 {
+    width: 16.6%;
+  }
+  .md\:col-3 {
+    width: 25%;
+  }
+  .md\:col-4 {
+    width: 33.3%;
+  }
+  .md\:col-5 {
+    width: 41.65%;
+  }
+  .md\:col-6 {
+    width: 50%;
+  }
+  .md\:col-7 {
+    width: 58.33;
+  }
+  .md\:col-8 {
+    width: 66.66%;
+  }
+  .md\:col-9 {
+    width: 75%;
+  }
+  .md\:col-10 {
+    width: 83.33%;
+  }
+  .md\:col-11 {
+    width: 91.66%;
+  }
+  .md\:col-12 {
+    width: 100%;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+  .md\:flex-direction-row {
+    flex-direction: row;
+  }
+  .md\:flex-direction-column {
+    flex-direction: column;
+  }
+  .md\:justify-content-flex-start {
+    justify-content: flex-start;
+  }
+  .md\:justify-content-flex-end {
+    justify-content: flex-end;
+  }
+  .md\:justify-content-space-between {
+    justify-content: space-between;
+  }
+}
+
+/* Tablet (yatay konumda) ve mobil cihazlar için stil */
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .sm\:col-1 {
+    width: 8.33%;
+  }
+  .sm\:col-2 {
+    width: 16.6%;
+  }
+  .sm\:col-3 {
+    width: 25%;
+  }
+  .sm\:col-4 {
+    width: 33.3%;
+  }
+  .sm\:col-5 {
+    width: 41.65%;
+  }
+  .sm\:col-6 {
+    width: 50%;
+  }
+  .sm\:col-7 {
+    width: 58.33;
+  }
+  .sm\:col-8 {
+    width: 66.66%;
+  }
+  .sm\:col-9 {
+    width: 75%;
+  }
+  .sm\:col-10 {
+    width: 83.33%;
+  }
+  .sm\:col-11 {
+    width: 91.66%;
+  }
+  .sm\:col-12 {
+    width: 100%;
+  }
+
+  .sm\:flex {
+    display: flex;
+  }
+  .sm\:flex-direction-row {
+    flex-direction: row;
+  }
+  .sm\:flex-direction-column {
+    flex-direction: column;
+  }
+  .sm\:justify-content-flex-start {
+    justify-content: flex-start;
+  }
+  .sm\:justify-content-flex-end {
+    justify-content: flex-end;
+  }
+  .sm\:justify-content-space-between {
+    justify-content: space-between;
+  }
+}
+
+/* Mobil cihazlar için stil */
+@media only screen and (max-width: 575px) {
+  .xs\:col-1 {
+    width: 8.33%;
+  }
+  .xs\:col-2 {
+    width: 16.6%;
+  }
+  .xs\:col-3 {
+    width: 25%;
+  }
+  .xs\:col-4 {
+    width: 33.3%;
+  }
+  .xs\:col-5 {
+    width: 41.65%;
+  }
+  .xs\:col-6 {
+    width: 50%;
+  }
+  .xs\:col-7 {
+    width: 58.33;
+  }
+  .xs\:col-8 {
+    width: 66.66%;
+  }
+  .xs\:col-9 {
+    width: 75%;
+  }
+  .xs\:col-10 {
+    width: 83.33%;
+  }
+  .xs\:col-11 {
+    width: 91.66%;
+  }
+  .xs\:col-12 {
+    width: 100%;
+  }
+
+  .xs\:flex {
+    display: flex;
+  }
+  .xs\:flex-direction-row {
+    flex-direction: row;
+  }
+  .xs\:flex-direction-column {
+    flex-direction: column;
+  }
+  .xs\:justify-content-flex-start {
+    justify-content: flex-start;
+  }
+  .xs\:justify-content-flex-end {
+    justify-content: flex-end;
+  }
+  .xs\:justify-content-space-between {
+    justify-content: space-between;
+  }
+}

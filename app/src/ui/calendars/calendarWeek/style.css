@@ -1,0 +1,165 @@
+.ui-calendar-week {
+  display: block;
+  width: 100%;
+  border-right: 1px solid var(--color03);
+  border-radius: 10px;
+}
+
+.ui-calendar-week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color02);
+  height: 35px;
+  border-top: 1px solid var(--color03);
+  border-left: 1px solid var(--color03);
+  border-bottom: 1px solid var(--color03);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  padding: 0 10px;
+}
+
+.ui-calendar-week-header-title {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text00);
+}
+
+.ui-calendar-week-header-left {
+  border: none;
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ui-calendar-week-header-left > svg {
+  width: 30px;
+  height: 30px;
+}
+
+.ui-calendar-week-header-right {
+  border: none;
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ui-calendar-week-header-right > svg {
+  width: 30px;
+  height: 30px;
+}
+
+.ui-calendar-week-header-days {
+  display: flex;
+  border-left: 1px solid var(--color03);
+}
+
+.ui-calendar-week-header-days-hours {
+  min-width: 50px;
+  border-bottom: 1px solid var(--color03);
+}
+
+.ui-calendar-week-header-days-content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  border-bottom: 1px solid var(--color03);
+  border-left: 1px solid var(--color03);
+}
+
+.ui-calendar-week-header-day {
+  padding: 5px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text00);
+}
+
+.ui-calendar-week-header-day-date {
+  font-size: 14px;
+}
+
+.ui-calendar-week-header-day-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ui-calendar-week-body {
+  display: flex;
+  border-left: 1px solid var(--color03);
+}
+
+.ui-calendar-week-body-hours {
+  min-width: 50px;
+}
+
+.ui-calendar-week-body-content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.ui-calendar-week-day {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text00);
+  border-bottom: 1px solid var(--color03);
+  border-left: 1px solid var(--color03);
+  position: relative;
+}
+
+.ui-calendar-week-day-label {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  color: var(--text00);
+}
+
+.ui-calendar-week-day-body {
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  height: 70px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.ui-calendar-week-day-body-item {
+  height: 20px;
+  width: calc(100% - 20px);
+  background-color: var(--color10);
+  border-radius: 10px;
+}
+
+.ui-calendar-week-hour {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text00);
+  border-bottom: 1px solid var(--color03);
+}

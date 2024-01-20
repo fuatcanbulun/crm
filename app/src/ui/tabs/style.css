@@ -1,0 +1,39 @@
+.ui-tabs {
+  height: 40px;
+  width: fit-content;
+}
+
+.ui-tabs-controls {
+  height: 35px;
+  display: flex;
+}
+
+.ui-tabs-controls-button {
+  width: 200px;
+  height: 35px;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ui-tabs-controls-button-label {
+  color: black;
+  font-size: 14px;
+}
+
+.ui-tabs-controls-button-label.ui-tabs-selected {
+  font-weight: 600;
+}
+
+.ui-tabs-slider {
+  height: 5px;
+  transition: 0.5s;
+}
+
+.ui-tabs-slider-line {
+  width: 200px;
+  height: 6px;
+  background-color: lightgreen;
+}

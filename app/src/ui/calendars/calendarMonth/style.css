@@ -1,0 +1,141 @@
+.ui-calendar-month {
+  display: block;
+  width: 100%;
+  border-right: 1px solid var(--color03);
+  border-radius: 10px;
+}
+
+.ui-calendar-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color02);
+  height: 35px;
+  border-top: 1px solid var(--color03);
+  border-left: 1px solid var(--color03);
+  border-bottom: 1px solid var(--color03);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  padding: 0 10px;
+}
+
+.ui-calendar-month-header-title {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text00);
+}
+
+.ui-calendar-month-header-left {
+  border: none;
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ui-calendar-month-header-left > svg {
+  width: 30px;
+  height: 30px;
+}
+
+.ui-calendar-month-header-right {
+  border: none;
+  width: 35px;
+  height: 35px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.ui-calendar-month-header-right > svg {
+  width: 30px;
+  height: 30px;
+}
+
+.ui-calendar-month-header-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  border-bottom: 1px solid var(--color03);
+  border-left: 1px solid var(--color03);
+}
+
+.ui-calendar-month-header-day {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text00);
+  font-weight: 600;
+}
+
+.ui-calendar-month-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+}
+
+.ui-calendar-month-day {
+  height: 100px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text00);
+  border-bottom: 1px solid var(--color03);
+  border-left: 1px solid var(--color03);
+  position: relative;
+}
+
+.ui-calendar-month-day-label {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  color: var(--text00);
+}
+
+.ui-calendar-month-day-body {
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  height: 70px;
+  padding: 0 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.ui-calendar-month-day-body-item {
+  height: 20px;
+  width: calc(100% - 20px);
+  background-color: var(--color10);
+  border-radius: 10px;
+}
+
+.ui-calendar-month-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.ui-calendar-month-disabled-days {
+  color: var(--color03);
+  pointer-events: none;
+}

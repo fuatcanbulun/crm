@@ -1,0 +1,9 @@
+# Node.js modules
+node_modules/
+
+# App specific ignores
+app/build
+
+
+# API specific ignores
+api/build

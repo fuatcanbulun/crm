@@ -1,0 +1,11 @@
+.ui-text-area {
+  outline: none;
+  min-height: 81px;
+  height: 35px;
+  border: 1px solid var(--color03);
+  border-radius: 10px;
+  width: -webkit-fill-available;
+  font-size: 14px;
+  color: var(--text00);
+  padding: 10px;
+}

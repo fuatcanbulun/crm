@@ -1,0 +1,56 @@
+.ui-menu {
+  padding: 0;
+}
+
+.ui-sub-menu {
+  background-color: var(--color03);
+  height: 0;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.ui-menu-item-content {
+  height: 40px;
+  display: flex;
+  cursor: pointer;
+}
+
+.ui-menu-item-content:hover {
+  background-color: var(--color10);
+}
+
+.ui-menu-item-content.ui-menu-item-active {
+  background-color: var(--color10);
+}
+
+.ui-menu-item-icon {
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui-menu-item-icon > img {
+  min-width: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.ui-menu-item-label {
+  width: 0%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text00);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.ui-menu-extended .ui-menu-item-label {
+  width: 100%;
+  opacity: 1;
+}

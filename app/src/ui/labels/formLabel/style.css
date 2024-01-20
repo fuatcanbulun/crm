@@ -1,0 +1,7 @@
+.ui-form-label {
+  font-size: 13px;
+  height: 20px;
+  color: var(--text00);
+  font-weight: 600;
+  display: block;
+}

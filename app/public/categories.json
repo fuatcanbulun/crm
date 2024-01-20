@@ -1,0 +1,22 @@
+[
+  {
+    "id": "97d63f2b-e024-4a35-bbd2-9fef8ff517cd",
+    "name": "pop"
+  },
+  {
+    "id": "588d35ed-e938-4742-941b-8a0f30c8b9f4",
+    "name": "hiphop"
+  },
+  {
+    "id": "e82b5c76-1d4c-408c-8743-c17b406ed3ef",
+    "name": "rock"
+  },
+  {
+    "id": "408a52de-db90-42bb-af6d-23fbc14b6505",
+    "name": "latin"
+  },
+  {
+    "id": "7fe37038-620d-4886-912c-d5b154f176e8",
+    "name": "dance"
+  }
+]

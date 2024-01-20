@@ -1,0 +1,6 @@
+.ui-page-row {
+  display: flex;
+  padding: 0 5px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
