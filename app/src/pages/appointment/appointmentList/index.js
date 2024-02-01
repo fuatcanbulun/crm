@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextInput from "../../../ui/inputs/textInput";
 import SingleSelectInput from "../../../ui/inputs/singleSelectInput";
 import TextArea from "../../../ui/inputs/textArea";
@@ -15,28 +15,31 @@ import FormColumn from "../../../ui/columns/formColumn";
 import FormField from "../../../ui/fields/formField";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { appointmentTypes } from "../../../constants/types";
 import DatePicker from "../../../ui/inputs/datePicker";
 import TimePicker from "../../../ui/inputs/timePicker";
+import {
+  getAppointments,
+  updateAppointment,
+  addAppointment,
+  removeAppointmentById,
+} from "../../../services/appointments";
+import { useSelector } from "react-redux";
+import { LuPlus, LuPen, LuTrash } from "react-icons/lu";
+import AppointmentModal from "../common/appointmentModal";
+import { getPersons } from "../../../services/persons";
+import { set } from "ol/transform";
 
 const AppointmentList = ({}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  const { appointmentTypes } = useSelector((state) => state.enums);
+  const [persons, setPersons] = useState([]);
   const [appointmentModal, setAppointmentModal] = useState(false);
+  const [appointmentModalData, setAppointmentModalData] = useState(null);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
 
-  const [formValues, setFormValues] = useState({
-    isim: "",
-    sehir: "ankara",
-    ilceler: ["çankaya", "yenimahalle"],
-    tarih: "",
-    saat: "12:30:00",
-    aciklama: "",
-  });
-
   const initialTableData = {
-    tableId: "kisiler",
+    tableId: "appointments",
     isSelectionMode: true,
     selectionMode: "single",
     getSelectionValue: (selectedData) => setSelectedAppointment(selectedData),
@@ -47,124 +50,118 @@ const AppointmentList = ({}) => {
         dataType: "date",
       },
       {
-        field: "firstName",
-        header: t("firstName"),
+        field: "start_time",
+        header: t("start_time"),
         dataType: "text",
       },
       {
-        field: "lastName",
-        header: t("lastName"),
+        field: "end_time",
+        header: t("end_time"),
         dataType: "text",
       },
       {
-        field: "appointmentType",
-        header: t("appointmentType"),
+        field: "person_name",
+        header: t("person_name"),
+        dataType: "text",
+      },
+      {
+        field: "appointment_type",
+        header: t("appointment_type"),
         dataType: "dropdown",
         dropDownValues: appointmentTypes.map((item) => {
-          return { ...item, label: t(item.label) };
+          return { ...item, value: item.id, label: t(item.tr) };
         }),
       },
       {
-        field: "createdBy",
-        header: t("createdBy"),
+        field: "created_by",
+        header: t("created_by"),
         dataType: "text",
       },
       {
-        field: "createdAt",
-        header: t("createdAt"),
+        field: "created_at",
+        header: t("created_at"),
         dataType: "date",
       },
     ],
-    data: [
-      {
-        id: 1,
-        date: "14/01/2024 15:30",
-        firstName: "Can",
-        lastName: "Yılmaz",
-        appointmentType: "hairCare",
-        createdBy: "Yeşim Polat",
-        createdAt: "14/01/2024 15:30",
-      },
-    ],
-  };
-
-  const appointmentFormBody = () => {
-    return (
-      <FormRow className="col-12">
-        <FormColumn className="col-6">
-          <FormField>
-            <FormLabel label={t("firstName")} />
-            <TextInput
-              id="firstName"
-              value={formValues.firstName}
-              onChange={(val) =>
-                setFormValues({ ...formValues, firstName: val })
-              }
-            />
-          </FormField>
-          <FormField className="mt10">
-            <FormLabel label={t("lastName")} />
-            <TextInput
-              id="lastName"
-              value={formValues.lastName}
-              onChange={(val) =>
-                setFormValues({ ...formValues, lastName: val })
-              }
-            />
-          </FormField>
-          <FormField className="mt10">
-            <FormLabel label={t("appointmentType")} />
-            <SingleSelectInput
-              id="appointmentType"
-              options={appointmentTypes}
-              onChange={(val) =>
-                setFormValues({ ...formValues, appointmentType: val })
-              }
-              value={formValues.appointmentType}
-            />
-          </FormField>
-        </FormColumn>
-        <FormColumn className="col-6">
-          <FormField>
-            <FormLabel label={t("date")} />
-            <DatePicker
-              id="date"
-              value={formValues.date}
-              onChange={(val) => setFormValues({ ...formValues, date: val })}
-            />
-          </FormField>
-          <FormField className="mt10">
-            <FormLabel label={t("time")} />
-            <TimePicker
-              id="time"
-              value={formValues.time}
-              onChange={(val) => setFormValues({ ...formValues, time: val })}
-            />
-          </FormField>
-        </FormColumn>
-      </FormRow>
-    );
+    data: [],
   };
 
   const [tableData, setTableData] = useState(initialTableData);
 
+  useEffect(() => {
+    getRequiredData();
+  }, []);
+
+  const getRequiredData = async () => {
+    const [appointmentsData, personsData] = await Promise.all([
+      getAppointments(),
+      getPersons(),
+    ]);
+
+    console.log("appointmentsData", appointmentsData);
+    console.log("personsData", personsData);
+
+    const newData = [];
+    for (const item of appointmentsData) {
+      const matchedData = personsData.find(
+        (person) => person.id == item.person_id
+      );
+      newData.push({
+        ...item,
+        person_name: matchedData.first_name + " " + matchedData.last_name,
+      });
+    }
+    setPersons(personsData);
+    setTableData({ ...tableData, data: newData });
+  };
+
+  const confirmAddAppointment = async (values) => {
+    await addAppointment(values, () => {
+      setAppointmentModal(false);
+      getRequiredData();
+    });
+  };
+
+  const confirmUpdateAppointment = async (values) => {
+    await updateAppointment(values, () => {
+      setAppointmentModal(false);
+      setAppointmentModalData(null);
+      getRequiredData();
+    });
+  };
+
+  const confirmDeleteAppointment = async () => {
+    await removeAppointmentById(selectedAppointment.id, () => {
+      getRequiredData();
+    });
+  };
+
+  useEffect(() => {
+    if (appointmentModalData) {
+      setAppointmentModal(true);
+    }
+  }, [appointmentModalData]);
+
   return (
     <PageLayout>
-      <FormModal
-        title="Yeni Kişi"
+      <AppointmentModal
+        data={appointmentModalData}
+        title={
+          appointmentModalData ? t("edit_appointment") : t("new_appointment")
+        }
         visibility={appointmentModal}
-        body={appointmentFormBody()}
-        buttons={[
-          {
-            label: t("save"),
-            onClick: () => console.log(formValues),
-          },
-          { label: t("cancel"), onClick: () => setAppointmentModal(false) },
-        ]}
+        onCancel={() => setAppointmentModal(false)}
+        onSave={(values) =>
+          appointmentModalData
+            ? confirmUpdateAppointment(values)
+            : confirmAddAppointment(values)
+        }
+        persons={persons}
       />
+
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <TitleLabel label={t("appointmentList")} />
+          <TitleLabel label={t("appointment_list")} />
         </PageColumn>
       </PageRow>
 
@@ -172,17 +169,24 @@ const AppointmentList = ({}) => {
         <PageColumn className="col-12 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new")}
-            className="mt10"
+            icon={<LuPlus />}
             onClick={() => setAppointmentModal(true)}
           />
           {selectedAppointment && (
-            <BasicButton
-              label={t("detail")}
-              className="mt10"
-              onClick={() =>
-                navigate(`/appointment-detail/${selectedAppointment.id}`)
-              }
-            />
+            <>
+              <BasicButton
+                label={t("edit")}
+                icon={<LuPen />}
+                onClick={() => {
+                  setAppointmentModalData(selectedAppointment);
+                }}
+              />
+              <BasicButton
+                label={t("delete")}
+                icon={<LuTrash />}
+                onClick={() => confirmDeleteAppointment()}
+              />
+            </>
           )}
         </PageColumn>
       </PageRow>

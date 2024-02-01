@@ -10,8 +10,15 @@
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  border: 1px solid var(--color03);
+  border: 1px solid var(--color05);
   border-radius: 10px;
+}
+
+.ui-date-picker-popup-bottom .ui-date-picker-calendar {
+  top: 35px;
+}
+.ui-date-picker-popup-top .ui-date-picker-calendar {
+  bottom: 35px;
 }
 
 .ui-date-picker-value > span {
@@ -20,10 +27,10 @@
 }
 
 .ui-date-picker-value > svg {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   position: absolute;
-  right: 0px;
+  right: 10px;
 }
 
 .ui-date-picker-calendar {
@@ -50,6 +57,7 @@
 }
 
 .ui-date-picker-calendar-header-title {
+  width: 100%;
   height: 35px;
   display: flex;
   align-items: center;
@@ -58,18 +66,39 @@
   color: var(--text00);
 }
 
-.ui-date-picker-calendar-header-left {
+.ui-date-picker-calendar-header-button {
   border: none;
-  width: 35px;
+  min-width: 30px;
   height: 35px;
   background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
 }
 
-.ui-date-picker-calendar-header-right {
+.ui-date-picker-calendar-header-titles {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.ui-date-picker-calendar-header-month {
   border: none;
-  width: 35px;
-  height: 35px;
-  background-color: transparent;
+  font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ui-date-picker-calendar-header-year {
+  border: none;
+  font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 .ui-date-picker-calendar-header-days {
@@ -116,5 +145,69 @@
 }
 
 .ui-date-picker-selected {
+  background-color: var(--color11);
+}
+
+.ui-date-picker-calendar-months {
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  height: -webkit-fill-available;
+  background-color: var(--color01);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.ui-date-picker-calendar-months-item {
+  width: 33.3%;
+  box-sizing: border-box;
+  display: flex;
+  padding: 10px;
+}
+
+.ui-date-picker-calendar-months-item-button {
+  width: -webkit-fill-available;
+  border-radius: 5px;
+  background-color: var(--color03);
+  border: none;
+  cursor: pointer;
+}
+
+.ui-date-picker-calendar-months-item-button:hover {
+  background-color: var(--color11);
+}
+
+.ui-date-picker-calendar-years {
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  height: -webkit-fill-available;
+  background-color: var(--color01);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.ui-date-picker-calendar-years-item {
+  width: 25%;
+  box-sizing: border-box;
+  display: flex;
+  padding: 5px;
+}
+
+.ui-date-picker-calendar-years-item-button {
+  width: -webkit-fill-available;
+  border-radius: 5px;
+  background-color: var(--color03);
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ui-date-picker-calendar-years-item-button:hover {
   background-color: var(--color11);
 }

@@ -4,10 +4,10 @@ import jwt from "jsonwebtoken";
 function jwtTokens({ id, email }) {
   const user = { id, email };
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "43200s",
+    expiresIn: "10000000",
   });
   const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "43200",
+    expiresIn: "10000000",
   });
   return { accessToken, refreshToken };
 }

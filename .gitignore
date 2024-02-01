@@ -7,3 +7,6 @@ app/build
 
 # API specific ignores
 api/build
+
+# env
+.env

@@ -1,111 +1,59 @@
 import React, { useState } from "react";
-import {
-  LoginPanelContainer,
-  LoginPanelColumn,
-  LoginPanelLabel,
-  LoginPanelInput,
-  LoginPanelControls,
-  LoginPanelBody,
-  LoginPanelLogo,
-} from "./style";
-import Logo from "../logo";
-import Space from "../space";
-import Button from "../button";
+import FormLabel from "../../ui/labels/formLabel";
+import FormField from "../../ui/fields/formField";
+import TextInput from "../../ui/inputs/textInput";
+import BasicButton from "../../ui/buttons/basicButton";
+import { useTranslation } from "react-i18next";
+import { AiOutlineLogin } from "react-icons/ai";
+import "./style.css";
+import Logo from "../../assets/images/logo-md-positive.png";
 
-const LoginPanel = ({ handleLogin, handleSignUp, setIsNewUser, isNewUser }) => {
-  const [formValues, setLoginValues] = useState({
+const LoginPanel = ({ handleLogin }) => {
+  const { t } = useTranslation();
+
+  const [loginFormValues, setLoginFormValues] = useState({
     email: "",
     password: "",
   });
 
-  return (
-    <LoginPanelContainer>
-      <LoginPanelBody>
-        <LoginPanelColumn>
-          {isNewUser ? (
-            <>
-              <LoginPanelLabel>First Name</LoginPanelLabel>
-              <LoginPanelInput
-                onChange={(e) => {
-                  setLoginValues({
-                    ...formValues,
-                    firstName: e.target.value,
-                  });
-                }}
-              />
-              <Space height={10} />
-              <LoginPanelLabel>Last Name</LoginPanelLabel>
-              <LoginPanelInput
-                onChange={(e) => {
-                  setLoginValues({
-                    ...formValues,
-                    lastName: e.target.value,
-                  });
-                }}
-              />
-            </>
-          ) : (
-            <LoginPanelLogo>
-              <Logo type="login" />
-            </LoginPanelLogo>
-          )}
-        </LoginPanelColumn>
-        <LoginPanelColumn>
-          <LoginPanelLabel>E-Mail</LoginPanelLabel>
-          <LoginPanelInput
-            onChange={(e) => {
-              setLoginValues({
-                ...formValues,
-                email: e.target.value,
-              });
-            }}
-          />
-          <Space height={10} />
-          <LoginPanelLabel>Password</LoginPanelLabel>
-          <LoginPanelInput
-            type="password"
-            onChange={(e) => {
-              setLoginValues({
-                ...formValues,
-                password: e.target.value,
-              });
-            }}
-          />
+  const onLogin = () => {
+    handleLogin(loginFormValues);
+  };
 
-          {isNewUser && (
-            <>
-              <Space height={10} />
-              <LoginPanelLabel>Password Again</LoginPanelLabel>
-              <LoginPanelInput
-                onChange={(e) => {
-                  setLoginValues({
-                    ...formValues,
-                    passwordAgain: e.target.value,
-                  });
-                }}
-              />
-            </>
-          )}
-        </LoginPanelColumn>
-      </LoginPanelBody>
-      <LoginPanelControls>
-        <Button
-          type="outlined"
-          label={isNewUser ? "Cancel" : "Sign Up"}
-          size="md"
-          iconColor={"activePrimary"}
-          onClick={() => setIsNewUser(!isNewUser)}
+  return (
+    <div className="comp-login-panel">
+      <div className="comp-login-panel-left">
+        <img src={Logo} />
+      </div>
+      <div className="comp-login-panel-right">
+        <FormField>
+          <FormLabel label={t("email")} />
+          <TextInput
+            id="email"
+            value={loginFormValues.email}
+            onChange={(val) =>
+              setLoginFormValues({ ...loginFormValues, email: val })
+            }
+          />
+        </FormField>
+        <FormField className="mt10">
+          <FormLabel label={t("password")} />
+          <TextInput
+            id="password"
+            value={loginFormValues.password}
+            onChange={(val) =>
+              setLoginFormValues({ ...loginFormValues, password: val })
+            }
+          />
+        </FormField>
+        <BasicButton
+          className="mt20"
+          label="Login"
+          icon={<AiOutlineLogin />}
+          onClick={() => onLogin()}
         />
-        <Button
-          label={isNewUser ? "Submit" : "Login"}
-          size="md"
-          iconColor={"activePrimary"}
-          onClick={() =>
-            isNewUser ? handleSignUp(formValues) : handleLogin(formValues)
-          }
-        />
-      </LoginPanelControls>
-    </LoginPanelContainer>
+      </div>
+    </div>
   );
 };
 

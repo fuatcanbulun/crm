@@ -1,0 +1,33 @@
+.comp-login-panel {
+  width: 800px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+.comp-login-panel-left {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comp-login-panel-left > img {
+  width: 200px;
+  height: 140px;
+}
+
+.comp-login-panel-right {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-left: 1px solid var(--color06);
+}

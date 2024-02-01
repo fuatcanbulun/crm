@@ -35,5 +35,5 @@
 .ui-tabs-slider-line {
   width: 200px;
   height: 6px;
-  background-color: lightgreen;
+  background-color: var(--color14);
 }

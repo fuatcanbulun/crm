@@ -120,14 +120,37 @@
   height: 70px;
   padding: 0 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
 .ui-calendar-month-day-body-item {
-  height: 20px;
+  height: 30px;
   width: calc(100% - 20px);
-  background-color: var(--color10);
+  background-color: var(--color14);
   border-radius: 10px;
+  display: flex;
+}
+
+.ui-calendar-month-day-body-item-count {
+  height: 30px;
+  min-width: 30px;
+  width: 30px;
+  color: var(--text01);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui-calendar-month-day-body-item-label {
+  height: 30px;
+  min-width: calc(100% - 30px);
+  color: var(--text01);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ui-calendar-month-row {

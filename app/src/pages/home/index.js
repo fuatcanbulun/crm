@@ -27,24 +27,50 @@ import {
 import { useTranslation } from "react-i18next";
 import StockContent from "../stock/stockContent";
 import StockMovements from "../stock/stockMovements";
+import {
+  getEnumPersonTypes,
+  getEnumGenderTypes,
+  getEnumCities,
+  getEnumAppointmentTypes,
+} from "../../services/enums";
+import { useDispatch } from "react-redux";
+import {
+  setPersonTypes,
+  setGenderTypes,
+  setAppointmentTypes,
+  setCities,
+} from "../../redux/app/enums/enumsSlice";
 
 const Home = () => {
   const [isExtended, setIsExtended] = useState(true);
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getEnums();
+  }, []);
+
+  const getEnums = async () => {
+    const [enumPersonTypes, enumGenderTypes, enumCities, enumAppointmentTypes] =
+      await Promise.all([
+        getEnumPersonTypes(),
+        getEnumGenderTypes(),
+        getEnumCities(),
+        getEnumAppointmentTypes(),
+      ]);
+
+    dispatch(setPersonTypes(enumPersonTypes));
+    dispatch(setGenderTypes(enumGenderTypes));
+    dispatch(setCities(enumCities));
+    dispatch(setAppointmentTypes(enumAppointmentTypes));
+  };
 
   const sampleMenu = [
     {
       id: "persons",
       label: t("persons"),
-      link: "/persons",
+      link: "/persons-list",
       icon: <LuUser2 />,
-      children: [
-        {
-          id: "personsList",
-          label: t("personsList"),
-          link: "/persons-list",
-        },
-      ],
     },
     {
       id: "appointment",
@@ -53,13 +79,13 @@ const Home = () => {
       icon: <LuCalendarDays />,
       children: [
         {
-          id: "appointmentList",
-          label: t("appointmentList"),
+          id: "appointment_list",
+          label: t("appointment_list"),
           link: "/appointment-list",
         },
         {
-          id: "appointmentCalendar",
-          label: t("appointmentCalendar"),
+          id: "appointment_calendar",
+          label: t("appointment_calendar"),
           link: "/appointment-calendar",
         },
       ],
@@ -71,14 +97,14 @@ const Home = () => {
       icon: <LuPackage />,
       children: [
         {
-          id: "stockContent",
-          label: t("stockContent"),
+          id: "stock_content",
+          label: t("stock_content"),
           link: "/stock-content",
         },
         {
-          id: "stockMovements",
-          label: t("stockMovements"),
-          link: "/appointment-calendar",
+          id: "stock_movements",
+          label: t("stock_movements"),
+          link: "/stock-movements",
         },
       ],
     },
@@ -105,13 +131,13 @@ const Home = () => {
       icon: <LuSpade />,
       children: [
         {
-          id: "productDefinitions",
-          label: t("productDefinitions"),
+          id: "product_definitions",
+          label: t("product_definitions"),
           link: "/product-definitions",
         },
         {
-          id: "productList",
-          label: t("productList"),
+          id: "product_list",
+          label: t("product_list"),
           link: "/product-list",
         },
       ],
@@ -132,7 +158,10 @@ const Home = () => {
         <Routes>
           {/* person routes */}
           <Route path="/persons-list" element={<PersonsList />} />
-          <Route path="/persons-detail/:id" element={<PersonsDetail />} />
+          <Route
+            path="/persons-detail/:person_id"
+            element={<PersonsDetail />}
+          />
 
           {/* appointment routes */}
           <Route path="/appointment-list" element={<AppointmentList />} />

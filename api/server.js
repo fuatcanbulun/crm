@@ -5,6 +5,12 @@ import usersRoutes from "./src/users/routes.js";
 import onlinesRoutes from "./src/onlines/routes.js";
 import favoritesRoutes from "./src/favorites/routes.js";
 import authRoutes from "./src/auth/routes.js";
+
+import tokenRoutes from "./src/token/routes.js";
+import enumsRoutes from "./src/enums/routes.js";
+import personsRoutes from "./src/persons/routes.js";
+import appointmentsRoutes from "./src/appointments/routes.js";
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -25,7 +31,7 @@ app.use(function (req, res, next) {
 });
 
 app.get("/", (req, res) => {
-  res.send("Soloud Api");
+  res.send("CRM API");
 });
 
 app.use("/api/v1/videos", videosRoutes);
@@ -34,5 +40,9 @@ app.use("/api/v1/users", usersRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/onlines", onlinesRoutes);
 app.use("/api/v1/favorites", favoritesRoutes);
+app.use("/api/v1/token", tokenRoutes);
+app.use("/api/v1/enums", enumsRoutes);
+app.use("/api/v1/persons", personsRoutes);
+app.use("/api/v1/appointments", appointmentsRoutes);
 
 app.listen(port, () => console.log(`app listening on ${port}`));

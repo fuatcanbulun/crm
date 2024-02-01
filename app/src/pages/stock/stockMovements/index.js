@@ -2,85 +2,83 @@ import React, { useState } from "react";
 import PageRow from "../../../ui/rows/pageRow";
 import PageColumn from "../../../ui/columns/pageColumn";
 import Table from "../../../ui/table";
+import PageLayout from "../../../ui/layouts/pageLayout";
+import TitleLabel from "../../../ui/labels/titleLabel";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { stockMovementTypes, productTypes } from "../../../constants/types";
+import { brandsData, productsData } from "../../../constants/data";
 
-const sampleData = {
-  firstName: "Can",
-  lastName: "Yılmaz",
-  personType: "customer",
-  gender: "male",
-  phone: "0555 555 5555",
-  createdAt: "14/01/2024 15:30",
-};
+const stock_movements = ({}) => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
-const StockMovements = ({}) => {
+  const [stockMovementModal, setStockMovementModal] = useState(false);
+  const [selectedStockMovement, setSelectedStockMovement] = useState(null);
+
+  const [formValues, setFormValues] = useState({
+    product_type: "",
+  });
+
   const initialTableData = {
-    tableId: "stockMovements",
+    tableId: "stock_movements",
     isSelectionMode: true,
+    selectionMode: "single",
+    getSelectionValue: (selectedData) => setSelectedStockMovement(selectedData),
     columns: [
       {
-        field: "movement",
-        header: "movement",
+        field: "stock_movement",
+        header: t("stock_movement"),
         dataType: "dropdown",
-        dropDownValues: [
-          {
-            label: "in",
-            value: "in",
-          },
-          {
-            label: "out",
-            value: "out",
-          },
-        ],
+        dropDownValues: stockMovementTypes.map((item) => {
+          return { ...item, value: item.id, label: t(item.label) };
+        }),
       },
       {
         field: "date",
-        header: "date",
+        header: t("date"),
         dataType: "date",
       },
       {
-        field: "productType",
-        header: "productType",
+        field: "product_type",
+        header: t("product_type"),
         dataType: "dropdown",
-        dropDownValues: [
-          {
-            label: "protezSac",
-            value: "protezSac",
-          },
-          {
-            label: "yapistirici",
-            value: "yapistirici",
-          },
-        ],
+        dropDownValues: productTypes.map((item) => {
+          return { ...item, value: item.id, label: t(item.label) };
+        }),
       },
       {
         field: "brand",
-        header: "brand",
-        dataType: "text",
+        header: t("brand"),
+        dataType: "dropdown",
+        dropDownValues: brandsData.map((item) => {
+          return { ...item, value: item.id, label: t(item.label) };
+        }),
       },
       {
-        field: "description",
-        header: "description",
+        field: "definition",
+        header: t("definition"),
         dataType: "text",
       },
       {
         field: "amount",
-        header: "amount",
+        header: t("amount"),
         dataType: "number",
       },
       {
         field: "unit",
-        header: "unit",
+        header: t("unit"),
         dataType: "text",
       },
     ],
     data: [
       {
         id: 1,
-        movement: "in",
+        stock_movement: 1,
         date: "12/10/2023 15:30",
-        productType: "protezSac",
-        brand: "Hairskeen",
-        description: "Lorem Ipsum",
+        product_type: 1,
+        brand: 1,
+        definition: "Lorem Ipsum",
         amount: "10",
         unit: "piece",
       },
@@ -90,16 +88,23 @@ const StockMovements = ({}) => {
   const [tableData, setTableData] = useState(initialTableData);
 
   return (
-    <PageRow className="col-12">
-      <PageColumn className="col-12">
-        <Table
-          tableOptions={tableData}
-          tableTitle="stockMovements"
-          className="mt10"
-        />
-      </PageColumn>
-    </PageRow>
+    <PageLayout>
+      <PageRow className="col-12">
+        <PageColumn className="col-12">
+          <TitleLabel label={t("stock_movements")} />
+        </PageColumn>
+      </PageRow>
+      <PageRow className="col-12">
+        <PageColumn className="col-12">
+          <Table
+            tableOptions={tableData}
+            tableTitle="stock_movements"
+            className="mt10"
+          />
+        </PageColumn>
+      </PageRow>
+    </PageLayout>
   );
 };
 
-export default StockMovements;
+export default stock_movements;

@@ -2,6 +2,7 @@
   width: calc(100% - 40px);
   height: 100vh;
   transition: 0.5s;
+  overflow: hidden;
 }
 
 .ui-content-layout-extended {

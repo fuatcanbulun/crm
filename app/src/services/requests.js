@@ -75,3 +75,25 @@ export const Post = async (url, body, onSuccess, onError) => {
       onError(error);
     });
 };
+
+export const Put = async (url, body, onSuccess, onError) => {
+  return axios
+    .put(url, body)
+    .then((response) => {
+      onSuccess(response.data);
+    })
+    .catch((error) => {
+      onError(error);
+    });
+};
+
+export const Delete = async (url, onSuccess, onError) => {
+  return axios
+    .delete(url)
+    .then((response) => {
+      onSuccess(response.data);
+    })
+    .catch((error) => {
+      onError(error);
+    });
+};

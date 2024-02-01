@@ -7,7 +7,7 @@ const BasicButton = ({ icon, label, onClick, className }) => {
       className={`ui-basic-button ${className}`}
       onClick={() => onClick()}
     >
-      <img className="ui-basic-button-image" src={icon} />
+      {icon}
       <span className="ui-basic-button-label">{label}</span>
     </button>
   );

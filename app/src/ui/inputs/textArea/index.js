@@ -6,9 +6,8 @@ const TextArea = ({ className, onChange, value }) => {
     <textarea
       className={`ui-text-area ${className}`}
       onChange={(e) => onChange(e.target.value)}
-    >
-      {value}
-    </textarea>
+      value={value}
+    />
   );
 };
 

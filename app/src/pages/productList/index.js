@@ -7,21 +7,21 @@ import Table from "../../ui/table";
 import BasicButton from "../../ui/buttons/basicButton";
 import { useNavigate } from "react-router-dom";
 
-const ProductList = ({}) => {
+const product_list = ({}) => {
   const navigate = useNavigate();
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [newProductModal, setNewProductModal] = useState(false);
 
   const initialTableData = {
-    tableId: "productList",
+    tableId: "product_list",
     isSelectionMode: true,
     selectionMode: "single",
     getSelectionValue: (selectedData) => setSelectedProduct(selectedData),
     columns: [
       {
-        field: "productType",
-        header: "productType",
+        field: "product_type",
+        header: "product_type",
         dataType: "dropdown",
         dropDownValues: [
           {
@@ -55,26 +55,26 @@ const ProductList = ({}) => {
         dataType: "number",
       },
       {
-        field: "createdAt",
-        header: "createdAt",
+        field: "created_at",
+        header: "created_at",
         dataType: "date",
       },
       {
-        field: "createdBy",
-        header: "createdBy",
+        field: "created_by",
+        header: "created_by",
         dataType: "text",
       },
     ],
     data: [
       {
         id: 1,
-        productType: "protezSac",
+        product_type: "protezSac",
         brand: "Hairskeen",
         description: "Lorem Ipsum",
         unit: "piece",
         price: "200 TL",
-        createdAt: "14/01/2024 15:30",
-        createdBy: "Yeşim Polat",
+        created_at: "14/01/2024 15:30",
+        created_by: "Yeşim Polat",
       },
     ],
   };
@@ -109,7 +109,7 @@ const ProductList = ({}) => {
         <PageColumn className="col-12">
           <Table
             tableOptions={tableData}
-            tableTitle="productList"
+            tableTitle="product_list"
             className="mt10"
           />
         </PageColumn>
@@ -118,4 +118,4 @@ const ProductList = ({}) => {
   );
 };
 
-export default ProductList;
+export default product_list;

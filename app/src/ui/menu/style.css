@@ -3,7 +3,7 @@
 }
 
 .ui-sub-menu {
-  background-color: var(--color03);
+  background-color: var(--color09);
   height: 0;
   overflow: hidden;
   transition: 0.5s;
@@ -16,11 +16,15 @@
 }
 
 .ui-menu-item-content:hover {
-  background-color: var(--color10);
+  background-color: var(--color12);
 }
 
 .ui-menu-item-content.ui-menu-item-active {
-  background-color: var(--color10);
+  background-color: var(--color14);
+}
+
+.ui-menu-item-content.ui-menu-item-active > .ui-menu-item-label {
+  color: var(--text01);
 }
 
 .ui-menu-item-icon {
@@ -32,10 +36,11 @@
   align-items: center;
 }
 
-.ui-menu-item-icon > img {
-  min-width: 30px;
-  width: 30px;
-  height: 30px;
+.ui-menu-item-icon > svg {
+  min-width: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--text01);
 }
 
 .ui-menu-item-label {
@@ -45,7 +50,7 @@
   justify-content: flex-start;
   align-items: center;
   font-size: 14px;
-  color: var(--text00);
+  color: var(--text01);
   opacity: 0;
   transition: 0.5s;
 }

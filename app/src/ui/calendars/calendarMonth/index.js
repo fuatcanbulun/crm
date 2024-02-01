@@ -3,7 +3,7 @@ import "./style.css";
 import moment from "moment";
 import { LuMoveLeft, LuMoveRight } from "react-icons/lu";
 
-const CalendarMonth = ({ className, children }) => {
+const CalendarMonth = ({ className, children, data }) => {
   const [currentMonth, setCurrentMonth] = useState(moment());
 
   const Calendar = () => {
@@ -67,7 +67,22 @@ const CalendarMonth = ({ className, children }) => {
                 {currentDay.format("D")}
               </span>
               <div className="ui-calendar-month-day-body">
-                <div className="ui-calendar-month-day-body-item">test</div>
+                <>
+                  {data
+                    .filter(
+                      (data) => data.date == currentDay.format("YYYY-MM-DD")
+                    )
+                    .map((data) => (
+                      <div className="ui-calendar-month-day-body-item">
+                        <span className="ui-calendar-month-day-body-item-count">
+                          {data.count}
+                        </span>
+                        <span className="ui-calendar-month-day-body-item-label">
+                          {data.label}
+                        </span>
+                      </div>
+                    ))}
+                </>
               </div>
             </div>
           );

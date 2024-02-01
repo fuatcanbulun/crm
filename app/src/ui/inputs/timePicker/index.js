@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./style.css";
-import IconCoinsLine from "../../../assets/icons/icon-coins-line.svg";
-
-const TimePicker = ({ value, onChange, className }) => {
+import { LuClock } from "react-icons/lu";
+import moment from "moment";
+const TimePicker = ({
+  value,
+  onChange,
+  className,
+  isSecondsVisible = true,
+}) => {
   const inputOptions = useRef();
   const hourRef = useRef();
   const minuteRef = useRef();
   const secondRef = useRef();
-
   const [optionsVisibility, setOptionsVisibility] = useState(false);
   const [selectedHour, setSelectedHour] = useState(
     value ? value.split(":")[0] : ""
@@ -47,18 +51,34 @@ const TimePicker = ({ value, onChange, className }) => {
   };
 
   const handleOnChange = (i, type) => {
+    let timeString = "";
+
     if (type == "hour") {
       setSelectedHour(calculateValue(i));
-      onChange(calculateValue(i) + ":" + selectedMinute + ":" + selectedSecond);
+      timeString =
+        calculateValue(i) +
+        ":" +
+        selectedMinute +
+        (isSecondsVisible ? ":" + selectedSecond : "");
     }
     if (type == "minute") {
       setSelectedMinute(calculateValue(i));
-      onChange(selectedHour + ":" + calculateValue(i) + ":" + selectedSecond);
+      timeString =
+        selectedHour +
+        ":" +
+        calculateValue(i) +
+        (isSecondsVisible ? ":" + selectedSecond : "");
     }
     if (type == "second") {
       setSelectedSecond(calculateValue(i));
-      onChange(selectedHour + ":" + selectedMinute + ":" + calculateValue(i));
+      timeString =
+        selectedHour +
+        ":" +
+        selectedMinute +
+        (isSecondsVisible ? ":" + calculateValue(i) : "");
     }
+
+    onChange(timeString);
   };
 
   return (
@@ -68,7 +88,7 @@ const TimePicker = ({ value, onChange, className }) => {
         onClick={() => setOptionsVisibility(!optionsVisibility)}
       >
         <span>{value}</span>
-        <img src={IconCoinsLine} />
+        <LuClock />
       </div>
       {optionsVisibility && (
         <div className="ui-time-picker-options" ref={inputOptions}>
@@ -105,20 +125,22 @@ const TimePicker = ({ value, onChange, className }) => {
             </div>
           </div>
           <div className="ui-time-picker-options-column">
-            <div className="ui-time-picker-options-scroll" ref={secondRef}>
-              {[...Array(60)].map((x, i) => (
-                <div
-                  className={`ui-time-picker-options-item ${
-                    calculateValue(i) == selectedSecond
-                      ? "ui-time-picker-options-item-selected"
-                      : ""
-                  }`}
-                  onClick={() => handleOnChange(i, "second")}
-                >
-                  {calculateValue(i)}
-                </div>
-              ))}
-            </div>
+            {isSecondsVisible && (
+              <div className="ui-time-picker-options-scroll" ref={secondRef}>
+                {[...Array(60)].map((x, i) => (
+                  <div
+                    className={`ui-time-picker-options-item ${
+                      calculateValue(i) == selectedSecond
+                        ? "ui-time-picker-options-item-selected"
+                        : ""
+                    }`}
+                    onClick={() => handleOnChange(i, "second")}
+                  >
+                    {calculateValue(i)}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

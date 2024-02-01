@@ -31,8 +31,8 @@ const AccountingRecord = ({}) => {
         ],
       },
       {
-        field: "paymentType",
-        header: "paymentType",
+        field: "payment_type",
+        header: "payment_type",
         dataType: "dropdown",
         dropDownValues: [
           {
@@ -56,8 +56,8 @@ const AccountingRecord = ({}) => {
         dataType: "text",
       },
       {
-        field: "accountingType",
-        header: "accountingType",
+        field: "accounting_type",
+        header: "accounting_type",
         dataType: "dropdown",
         dropDownValues: [
           {
@@ -81,10 +81,10 @@ const AccountingRecord = ({}) => {
         id: 1,
         date: "14/01/2024 15:30",
         accountingDirectionType: "income",
-        paymentType: "cash",
+        payment_type: "cash",
         amount: 10,
         unit: "piece",
-        accountingType: "sacBakim",
+        accounting_type: "sacBakim",
         relatedPerson: "Can Yılmaz",
       },
     ],

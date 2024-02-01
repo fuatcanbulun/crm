@@ -10,13 +10,13 @@ import StockMovements from "./stockMovements";
 const tabsOptions = [
   {
     icon: "",
-    label: "stockContent",
-    value: "stockContent",
+    label: "stock_content",
+    value: "stock_content",
   },
   {
     icon: "",
-    label: "stockMovements",
-    value: "stockMovements",
+    label: "stock_movements",
+    value: "stock_movements",
   },
 ];
 
@@ -41,8 +41,8 @@ const Stock = ({}) => {
         </PageColumn>
       </PageRow>
 
-      {selectedTab == "stockContent" && <StockContent />}
-      {selectedTab == "stockMovements" && <StockMovements />}
+      {selectedTab == "stock_content" && <StockContent />}
+      {selectedTab == "stock_movements" && <StockMovements />}
     </PageLayout>
   );
 };

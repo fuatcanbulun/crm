@@ -5,7 +5,8 @@ import "./style.css";
 import TextInput from "../../ui/inputs/textInput";
 import DatePicker from "../../ui/inputs/datePicker";
 import SingleSelectInput from "../../ui/inputs/singleSelectInput";
-import { LuFilter } from "react-icons/lu";
+import { LuFilter, LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { VscListFilter } from "react-icons/vsc";
 
 const Table = ({ tableOptions, tableTitle, className }) => {
   let timeoutId = 0;
@@ -785,7 +786,7 @@ const Table = ({ tableOptions, tableTitle, className }) => {
                         className="ui-table-header-filters-options"
                         onClick={() => setVisibleFilterMenu(column)}
                       >
-                        <LuFilter />
+                        <VscListFilter />
                       </button>
 
                       {visibleFilterMenu == column && (
@@ -952,7 +953,7 @@ const Table = ({ tableOptions, tableTitle, className }) => {
               setActivePage(activePage - 1);
             }}
           >
-            <i className="pi pi-angle-left"></i>
+            <LuChevronLeft />
           </button>
           {[...Array(pageCount ? pageCount : 0)]?.map((item, index) => (
             <button
@@ -978,7 +979,7 @@ const Table = ({ tableOptions, tableTitle, className }) => {
               setActivePage(activePage + 1);
             }}
           >
-            <i className="pi pi-angle-right"></i>
+            <LuChevronRight />
           </button>
 
           <SingleSelectInput

@@ -2,9 +2,10 @@
   min-width: 40px;
   width: 40px;
   height: 100vh;
-  background-color: var(--color02);
   position: relative;
   transition: 0.5s;
+  border-right: 1px solid var(--color03);
+  background: var(--color08);
 }
 
 .ui-side-layout-logo {
@@ -17,7 +18,7 @@
 }
 
 .ui-side-layout-logo > img {
-  height: 30px;
+  height: 40px;
   transition: 0.5s;
 }
 
@@ -25,8 +26,8 @@
   min-width: 200px;
 }
 .ui-side-layout-extended > .ui-side-layout-logo {
-  height: 80px;
+  height: 120px;
 }
 .ui-side-layout-extended > .ui-side-layout-logo > img {
-  height: 60px;
+  height: 100px;
 }

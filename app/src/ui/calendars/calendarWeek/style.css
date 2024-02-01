@@ -140,26 +140,26 @@
 .ui-calendar-week-day-body {
   position: absolute;
   width: 100%;
-  top: 30px;
-  height: 70px;
-  padding: 0 10px;
-  display: flex;
-  justify-content: center;
+  height: -webkit-fill-available;
+  box-sizing: border-box;
 }
 
 .ui-calendar-week-day-body-item {
-  height: 20px;
-  width: calc(100% - 20px);
-  background-color: var(--color10);
-  border-radius: 10px;
+  position: absolute;
+  background-color: var(--color07);
+  width: 100%;
 }
 
 .ui-calendar-week-hour {
-  height: 40px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 14px;
   color: var(--text00);
   border-bottom: 1px solid var(--color03);
+}
+
+.ui-calendar-week-item {
+  border: 1px solid red;
 }

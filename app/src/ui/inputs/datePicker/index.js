@@ -2,13 +2,35 @@ import React, { useEffect, useState, useRef } from "react";
 import "./style.css";
 import moment from "moment";
 import "moment/locale/tr"; // Türkçe dil desteği için
-import { LuCalendar } from "react-icons/lu";
+import {
+  LuCalendar,
+  LuChevronLeft,
+  LuChevronRight,
+  LuChevronsLeft,
+  LuChevronsRight,
+} from "react-icons/lu";
 
 const DatePicker = ({ value, onChange, className }) => {
   const popup = useRef();
   const [calendarVisibility, setCalendarVisibility] = useState(false);
-  const [selected, setSelected] = useState(value ? value : moment());
-  const [currentMonth, setCurrentMonth] = useState(moment());
+  const [yearsVisibility, setYearsVisibility] = useState(false);
+  const [monthsVisibility, setMonthsVisibility] = useState(false);
+  const [popupPosition, setPopupPosition] = useState("bottom");
+
+  const [currentDate, setCurrentDate] = useState(
+    value ? moment(value, "YYYY-MM-DD") : moment()
+  );
+
+  const months = [];
+  for (let index = 0; index < 12; index++) {
+    const month = moment().month(index).format("MMMM");
+    months.push(month);
+  }
+
+  const years = [];
+  for (let index = 1900; index < 2100; index++) {
+    years.push(index);
+  }
 
   useEffect(() => {
     if (calendarVisibility) {
@@ -25,30 +47,100 @@ const DatePicker = ({ value, onChange, className }) => {
   const handleOutsideClick = (e) => {
     if (popup.current && !popup.current.contains(e.target)) {
       setCalendarVisibility(false);
+      setMonthsVisibility(false);
+      setYearsVisibility(false);
     }
   };
 
+  const handlePopupPosition = (e) => {
+    setPopupPosition(e.screenY > 700 ? "top" : "bottom");
+  };
+
   const handleDayClick = (val) => {
-    setSelected(val);
-    onChange(val);
+    setCurrentDate(val);
+    onChange(moment(val).format("YYYY-MM-DD"));
   };
 
   const Calendar = () => {
     const renderHeader = () => {
       return (
-        <div className="ui-date-picker-calendar-header">
-          <button
-            className="ui-date-picker-calendar-header-left"
-            onClick={prevMonth}
-          ></button>
-          <span className="ui-date-picker-calendar-header-title">
-            {currentMonth.format("MMMM YYYY")}
-          </span>
-          <button
-            className="ui-date-picker-calendar-header-right"
-            onClick={nextMonth}
-          ></button>
-        </div>
+        <>
+          {yearsVisibility && (
+            <div className="ui-date-picker-calendar-years">
+              {years.map((year) => (
+                <div className="ui-date-picker-calendar-years-item">
+                  <button
+                    onClick={() => selectYear(year)}
+                    className="ui-date-picker-calendar-years-item-button"
+                  >
+                    {year}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          {monthsVisibility && (
+            <div className="ui-date-picker-calendar-months">
+              {months.map((item, index) => (
+                <div className="ui-date-picker-calendar-months-item">
+                  <button
+                    className="ui-date-picker-calendar-months-item-button"
+                    onClick={() => selectMonth(index)}
+                  >
+                    {item}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="ui-date-picker-calendar-header">
+            <button
+              className="ui-date-picker-calendar-header-button"
+              onClick={prevYear}
+            >
+              <LuChevronsLeft />
+            </button>
+            <button
+              className="ui-date-picker-calendar-header-button"
+              onClick={prevMonth}
+            >
+              <LuChevronLeft />
+            </button>
+            <div className="ui-date-picker-calendar-header-titles">
+              <button
+                className="ui-date-picker-calendar-header-month"
+                onClick={() => {
+                  setMonthsVisibility(true);
+                  setYearsVisibility(false);
+                }}
+              >
+                {currentDate.format("MMMM")}
+              </button>
+              <button
+                className="ui-date-picker-calendar-header-year"
+                onClick={() => {
+                  setYearsVisibility(true);
+                  setMonthsVisibility(false);
+                }}
+              >
+                {currentDate.format("YYYY")}
+              </button>
+            </div>
+
+            <button
+              className="ui-date-picker-calendar-header-button"
+              onClick={nextMonth}
+            >
+              <LuChevronRight />
+            </button>
+            <button
+              className="ui-date-picker-calendar-header-button"
+              onClick={nextYear}
+            >
+              <LuChevronsRight />
+            </button>
+          </div>
+        </>
       );
     };
 
@@ -68,8 +160,8 @@ const DatePicker = ({ value, onChange, className }) => {
     };
 
     const renderCells = () => {
-      const monthStart = moment(currentMonth).startOf("month");
-      const monthEnd = moment(currentMonth).endOf("month");
+      const monthStart = moment(currentDate).startOf("month");
+      const monthEnd = moment(currentDate).endOf("month");
       const startDate = moment(monthStart).startOf("week");
       const endDate = moment(monthEnd).endOf("week");
 
@@ -88,7 +180,7 @@ const DatePicker = ({ value, onChange, className }) => {
                   ? ""
                   : "ui-date-picker-disabled-days"
               } ${
-                moment(selected).format("DD/MM/YYYY") ==
+                moment(currentDate).format("DD/MM/YYYY") ==
                 moment(currentDay).format("DD/MM/YYYY")
                   ? "ui-date-picker-selected"
                   : ""
@@ -119,11 +211,29 @@ const DatePicker = ({ value, onChange, className }) => {
     };
 
     const nextMonth = () => {
-      setCurrentMonth(moment(currentMonth).add(1, "month"));
+      setCurrentDate(moment(currentDate).add(1, "month"));
     };
 
     const prevMonth = () => {
-      setCurrentMonth(moment(currentMonth).subtract(1, "month"));
+      setCurrentDate(moment(currentDate).subtract(1, "month"));
+    };
+
+    const nextYear = () => {
+      setCurrentDate(moment(currentDate).add(12, "month"));
+    };
+
+    const prevYear = () => {
+      setCurrentDate(moment(currentDate).subtract(12, "month"));
+    };
+
+    const selectMonth = (val) => {
+      setMonthsVisibility(false);
+      setCurrentDate(moment(currentDate).month(val));
+    };
+
+    const selectYear = (val) => {
+      setYearsVisibility(false);
+      setCurrentDate(moment(currentDate).year(val));
     };
 
     return (
@@ -139,13 +249,16 @@ const DatePicker = ({ value, onChange, className }) => {
     <div className={`ui-date-picker ${className}`}>
       <div
         className="ui-date-picker-value"
-        onClick={() => setCalendarVisibility(!calendarVisibility)}
+        onClick={(e) => {
+          handlePopupPosition(e);
+          setCalendarVisibility(!calendarVisibility);
+        }}
       >
-        <span>{moment(selected).format("DD/MM/YYYY")}</span>
+        <span>{moment(currentDate).format("DD/MM/YYYY")}</span>
         <LuCalendar />
       </div>
       {calendarVisibility && (
-        <div className="ui-date-picker-popup" ref={popup}>
+        <div className={`ui-date-picker-popup-${popupPosition}`} ref={popup}>
           <Calendar />
         </div>
       )}

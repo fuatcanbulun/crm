@@ -3,7 +3,9 @@ import "./style.css";
 import moment from "moment";
 import { LuMoveLeft, LuMoveRight } from "react-icons/lu";
 
-const CalendarWeek = ({ className, children }) => {
+const CalendarWeek = ({ className, children, data }) => {
+  console.log("dataz", data);
+
   const generateHourArray = () => {
     const startHour = 8; // Başlangıç saati: 08:00
     const endHour = 20; // Bitiş saati: 20:00
@@ -78,7 +80,13 @@ const CalendarWeek = ({ className, children }) => {
             key={day.format("YYYY-MM-DD")}
             className={`ui-calendar-week-day`}
           >
-            <div className="ui-calendar-week-day-body"></div>
+            <div className="ui-calendar-week-day-body">
+              {data
+                .filter((item) => item.date === day.format("YYYY-MM-DD"))
+                .map((item) => (
+                  <>{renderBodyItem(item)}</>
+                ))}
+            </div>
           </div>
         );
         day.add(1, "day");
@@ -92,6 +100,29 @@ const CalendarWeek = ({ className, children }) => {
             ))}
           </div>
           <div className="ui-calendar-week-body-content">{days}</div>
+        </div>
+      );
+    };
+
+    const renderBodyItem = (data) => {
+      const sampleStart = "08:00";
+
+      const dayStart = moment(sampleStart, "HH:mm");
+      const itemStart = moment(data.start_time, "HH:mm");
+      const itemEnd = moment(data.end_time, "HH:mm");
+
+      const itemPosition = itemStart.diff(dayStart, "minutes");
+      const itemHeight = itemEnd.diff(itemStart, "minutes");
+
+      console.log(data.start_time, itemHeight);
+
+      return (
+        <div
+          className="ui-calendar-week-day-body-item"
+          style={{ top: itemPosition, height: itemHeight }}
+        >
+          <div>{data.label}</div>
+          <div>{data.type}</div>
         </div>
       );
     };

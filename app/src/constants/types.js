@@ -1,94 +1,116 @@
 export const personTypes = [
   {
-    value: "customer",
+    id: 1,
     label: "customer",
   },
   {
-    value: "other",
+    id: 2,
     label: "other",
   },
 ];
 
 export const genderTypes = [
   {
-    value: "male",
+    id: 1,
     label: "male",
   },
   {
-    value: "female",
+    id: 2,
     label: "female",
   },
 ];
 
 export const cityTypes = [
   {
-    value: "ankara",
+    id: 1,
     label: "ankara",
   },
   {
-    value: "istanbul",
+    id: 2,
     label: "istanbul",
   },
 ];
 
 export const appointmentTypes = [
   {
-    value: "hairCare",
+    id: 1,
     label: "hairCare",
   },
   {
-    value: "meeting",
+    id: 2,
     label: "meeting",
   },
 ];
 
 export const accountingTypes = [
   {
-    value: "income",
+    id: 1,
     label: "income",
   },
   {
-    value: "expense",
+    id: 2,
     label: "expense",
   },
 ];
 
 export const incomeTypes = [
   {
-    value: "hairCare",
+    id: 1,
     label: "hairCare",
   },
   {
-    value: "productSale",
-    label: "productSale",
+    id: 2,
+    label: "product_sale",
   },
 ];
 
 export const expenseTypes = [
   {
-    value: "breaking",
+    id: 1,
     label: "breaking",
   },
 ];
 
 export const paymentTypes = [
   {
-    value: "cash",
+    id: 1,
     label: "cash",
   },
   {
-    value: "card",
+    id: 2,
     label: "card",
   },
 ];
 
 export const currencyTypes = [
   {
-    value: "tl",
+    id: 1,
     label: "tl",
   },
   {
-    value: "usd",
+    id: 2,
     label: "usd",
+  },
+];
+
+export const productTypes = [
+  {
+    id: 1,
+    label: "prosthetic_hair",
+  },
+  {
+    id: 2,
+    label: "glue",
+  },
+];
+
+export const stockMovementTypes = [
+  {
+    id: 1,
+    label: "stockIn",
+  },
+  {
+    id: 2,
+    label: "stock_out",
   },
 ];

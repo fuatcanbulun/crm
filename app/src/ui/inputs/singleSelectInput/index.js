@@ -3,11 +3,19 @@ import "./style.css";
 import { LuChevronDown } from "react-icons/lu";
 
 const SingleSelectInput = ({ value, options, onChange, className }) => {
-  console.log("options", options);
-
   const inputOptions = useRef();
+
   const [optionsVisibility, setOptionsVisibility] = useState(false);
   const [selected, setSelected] = useState(value ? value : {});
+
+  let sortedOptions;
+  if (options?.length > 0) {
+    sortedOptions = options.sort(function (a, b) {
+      return a.label.localeCompare(b.label);
+    });
+  } else {
+    sortedOptions = options;
+  }
 
   useEffect(() => {
     if (optionsVisibility) {
@@ -27,9 +35,9 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
     }
   };
 
-  const handleOnChange = (val) => {
+  const handleOnChange = (val, label) => {
     setSelected(val);
-    onChange(val);
+    onChange(val, label);
   };
 
   return (
@@ -49,11 +57,11 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
           >
             <span>Seçiniz</span>
           </div>
-          {options.map((option, index) => (
+          {sortedOptions.map((option, index) => (
             <div
               key={index}
               className="ui-single-select-input-option"
-              onClick={() => handleOnChange(option.value)}
+              onClick={() => handleOnChange(option.value, option.label)}
             >
               <span>{option.label}</span>
             </div>
