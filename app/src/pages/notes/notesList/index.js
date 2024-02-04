@@ -18,117 +18,101 @@ import { useTranslation } from "react-i18next";
 import { LuPlus, LuEye, LuTrash } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import {
-  addPerson,
-  removePersonById,
-  getPersons,
-} from "../../../services/persons";
-import PersonModal from "../common/personModal";
-import DatePicker from "../../../ui/inputs/datePicker";
 
-const PersonsList = ({}) => {
+import NoteModal from "../common/noteModal";
+import DatePicker from "../../../ui/inputs/datePicker";
+import { getPersons } from "../../../services/persons";
+import { addNote, getNotes } from "../../../services/notes";
+
+const NotesList = ({}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { personTypes, genderTypes, cities } = useSelector(
-    (state) => state.enums
-  );
 
   const initialTableData = {
     tableId: "persons",
     isSelectionMode: true,
     selectionMode: "single",
-    getSelectionValue: (selectedData) => setSelectedPerson(selectedData),
+    getSelectionValue: (selectedData) => setSelectedNote(selectedData),
     columns: [
       {
-        field: "first_name",
-        header: t("first_name"),
+        field: "created_at",
+        header: t("created_at"),
+        dataType: "date",
+      },
+      {
+        field: "person_name",
+        header: t("person"),
         dataType: "text",
       },
       {
-        field: "last_name",
-        header: t("last_name"),
+        field: "note",
+        header: t("note"),
         dataType: "text",
-      },
-      {
-        field: "person_type",
-        header: t("person_type"),
-        dataType: "dropdown",
-        dropDownValues: personTypes.map((item) => {
-          console.log("item", item);
-          return { ...item, value: item.id, label: item.tr };
-        }),
-      },
-      {
-        field: "gender_type",
-        header: t("gender_type"),
-        dataType: "dropdown",
-        dropDownValues: genderTypes.map((item) => {
-          return { ...item, value: item.id, label: item.tr };
-        }),
-      },
-      {
-        field: "phone1",
-        header: t("phone1"),
-        dataType: "text",
-      },
-      {
-        field: "city",
-        header: t("city"),
-        dataType: "dropdown",
-        dropDownValues: cities.map((item) => {
-          return { ...item, value: item.id, label: item.tr };
-        }),
       },
       {
         field: "created_by",
         header: t("created_by"),
         dataType: "text",
       },
-      {
-        field: "created_at",
-        header: t("created_at"),
-        dataType: "date",
-      },
     ],
     data: [],
   };
 
-  const [personModal, setPersonModal] = useState(false);
-  const [selectedPerson, setSelectedPerson] = useState(null);
+  const [noteModal, setNoteModal] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
   const [tableData, setTableData] = useState(initialTableData);
+  const [persons, setPersons] = useState([]);
 
   useEffect(() => {
-    getPersonsData();
+    getRequiredData();
   }, []);
 
-  const getPersonsData = async () => {
-    setTableData({ ...tableData, data: await getPersons() });
+  const getRequiredData = async () => {
+    const [notesData, personsData] = await Promise.all([
+      getNotes(),
+      getPersons(),
+    ]);
+
+    const newData = [];
+    for (const item of notesData) {
+      const matchedData = personsData.find(
+        (person) => person.id == item.person_id
+      );
+      newData.push({
+        ...item,
+        person_name: matchedData.first_name + " " + matchedData.last_name,
+      });
+    }
+
+    setTableData({ ...tableData, data: newData });
+    setPersons(personsData);
   };
 
-  const confirmAddPerson = async (values) => {
-    await addPerson(values, () => {
-      setPersonModal(false);
-      getPersonsData();
+  const confirmAddNote = async (values) => {
+    await addNote(values, () => {
+      setNoteModal(false);
+      getRequiredData();
     });
   };
 
-  const confirmDeletePerson = async () => {
-    await removePersonById(selectedPerson.id, () => {
-      getPersonsData();
-    });
+  const confirmDeleteNote = async () => {
+    // await removePersonById(selectedNote.id, () => {
+    //   getPersonsData();
+    // });
   };
 
   return (
     <PageLayout>
-      <PersonModal
-        title={t("new_person")}
-        visibility={personModal}
-        onCancel={() => setPersonModal(false)}
-        onSave={(values) => confirmAddPerson(values)}
+      <NoteModal
+        title={t("new_note")}
+        visibility={noteModal}
+        onCancel={() => setNoteModal(false)}
+        onSave={(values) => confirmAddNote(values)}
+        persons={persons}
       />
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <TitleLabel label="Kişiler" />
+          <TitleLabel label={t("notes")} />
         </PageColumn>
       </PageRow>
       <PageRow className="col-12">
@@ -136,19 +120,19 @@ const PersonsList = ({}) => {
           <BasicButton
             label={t("new")}
             icon={<LuPlus />}
-            onClick={() => setPersonModal(true)}
+            onClick={() => setNoteModal(true)}
           />
-          {selectedPerson && (
+          {selectedNote && (
             <>
               <BasicButton
-                label={t("detail")}
+                label={t("edit")}
                 icon={<LuEye />}
-                onClick={() => navigate(`/persons-detail/${selectedPerson.id}`)}
+                //onClick={() => navigate(`/persons-detail/${selectedNote.id}`)}
               />
               <BasicButton
                 label={t("delete")}
                 icon={<LuTrash />}
-                onClick={() => confirmDeletePerson()}
+                onClick={() => confirmDeleteNote()}
               />
             </>
           )}
@@ -158,7 +142,7 @@ const PersonsList = ({}) => {
         <PageColumn className="col-12">
           <Table
             tableOptions={tableData}
-            tableTitle="Kişi Listesi"
+            tableTitle={t("notes")}
             className="mt10"
           />
         </PageColumn>
@@ -167,4 +151,4 @@ const PersonsList = ({}) => {
   );
 };
 
-export default PersonsList;
+export default NotesList;

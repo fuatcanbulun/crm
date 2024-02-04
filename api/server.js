@@ -10,6 +10,7 @@ import tokenRoutes from "./src/token/routes.js";
 import enumsRoutes from "./src/enums/routes.js";
 import personsRoutes from "./src/persons/routes.js";
 import appointmentsRoutes from "./src/appointments/routes.js";
+import notesRoutes from "./src/notes/routes.js";
 
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -44,5 +45,6 @@ app.use("/api/v1/token", tokenRoutes);
 app.use("/api/v1/enums", enumsRoutes);
 app.use("/api/v1/persons", personsRoutes);
 app.use("/api/v1/appointments", appointmentsRoutes);
+app.use("/api/v1/notes", notesRoutes);
 
 app.listen(port, () => console.log(`app listening on ${port}`));

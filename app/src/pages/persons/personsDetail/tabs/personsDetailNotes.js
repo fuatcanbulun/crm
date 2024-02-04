@@ -6,7 +6,9 @@ import { useTranslation } from "react-i18next";
 import BasicButton from "../../../../ui/buttons/basicButton";
 import { LuPlus, LuEye } from "react-icons/lu";
 
-const PersonsDetailNotes = ({}) => {
+const PersonsDetailNotes = ({ data, getRequiredData }) => {
+  console.log("noteData", data);
+
   const { t } = useTranslation();
   const initialTableData = {
     tableId: "test",
@@ -23,54 +25,12 @@ const PersonsDetailNotes = ({}) => {
         dataType: "text",
       },
       {
-        field: "notes",
-        header: t("notes"),
+        field: "note",
+        header: t("note"),
         dataType: "text",
       },
     ],
-    headers: {
-      dynamicButtons: [
-        {
-          id: "add",
-          name: "add",
-          icon: "pi pi-plus",
-          type: "button",
-          label: "add",
-          _onClick: (secilenData, tumData) => {
-            console.log("secilenData", secilenData);
-          },
-          disabled: false,
-        },
-        {
-          id: "detail",
-          name: "detail",
-          icon: "pi pi-pencil",
-          type: "button",
-          label: "detail",
-          _onClick: (secilenData, tumData) => {
-            console.log("secilenData", secilenData);
-          },
-        },
-        {
-          id: "remove",
-          name: "remove",
-          icon: "pi pi-eraser",
-          type: "button",
-          label: "remove",
-          _onClick: (secilenData, tumData) => {
-            console.log("secilenData", secilenData);
-          },
-        },
-      ],
-    },
-    data: [
-      {
-        id: 1,
-        created_at: "14/01/2024 15:30",
-        created_by: "Can Yılmaz",
-        notes: "Lorem Ipsum",
-      },
-    ],
+    data: data,
   };
 
   const [tableData, setTableData] = useState(initialTableData);

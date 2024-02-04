@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { getPersonById } from "../../../services/persons";
 import { useParams } from "react-router-dom";
 import { getAppointmentsByPersonId } from "../../../services/appointments";
+import { getNotesByPersonId } from "../../../services/notes";
 
 const PersonsDetail = ({}) => {
   const { t } = useTranslation();
@@ -56,13 +57,15 @@ const PersonsDetail = ({}) => {
   }, []);
 
   const getRequiredData = async () => {
-    const [generalData, appointmentsData] = await Promise.all([
+    const [generalData, appointmentsData, notesData] = await Promise.all([
       getPersonById(person_id),
       getAppointmentsByPersonId(person_id),
+      getNotesByPersonId(person_id),
     ]);
 
     setPersonGeneralData(generalData);
     setPersonAppointmentsData(appointmentsData);
+    setPersonNotesData(notesData);
   };
 
   const [selectedTab, setSelectedTab] = useState(tabsOptions[0].value);
@@ -95,7 +98,12 @@ const PersonsDetail = ({}) => {
           getRequiredData={getRequiredData}
         />
       )}
-      {selectedTab == "notes" && <PersonsDetailNotes />}
+      {selectedTab == "notes" && (
+        <PersonsDetailNotes
+          data={personNotesData}
+          getRequiredData={getRequiredData}
+        />
+      )}
       {selectedTab == "appointments" && (
         <PersonsDetailAppointments
           data={personAppointmentsData}

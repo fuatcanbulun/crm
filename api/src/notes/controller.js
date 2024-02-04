@@ -9,53 +9,28 @@ const getNotes = (req, res) => {
   });
 };
 
-// const getPersonById = (req, res) => {
-//   const id = req.params.id;
-//   pool.query(queries.getPersonById, [id], (error, results) => {
-//     if (error) throw error;
-//     res.status(200).json(results.rows[0]);
-//   });
-// };
+const getNotesByPersonId = (req, res) => {
+  const id = req.params.id;
+  pool.query(queries.getNotesByPersonId, [id], (error, results) => {
+    if (error) throw error;
+    res.status(200).json(results.rows);
+  });
+};
 
-// const addPerson = (req, res) => {
-//   const {
-//     first_name,
-//     last_name,
-//     person_type,
-//     gender_type,
-//     date_of_birth,
-//     city,
-//     phone1,
-//     phone2,
-//     email,
-//     address,
-//     created_by,
-//   } = req.body;
+const addNote = (req, res) => {
+  const { person_id, note, created_by } = req.body;
 
-//   pool.query(
-//     queries.addPerson,
-//     [
-//       uuid(),
-//       first_name,
-//       last_name,
-//       person_type,
-//       gender_type,
-//       date_of_birth,
-//       city,
-//       phone1,
-//       phone2,
-//       email,
-//       address,
-//       created_by,
-//     ],
-//     (error, results) => {
-//       if (error) throw error;
-//       res
-//         .status(200)
-//         .json({ message: "Person added successfully", refresh: true });
-//     }
-//   );
-// };
+  pool.query(
+    queries.addNote,
+    [uuid(), person_id, note, created_by],
+    (error, results) => {
+      if (error) throw error;
+      res
+        .status(200)
+        .json({ message: "Note added successfully", refresh: true });
+    }
+  );
+};
 
 // const removePersonById = (req, res) => {
 //   const id = req.params.id;
@@ -114,8 +89,8 @@ const getNotes = (req, res) => {
 
 export default {
   getNotes,
-  // getPersonById,
-  // addPerson,
+  getNotesByPersonId,
+  addNote,
   // removePersonById,
   // updatePerson,
 };

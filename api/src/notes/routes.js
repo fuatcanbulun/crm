@@ -6,8 +6,9 @@ const router = Router();
 
 router.get("/", authenticateToken, controller.getNotes);
 // router.get("/:id", authenticateToken, controller.getPersonById);
-// router.post("/", authenticateToken, controller.addPerson);
+router.post("/", authenticateToken, controller.addNote);
 // router.delete("/:id", authenticateToken, controller.removePersonById);
 // router.put("/", authenticateToken, controller.updatePerson);
+router.get("/person/:id", authenticateToken, controller.getNotesByPersonId);
 
 export default router;

@@ -8,6 +8,8 @@ import PersonsDetail from "../persons/personsDetail";
 import AppointmentCalendar from "../appointment/appointmentCalendar";
 import AppointmentList from "../appointment/appointmentList";
 
+import NotesList from "../notes/notesList";
+
 import Stock from "../stock";
 import ProductDescriptions from "../productDescriptions";
 import ProductList from "../productList";
@@ -22,6 +24,7 @@ import {
   LuCalendarDays,
   LuSpade,
   LuWallet2,
+  LuStickyNote,
   LuPackage,
 } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
@@ -89,6 +92,12 @@ const Home = () => {
           link: "/appointment-calendar",
         },
       ],
+    },
+    {
+      id: "notes",
+      label: t("notes"),
+      link: "/notes",
+      icon: <LuStickyNote />,
     },
     {
       id: "stock",
@@ -169,6 +178,9 @@ const Home = () => {
             path="/appointment-calendar"
             element={<AppointmentCalendar />}
           />
+
+          {/* notes routes */}
+          <Route path="/notes" element={<NotesList />} />
 
           {/* stock routes */}
           <Route path="/stock-content" element={<StockContent />} />

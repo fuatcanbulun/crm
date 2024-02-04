@@ -7,7 +7,7 @@ dotenv.config();
 const pool = new Pool({
   user: "postgres",
   host: "localhost",
-  database: "soloud",
+  database: "crm",
   password: "Okocha10",
   port: 5432,
 });

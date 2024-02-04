@@ -48,7 +48,7 @@ const LoginPanel = ({ handleLogin }) => {
         </FormField>
         <BasicButton
           className="mt20"
-          label="Login"
+          label={t("login")}
           icon={<AiOutlineLogin />}
           onClick={() => onLogin()}
         />

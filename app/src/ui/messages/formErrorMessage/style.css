@@ -1,0 +1,35 @@
+.ui-form-error-message {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: 100%;
+}
+
+.ui-form-error-message-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--color14);
+}
+
+.ui-form-error-message-icon > svg {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.ui-form-error-message-text {
+  display: none;
+  position: absolute;
+  padding: 5px 10px;
+  top: 25px;
+  right: 5px;
+  background-color: var(--color15);
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.ui-form-error-message-icon:hover ~ .ui-form-error-message-text {
+  display: block;
+}
