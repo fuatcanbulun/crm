@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const pool = new Pool({
-  user: "postgres",
+  user: process.env.POSTGRE_USER,
+  password: process.env.POSTGRES_PASSWORD,
   host: "localhost",
-  database: "crm",
-  password: "Okocha10",
+  database: process.env.POSTGRES_DATABASE,
   port: 5432,
 });
 
