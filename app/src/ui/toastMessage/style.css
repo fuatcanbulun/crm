@@ -1,0 +1,70 @@
+.ui-toast-message {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  height: 10px;
+  z-index: 9999;
+}
+
+.ui-toast-message-item {
+  width: 300px;
+  height: auto;
+  display: flex;
+  border-radius: 10px;
+  box-sizing: border-box;
+  box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.ui-toast-message-item-success {
+  background-color: var(--color11);
+}
+
+.ui-toast-message-item-error {
+  background-color: var(--color15);
+}
+
+.ui-toast-message-item-left {
+  min-width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding-top: 10px;
+}
+
+.ui-toast-message-item-success .ui-toast-message-item-left {
+  background-color: var(--color12);
+}
+.ui-toast-message-item-error .ui-toast-message-item-left {
+  background-color: var(--color14);
+}
+
+.ui-toast-message-item-left > svg {
+  width: 25px;
+  height: 25px;
+  color: var(--color01);
+}
+
+.ui-toast-message-item-right {
+  width: 100%;
+  padding: 10px;
+}
+
+.ui-toast-message-item-title {
+  width: 100%;
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color1);
+}
+
+.ui-toast-message-item-text {
+  width: 100%;
+  display: block;
+  font-size: 13px;
+  margin-top: 5px;
+  color: var(--color1);
+}

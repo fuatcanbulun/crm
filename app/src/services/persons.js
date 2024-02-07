@@ -29,8 +29,6 @@ export const getPersonById = async (personId) => {
 };
 
 export const addPerson = async (values, onSuccess) => {
-  console.log("valuesx", values);
-
   const postBody = values;
   let result;
   await Post(

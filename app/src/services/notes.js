@@ -14,20 +14,6 @@ export const getNotes = async () => {
   return result;
 };
 
-// export const getAppointmentsByPersonId = async (personId) => {
-//   let result;
-//   await Get(
-//     `appointments/person/${personId}`,
-//     (response) => {
-//       result = response;
-//     },
-//     (error) => {
-//       result = error;
-//     }
-//   );
-//   return result;
-// };
-
 export const addNote = async (values, onSuccess) => {
   console.log("addNote", values);
 
@@ -61,34 +47,36 @@ export const getNotesByPersonId = async (personId) => {
   return result;
 };
 
-// export const updateAppointment = async (values, onSuccess) => {
-//   const postBody = values;
-//   let result;
-//   await Put(
-//     "appointments",
-//     postBody,
-//     (response) => {
-//       onSuccess();
-//       result = response;
-//     },
-//     (error) => {
-//       result = error;
-//     }
-//   );
-//   return result;
-// };
+export const updateNote = async (values, onSuccess) => {
+  console.log("noval", values);
 
-// export const removeAppointmentById = async (appointmentId, onSuccess) => {
-//   let result;
-//   await Delete(
-//     `appointments/${appointmentId}`,
-//     (response) => {
-//       onSuccess();
-//       result = response;
-//     },
-//     (error) => {
-//       result = error;
-//     }
-//   );
-//   return result;
-// };
+  const postBody = values;
+  let result;
+  await Put(
+    "notes",
+    postBody,
+    (response) => {
+      onSuccess();
+      result = response;
+    },
+    (error) => {
+      result = error;
+    }
+  );
+  return result;
+};
+
+export const removeNoteById = async (appointmentId, onSuccess) => {
+  let result;
+  await Delete(
+    `notes/${appointmentId}`,
+    (response) => {
+      onSuccess();
+      result = response;
+    },
+    (error) => {
+      result = error;
+    }
+  );
+  return result;
+};

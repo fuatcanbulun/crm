@@ -25,11 +25,11 @@ const AppointmentCalendar = ({}) => {
       label: t("weekly"),
       value: "weekly",
     },
-    {
-      icon: "",
-      label: t("daily"),
-      value: "daily",
-    },
+    // {
+    //   icon: "",
+    //   label: t("daily"),
+    //   value: "daily",
+    // },
   ];
   const [selectedTab, setSelectedTab] = useState(tabsOptions[0].value);
   const [appointmentData, setAppointmentData] = useState([]);
@@ -49,10 +49,11 @@ const AppointmentCalendar = ({}) => {
       const matchedData = personsData.find(
         (person) => person.id == item.person_id
       );
-      newData.push({
-        ...item,
-        person_name: matchedData.first_name + " " + matchedData.last_name,
-      });
+      let person_name = "";
+      if (matchedData) {
+        person_name = matchedData.first_name + " " + matchedData.last_name;
+      }
+      newData.push({ ...item, person_name: person_name });
     }
     setAppointmentData(newData);
   };

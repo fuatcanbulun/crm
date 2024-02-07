@@ -38,10 +38,10 @@ const addPerson = (req, res) => {
       uuid(),
       first_name,
       last_name,
-      person_type,
-      gender_type,
+      person_type ? person_type : "00000000-0000-0000-0000-000000000000",
+      gender_type ? gender_type : "00000000-0000-0000-0000-000000000000",
       date_of_birth,
-      city,
+      city ? city : "00000000-0000-0000-0000-000000000000",
       phone1,
       phone2,
       email,
@@ -83,25 +83,21 @@ const updatePerson = (req, res) => {
     created_by,
   } = req.body;
 
-  const createdAtDate = new Date();
-  const formattedCreatedAt = createdAtDate.toISOString();
-
   pool.query(
     queries.updatePerson,
     [
       id,
       first_name,
       last_name,
-      person_type,
-      gender_type,
+      person_type ? person_type : "00000000-0000-0000-0000-000000000000",
+      gender_type ? gender_type : "00000000-0000-0000-0000-000000000000",
       date_of_birth,
-      city,
+      city ? city : "00000000-0000-0000-0000-000000000000",
       phone1,
       phone2,
       email,
       address,
       created_by,
-      formattedCreatedAt,
     ],
     (error, results) => {
       if (error) throw error;

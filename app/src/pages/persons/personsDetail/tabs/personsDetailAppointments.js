@@ -98,12 +98,12 @@ const PersonsDetailAppointments = ({ data, getRequiredData }) => {
     <>
       <PageRow className="col-12 mt10">
         <PageColumn className="col-12 flex justify-content-flex-end gap5">
-          <BasicButton
+          {/* <BasicButton
             label={t("new_entry")}
             icon={<LuPlus />}
             className="mt10"
-            //onClick={() => setPersonModal(true)}
-          />
+            onClick={() => setPersonModal(true)}
+          /> */}
           {/* {selectedPerson && (
             <BasicButton
               label={t("detail")}

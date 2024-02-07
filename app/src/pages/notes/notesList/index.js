@@ -15,17 +15,22 @@ import FormColumn from "../../../ui/columns/formColumn";
 import FormField from "../../../ui/fields/formField";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { LuPlus, LuEye, LuTrash } from "react-icons/lu";
+import { LuCheck, LuPlus, LuEye, LuTrash } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
-
 import NoteModal from "../common/noteModal";
-import DatePicker from "../../../ui/inputs/datePicker";
+import ConfirmModal from "../../../ui/modals/confirmModal";
 import { getPersons } from "../../../services/persons";
-import { addNote, getNotes } from "../../../services/notes";
+import {
+  addNote,
+  getNotes,
+  removeNoteById,
+  updateNote,
+} from "../../../services/notes";
+import useToastMessage from "../../../hooks/useToastMessage";
 
 const NotesList = ({}) => {
-  const navigate = useNavigate();
+  const { toastMessage } = useToastMessage();
   const { t } = useTranslation();
 
   const initialTableData = {
@@ -59,6 +64,8 @@ const NotesList = ({}) => {
   };
 
   const [noteModal, setNoteModal] = useState(false);
+  const [noteModalData, setNoteModalData] = useState(null);
+  const [noteDeleteModal, setNoteDeleteModal] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [tableData, setTableData] = useState(initialTableData);
   const [persons, setPersons] = useState([]);
@@ -78,10 +85,11 @@ const NotesList = ({}) => {
       const matchedData = personsData.find(
         (person) => person.id == item.person_id
       );
-      newData.push({
-        ...item,
-        person_name: matchedData.first_name + " " + matchedData.last_name,
-      });
+      let person_name = "";
+      if (matchedData) {
+        person_name = matchedData.first_name + " " + matchedData.last_name;
+      }
+      newData.push({ ...item, person_name: person_name });
     }
 
     setTableData({ ...tableData, data: newData });
@@ -89,26 +97,80 @@ const NotesList = ({}) => {
   };
 
   const confirmAddNote = async (values) => {
+    setNoteModal(false);
     await addNote(values, () => {
-      setNoteModal(false);
       getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_note_created",
+        type: "success",
+        duration: 3000,
+      });
+    });
+  };
+
+  const confirmUpdateNote = async (values) => {
+    setNoteModal(false);
+    setNoteModalData(null);
+    await updateNote(values, () => {
+      getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_note_updated",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
   const confirmDeleteNote = async () => {
-    // await removePersonById(selectedNote.id, () => {
-    //   getPersonsData();
-    // });
+    setNoteDeleteModal(false);
+    await removeNoteById(selectedNote.id, () => {
+      getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_note_deleted",
+        type: "success",
+        duration: 3000,
+      });
+    });
   };
+
+  useEffect(() => {
+    if (noteModalData) {
+      setNoteModal(true);
+    }
+  }, [noteModalData]);
 
   return (
     <PageLayout>
       <NoteModal
+        data={noteModalData}
         title={t("new_note")}
         visibility={noteModal}
         onCancel={() => setNoteModal(false)}
-        onSave={(values) => confirmAddNote(values)}
+        onSave={(values) =>
+          noteModalData ? confirmUpdateNote(values) : confirmAddNote(values)
+        }
         persons={persons}
+      />
+      <ConfirmModal
+        title={t("delete_note")}
+        visibility={noteDeleteModal}
+        close={() => setNoteDeleteModal(false)}
+        message={t("message_sure_to_delete")}
+        buttons={[
+          {
+            label: t("no"),
+            onClick: () => setNoteDeleteModal(false),
+            icon: <AiOutlineClose />,
+          },
+          {
+            label: t("yes"),
+            onClick: () => confirmDeleteNote(),
+            icon: <LuCheck />,
+          },
+        ]}
       />
       <PageRow className="col-12">
         <PageColumn className="col-12">
@@ -127,12 +189,14 @@ const NotesList = ({}) => {
               <BasicButton
                 label={t("edit")}
                 icon={<LuEye />}
-                //onClick={() => navigate(`/persons-detail/${selectedNote.id}`)}
+                onClick={() => {
+                  setNoteModalData(selectedNote);
+                }}
               />
               <BasicButton
                 label={t("delete")}
                 icon={<LuTrash />}
-                onClick={() => confirmDeleteNote()}
+                onClick={() => setNoteDeleteModal(true)}
               />
             </>
           )}

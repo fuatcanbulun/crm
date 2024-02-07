@@ -15,7 +15,7 @@ import FormColumn from "../../../ui/columns/formColumn";
 import FormField from "../../../ui/fields/formField";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { LuPlus, LuEye, LuTrash } from "react-icons/lu";
+import { LuCheck, LuPlus, LuEye, LuTrash } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import {
@@ -24,14 +24,20 @@ import {
   getPersons,
 } from "../../../services/persons";
 import PersonModal from "../common/personModal";
-import DatePicker from "../../../ui/inputs/datePicker";
+import ConfirmModal from "../../../ui/modals/confirmModal";
+
+import useToastMessage from "../../../hooks/useToastMessage";
 
 const PersonsList = ({}) => {
+  const { toastMessage } = useToastMessage();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { personTypes, genderTypes, cities } = useSelector(
     (state) => state.enums
   );
+  const [personModal, setPersonModal] = useState(false);
+  const [personDeleteModal, setPersonDeleteModal] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState(null);
 
   const initialTableData = {
     tableId: "persons",
@@ -93,28 +99,41 @@ const PersonsList = ({}) => {
     data: [],
   };
 
-  const [personModal, setPersonModal] = useState(false);
-  const [selectedPerson, setSelectedPerson] = useState(null);
   const [tableData, setTableData] = useState(initialTableData);
 
   useEffect(() => {
-    getPersonsData();
-  }, []);
+    if (personTypes.length > 0 && genderTypes.length > 0 && cities.length > 0) {
+      getPersonsData();
+    }
+  }, [personTypes, genderTypes, cities]);
 
   const getPersonsData = async () => {
-    setTableData({ ...tableData, data: await getPersons() });
+    setTableData({ ...initialTableData, data: await getPersons() });
   };
 
   const confirmAddPerson = async (values) => {
+    setPersonModal(false);
     await addPerson(values, () => {
-      setPersonModal(false);
       getPersonsData();
+      toastMessage({
+        title: "success",
+        text: "message_person_created",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
   const confirmDeletePerson = async () => {
+    setPersonDeleteModal(false);
     await removePersonById(selectedPerson.id, () => {
       getPersonsData();
+      toastMessage({
+        title: "success",
+        text: "message_person_deleted",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
@@ -125,6 +144,24 @@ const PersonsList = ({}) => {
         visibility={personModal}
         onCancel={() => setPersonModal(false)}
         onSave={(values) => confirmAddPerson(values)}
+      />
+      <ConfirmModal
+        title={t("delete_person")}
+        visibility={personDeleteModal}
+        close={() => setPersonDeleteModal(false)}
+        message={t("message_sure_to_delete")}
+        buttons={[
+          {
+            label: t("no"),
+            onClick: () => setPersonDeleteModal(false),
+            icon: <AiOutlineClose />,
+          },
+          {
+            label: t("yes"),
+            onClick: () => confirmDeletePerson(),
+            icon: <LuCheck />,
+          },
+        ]}
       />
       <PageRow className="col-12">
         <PageColumn className="col-12">
@@ -148,7 +185,7 @@ const PersonsList = ({}) => {
               <BasicButton
                 label={t("delete")}
                 icon={<LuTrash />}
-                onClick={() => confirmDeletePerson()}
+                onClick={() => setPersonDeleteModal(true)}
               />
             </>
           )}

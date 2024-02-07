@@ -13,7 +13,11 @@ import LoginPanel from "../../components/loginPanel";
 import LandingLayout from "../../ui/layouts/landingLayout";
 
 const Login = ({ setAuthorization }) => {
+  const { t } = useTranslation();
+
   const [signUpFormValues, setSignUpFormValues] = useState({
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     passwordAgain: "",
@@ -53,7 +57,7 @@ const Login = ({ setAuthorization }) => {
     <LandingLayout>
       <LoginPanel handleLogin={handleLogin} />
 
-      {/* <div className="mt20">
+      {/* <div style={{ width: "100%" }}>
         Sign Up
         <FormRow className="col-6">
           <FormColumn className="col-6">
@@ -68,12 +72,12 @@ const Login = ({ setAuthorization }) => {
               />
             </FormField>
             <FormField>
-              <FormLabel label={t("lastName")} />
+              <FormLabel label={t("last_name")} />
               <TextInput
-                id="lastName"
-                value={signUpFormValues.elastNamemail}
+                id="last_name"
+                value={signUpFormValues.last_name}
                 onChange={(val) =>
-                  setSignUpFormValues({ ...signUpFormValues, lastName: val })
+                  setSignUpFormValues({ ...signUpFormValues, last_name: val })
                 }
               />
             </FormField>

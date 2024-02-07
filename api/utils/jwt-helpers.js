@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
 //Generate an access token and a refresh token for this database user
-function jwtTokens({ id, email }) {
-  const user = { id, email };
+function jwtTokens({ id, email, first_name, last_name }) {
+  const user = { id, email, first_name, last_name };
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "10000000",
   });

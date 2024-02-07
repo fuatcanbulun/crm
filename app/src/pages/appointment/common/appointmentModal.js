@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import { LuCheck } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import FormErrorMessage from "../../../ui/messages/formErrorMessage";
+import useValidate from "../../../hooks/useValidate";
 
 const initialFormValues = {
   person_id: "",
@@ -20,6 +22,7 @@ const initialFormValues = {
   date: "",
   start_time: "",
   end_time: "",
+  created_by: "",
 };
 
 const AppointmentModal = ({
@@ -32,11 +35,31 @@ const AppointmentModal = ({
 }) => {
   const { t } = useTranslation();
   const { appointmentTypes } = useSelector((state) => state.enums);
+  const { userInfo } = useSelector((state) => state.user);
+
+  const { validate } = useValidate();
   const [formValues, setFormValues] = useState(data ? data : initialFormValues);
+  const [formError, setFormError] = useState({});
+
+  const validation = {
+    person_id: ["validation_required"],
+    appointment_type: ["validation_required"],
+    date: ["validation_required"],
+    start_time: ["validation_required"],
+    end_time: ["validation_required"],
+  };
 
   useEffect(() => {
     setFormValues(data ? data : initialFormValues);
   }, [data]);
+
+  const handleValidation = (values) => {
+    const response = validate(values, validation);
+    setFormError(response);
+    if (response === true) {
+      onSave({ ...values, created_by: userInfo.user_name });
+    }
+  };
 
   const appointmentFormBody = () => {
     return (
@@ -61,6 +84,9 @@ const AppointmentModal = ({
               }}
               value={formValues.person_id}
             />
+            {formError.person_id && (
+              <FormErrorMessage message={formError.person_id} />
+            )}
           </FormField>
           <FormField className="mt10">
             <FormLabel label={t("appointment_type")} />
@@ -78,6 +104,9 @@ const AppointmentModal = ({
               }
               value={formValues.appointment_type}
             />
+            {formError.appointment_type && (
+              <FormErrorMessage message={formError.appointment_type} />
+            )}
           </FormField>
           <FormField className="mt10">
             <FormLabel label={t("date")} />
@@ -86,6 +115,7 @@ const AppointmentModal = ({
               value={formValues.date}
               onChange={(val) => setFormValues({ ...formValues, date: val })}
             />
+            {formError.date && <FormErrorMessage message={formError.date} />}
           </FormField>
         </FormColumn>
         <FormColumn className="col-6">
@@ -99,6 +129,9 @@ const AppointmentModal = ({
               }
               isSecondsVisible={false}
             />
+            {formError.start_time && (
+              <FormErrorMessage message={formError.start_time} />
+            )}
           </FormField>
           <FormField className="mt10">
             <FormLabel label={t("end_time")} />
@@ -110,6 +143,9 @@ const AppointmentModal = ({
               }
               isSecondsVisible={false}
             />
+            {formError.end_time && (
+              <FormErrorMessage message={formError.end_time} />
+            )}
           </FormField>
         </FormColumn>
       </FormRow>
@@ -130,7 +166,7 @@ const AppointmentModal = ({
         },
         {
           label: t("save"),
-          onClick: () => onSave(formValues),
+          onClick: () => handleValidation(formValues),
           icon: <LuCheck />,
         },
       ]}

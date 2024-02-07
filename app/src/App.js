@@ -6,6 +6,7 @@ import Login from "./pages/login";
 import { Provider } from "react-redux";
 import store from "./redux/app/store";
 import { checkToken } from "./services/token";
+import ToastMessage from "./ui/toastMessage";
 
 function App() {
   const [authorization, setAuthorization] = useState(null);
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <ToastMessage />
       {authorization === true && <Home />}
       {authorization === false && <Login setAuthorization={setAuthorization} />}
     </Provider>

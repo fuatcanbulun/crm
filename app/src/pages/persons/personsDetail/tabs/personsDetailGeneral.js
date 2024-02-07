@@ -3,26 +3,33 @@ import PageRow from "../../../../ui/rows/pageRow";
 import PageColumn from "../../../../ui/columns/pageColumn";
 import InfoLine from "../../../../ui/info/infoLine";
 import BasicButton from "../../../../ui/buttons/basicButton";
-import { LuPlus, LuEye, LuCheck } from "react-icons/lu";
+import { LuPlus, LuPen, LuCheck } from "react-icons/lu";
 import PersonModal from "../../common/personModal";
 import { updatePerson } from "../../../../services/persons";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import useToastMessage from "../../../../hooks/useToastMessage";
 
 const PersonsDetailGeneral = ({ data, getRequiredData }) => {
   const { t } = useTranslation();
+  const { toastMessage } = useToastMessage();
+
   const { personTypes, genderTypes, cities } = useSelector(
     (state) => state.enums
   );
   const [personModal, setPersonModal] = useState(false);
 
-  console.log("data", data);
-
   const confirmUpdatePerson = async (values) => {
+    setPersonModal(false);
     await updatePerson(values, () => {
-      setPersonModal(false);
       getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_person_updated",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
@@ -30,7 +37,7 @@ const PersonsDetailGeneral = ({ data, getRequiredData }) => {
     <>
       <PersonModal
         data={data}
-        title={t("update_person")}
+        title={t("edit_person")}
         visibility={personModal}
         onCancel={() => setPersonModal(false)}
         onSave={(values) => confirmUpdatePerson(values)}
@@ -79,8 +86,8 @@ const PersonsDetailGeneral = ({ data, getRequiredData }) => {
       <PageRow className="col-8 mt20">
         <PageColumn className="col-6">
           <BasicButton
-            label={t("detail")}
-            icon={<LuEye />}
+            label={t("edit")}
+            icon={<LuPen />}
             className="mt10"
             onClick={() => setPersonModal(true)}
           />

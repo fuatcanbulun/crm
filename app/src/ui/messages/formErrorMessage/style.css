@@ -1,6 +1,6 @@
 .ui-form-error-message {
   position: absolute;
-  top: 0;
+  top: 5px;
   right: 0;
   z-index: 9;
   width: 100%;

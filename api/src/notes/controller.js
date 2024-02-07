@@ -32,65 +32,35 @@ const addNote = (req, res) => {
   );
 };
 
-// const removePersonById = (req, res) => {
-//   const id = req.params.id;
-//   pool.query(queries.removePersonById, [id], (error, results) => {
-//     if (error) throw error;
-//     res
-//       .status(200)
-//       .json({ message: "Person removed successfully", refresh: true });
-//   });
-// };
+const removeNoteById = (req, res) => {
+  const id = req.params.id;
+  pool.query(queries.removeNoteById, [id], (error, results) => {
+    if (error) throw error;
+    res
+      .status(200)
+      .json({ message: "Note removed successfully", refresh: true });
+  });
+};
 
-// const updatePerson = (req, res) => {
-//   const {
-//     id,
-//     first_name,
-//     last_name,
-//     person_type,
-//     gender_type,
-//     date_of_birth,
-//     city,
-//     phone1,
-//     phone2,
-//     email,
-//     address,
-//     created_by,
-//   } = req.body;
+const updateNote = (req, res) => {
+  const { id, person_id, note, created_by } = req.body;
 
-//   const createdAtDate = new Date();
-//   const formattedCreatedAt = createdAtDate.toISOString();
-
-//   pool.query(
-//     queries.updatePerson,
-//     [
-//       id,
-//       first_name,
-//       last_name,
-//       person_type,
-//       gender_type,
-//       date_of_birth,
-//       city,
-//       phone1,
-//       phone2,
-//       email,
-//       address,
-//       created_by,
-//       formattedCreatedAt,
-//     ],
-//     (error, results) => {
-//       if (error) throw error;
-//       res
-//         .status(200)
-//         .json({ message: "Person updated successfully", refresh: true });
-//     }
-//   );
-// };
+  pool.query(
+    queries.updateNote,
+    [id, person_id, note, created_by],
+    (error, results) => {
+      if (error) throw error;
+      res
+        .status(200)
+        .json({ message: "Note updated successfully", refresh: true });
+    }
+  );
+};
 
 export default {
   getNotes,
   getNotesByPersonId,
   addNote,
-  // removePersonById,
-  // updatePerson,
+  removeNoteById,
+  updateNote,
 };

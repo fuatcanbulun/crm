@@ -9,6 +9,7 @@ import {
   LuChevronsLeft,
   LuChevronsRight,
 } from "react-icons/lu";
+import { AiOutlineClose } from "react-icons/ai";
 
 const DatePicker = ({ value, onChange, className }) => {
   const popup = useRef();
@@ -254,8 +255,14 @@ const DatePicker = ({ value, onChange, className }) => {
           setCalendarVisibility(!calendarVisibility);
         }}
       >
-        <span>{moment(currentDate).format("DD/MM/YYYY")}</span>
-        <LuCalendar />
+        <span>{value ? moment(value).format("DD/MM/YYYY") : ""}</span>
+        {value ? (
+          <button onClick={() => onChange("")}>
+            <AiOutlineClose />
+          </button>
+        ) : (
+          <LuCalendar />
+        )}
       </div>
       {calendarVisibility && (
         <div className={`ui-date-picker-popup-${popupPosition}`} ref={popup}>

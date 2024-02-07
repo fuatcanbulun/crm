@@ -898,10 +898,12 @@ const Table = ({ tableOptions, tableTitle, className }) => {
                               )}
                               {column.dataType == "date" && (
                                 <span className="ui-table-cell-text">
-                                  {moment(
-                                    row[column.field],
-                                    "YYYY-MM-DD"
-                                  ).format("DD/MM/YYYY")}
+                                  {row[column.field]
+                                    ? moment(
+                                        row[column.field],
+                                        "YYYY-MM-DD"
+                                      ).format("DD/MM/YYYY")
+                                    : ""}
                                 </span>
                               )}
                               {column.dataType == "dropdown" && (

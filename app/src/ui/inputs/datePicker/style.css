@@ -26,13 +26,6 @@
   color: var(--text00);
 }
 
-.ui-date-picker-value > svg {
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  right: 10px;
-}
-
 .ui-date-picker-calendar {
   position: absolute;
   width: 100%;
@@ -210,4 +203,34 @@
 
 .ui-date-picker-calendar-years-item-button:hover {
   background-color: var(--color11);
+}
+
+.ui-date-picker-value > button {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  right: 5px;
+  cursor: pointer;
+}
+
+.ui-date-picker-value > button > svg {
+  width: 25px;
+  height: 25px;
+}
+
+.ui-date-picker-value > svg {
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  right: 10px;
 }

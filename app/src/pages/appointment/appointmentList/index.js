@@ -24,19 +24,23 @@ import {
   removeAppointmentById,
 } from "../../../services/appointments";
 import { useSelector } from "react-redux";
-import { LuPlus, LuPen, LuTrash } from "react-icons/lu";
+import { LuCheck, LuPlus, LuPen, LuTrash } from "react-icons/lu";
+import { AiOutlineClose } from "react-icons/ai";
+
 import AppointmentModal from "../common/appointmentModal";
 import { getPersons } from "../../../services/persons";
-import { set } from "ol/transform";
+import useToastMessage from "../../../hooks/useToastMessage";
+import ConfirmModal from "../../../ui/modals/confirmModal";
 
 const AppointmentList = ({}) => {
-  const navigate = useNavigate();
+  const { toastMessage } = useToastMessage();
   const { t } = useTranslation();
   const { appointmentTypes } = useSelector((state) => state.enums);
   const [persons, setPersons] = useState([]);
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [appointmentModalData, setAppointmentModalData] = useState(null);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [appointmentDeleteModal, setAppointmentDeleteModal] = useState(false);
 
   const initialTableData = {
     tableId: "appointments",
@@ -89,8 +93,10 @@ const AppointmentList = ({}) => {
   const [tableData, setTableData] = useState(initialTableData);
 
   useEffect(() => {
-    getRequiredData();
-  }, []);
+    if (appointmentTypes.length > 0) {
+      getRequiredData();
+    }
+  }, [appointmentTypes]);
 
   const getRequiredData = async () => {
     const [appointmentsData, personsData] = await Promise.all([
@@ -98,41 +104,59 @@ const AppointmentList = ({}) => {
       getPersons(),
     ]);
 
-    console.log("appointmentsData", appointmentsData);
-    console.log("personsData", personsData);
-
     const newData = [];
     for (const item of appointmentsData) {
       const matchedData = personsData.find(
         (person) => person.id == item.person_id
       );
-      newData.push({
-        ...item,
-        person_name: matchedData.first_name + " " + matchedData.last_name,
-      });
+      let person_name = "";
+      if (matchedData) {
+        person_name = matchedData.first_name + " " + matchedData.last_name;
+      }
+      newData.push({ ...item, person_name: person_name });
     }
+
     setPersons(personsData);
-    setTableData({ ...tableData, data: newData });
+    setTableData({ ...initialTableData, data: newData });
   };
 
   const confirmAddAppointment = async (values) => {
+    setAppointmentModal(false);
     await addAppointment(values, () => {
-      setAppointmentModal(false);
       getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_appointment_created",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
   const confirmUpdateAppointment = async (values) => {
+    setAppointmentModal(false);
+    setAppointmentModalData(null);
     await updateAppointment(values, () => {
-      setAppointmentModal(false);
-      setAppointmentModalData(null);
       getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_appointment_updated",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
   const confirmDeleteAppointment = async () => {
+    setAppointmentDeleteModal(false);
     await removeAppointmentById(selectedAppointment.id, () => {
       getRequiredData();
+      toastMessage({
+        title: "success",
+        text: "message_appointment_deleted",
+        type: "success",
+        duration: 3000,
+      });
     });
   };
 
@@ -157,6 +181,24 @@ const AppointmentList = ({}) => {
             : confirmAddAppointment(values)
         }
         persons={persons}
+      />
+      <ConfirmModal
+        title={t("delete_appointment")}
+        visibility={appointmentDeleteModal}
+        close={() => setAppointmentDeleteModal(false)}
+        message={t("message_sure_to_delete")}
+        buttons={[
+          {
+            label: t("no"),
+            onClick: () => setAppointmentDeleteModal(false),
+            icon: <AiOutlineClose />,
+          },
+          {
+            label: t("yes"),
+            onClick: () => confirmDeleteAppointment(),
+            icon: <LuCheck />,
+          },
+        ]}
       />
 
       <PageRow className="col-12">
@@ -184,7 +226,7 @@ const AppointmentList = ({}) => {
               <BasicButton
                 label={t("delete")}
                 icon={<LuTrash />}
-                onClick={() => confirmDeleteAppointment()}
+                onClick={() => setAppointmentDeleteModal(true)}
               />
             </>
           )}

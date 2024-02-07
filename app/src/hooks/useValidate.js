@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 const validations = {
   validation_only_letters: (val) => {
-    return /^[a-zA-Z]+$/.test(val);
+    return /^[a-zA-ZçÇğĞıİöÖşŞüÜ]+$/u.test(val);
   },
   validation_min_2_characters: (val) => {
     return val.length >= 2;

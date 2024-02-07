@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 
 const PhoneInput = ({ className, onChange, value }) => {
-  const [maskedValue, setMaskedValue] = useState();
+  const [maskedValue, setMaskedValue] = useState(value);
 
   function maskInput(input) {
     const cleanedInput = input.value.replace(/\D/g, "").slice(0, 10); // Sadece ilk 10 karakteri al
@@ -20,6 +20,7 @@ const PhoneInput = ({ className, onChange, value }) => {
     }
 
     setMaskedValue(maskedNumber);
+    return maskedNumber;
   }
 
   return (
@@ -27,8 +28,7 @@ const PhoneInput = ({ className, onChange, value }) => {
       value={maskedValue}
       className={`ui-text-input ${className}`}
       onChange={(e) => {
-        onChange(e.target.value);
-        maskInput(e.target);
+        onChange(maskInput(e.target));
       }}
     />
   );

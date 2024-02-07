@@ -3,10 +3,9 @@ node_modules/
 
 # App specific ignores
 app/build
-
+app/.env
 
 # API specific ignores
 api/build
+api/.env
 
-# env
-.env

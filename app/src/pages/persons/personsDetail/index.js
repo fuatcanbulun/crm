@@ -39,16 +39,16 @@ const PersonsDetail = ({}) => {
       label: t("notes"),
       value: "notes",
     },
-    {
-      icon: "",
-      label: t("calls"),
-      value: "calls",
-    },
-    {
-      icon: "",
-      label: t("accounting"),
-      value: "accounting",
-    },
+    // {
+    //   icon: "",
+    //   label: t("calls"),
+    //   value: "calls",
+    // },
+    // {
+    //   icon: "",
+    //   label: t("accounting"),
+    //   value: "accounting",
+    // },
   ];
   const { person_id } = useParams();
 

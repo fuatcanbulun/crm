@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
-
 import { Routes, Route } from "react-router-dom";
-
 import PersonsList from "../persons/personsList";
 import PersonsDetail from "../persons/personsDetail";
-
 import AppointmentCalendar from "../appointment/appointmentCalendar";
 import AppointmentList from "../appointment/appointmentList";
-
 import NotesList from "../notes/notesList";
-
-import Stock from "../stock";
 import ProductDescriptions from "../productDescriptions";
 import ProductList from "../productList";
 import AccountingGiro from "../accountingGiro";
@@ -43,11 +37,15 @@ import {
   setAppointmentTypes,
   setCities,
 } from "../../redux/app/enums/enumsSlice";
+import { setUserInfo } from "../../redux/app/user/userSlice";
+import { jwtDecode } from "jwt-decode";
 
 const Home = () => {
   const [isExtended, setIsExtended] = useState(true);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const token = localStorage.getItem("access_token");
+  const decoded = jwtDecode(token);
 
   useEffect(() => {
     getEnums();
@@ -66,6 +64,9 @@ const Home = () => {
     dispatch(setGenderTypes(enumGenderTypes));
     dispatch(setCities(enumCities));
     dispatch(setAppointmentTypes(enumAppointmentTypes));
+    dispatch(
+      setUserInfo({ user_name: decoded.first_name + " " + decoded.last_name })
+    );
   };
 
   const sampleMenu = [

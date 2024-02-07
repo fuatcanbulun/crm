@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { uuid } from "uuidv4";
 
 const signUp = (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
+  const { email, password, first_name, last_name } = req.body;
 
   // check if email exists
   pool.query(queries.checkEmailExists, [email], async (error, results) => {
@@ -16,7 +16,7 @@ const signUp = (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       pool.query(
         queries.signUp,
-        [uuid(), email, hashedPassword, firstName, lastName],
+        [uuid(), email, hashedPassword, first_name, last_name],
         (error, results) => {
           if (error) {
             throw error;

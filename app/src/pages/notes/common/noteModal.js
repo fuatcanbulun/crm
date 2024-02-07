@@ -12,29 +12,46 @@ import { useTranslation } from "react-i18next";
 import { LuCheck } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import FormErrorMessage from "../../../ui/messages/formErrorMessage";
+import useValidate from "../../../hooks/useValidate";
 
 const initialFormValues = {
   person_id: "",
   note: "",
+  created_by: "",
 };
 
 const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
   const { t } = useTranslation();
-  const { personTypes, genderTypes, cities } = useSelector(
-    (state) => state.enums
-  );
+  const { validate } = useValidate();
 
+  const { userInfo } = useSelector((state) => state.user);
   const [formValues, setFormValues] = useState(data ? data : initialFormValues);
+  const [formError, setFormError] = useState({});
+
+  const validation = {
+    person_id: ["validation_required"],
+    note: ["validation_required"],
+  };
+
   useEffect(() => {
     setFormValues(data ? data : initialFormValues);
   }, [data]);
+
+  const handleValidation = (values) => {
+    const response = validate(values, validation);
+    setFormError(response);
+    if (response === true) {
+      onSave({ ...values, created_by: userInfo.user_name });
+    }
+  };
 
   const personFormBody = () => {
     return (
       <FormRow className="col-12">
         <FormColumn className="col-6">
           <FormField>
-            <FormLabel label={t("person_id")} />
+            <FormLabel label={t("person")} />
             <SingleSelectInput
               id="person_id"
               options={persons.map((item) => {
@@ -52,6 +69,9 @@ const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
               }}
               value={formValues.person_id}
             />
+            {formError.person_id && (
+              <FormErrorMessage message={formError.person_id} />
+            )}
           </FormField>
         </FormColumn>
         <FormColumn className="col-6">
@@ -62,6 +82,7 @@ const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
               value={formValues.note}
               onChange={(val) => setFormValues({ ...formValues, note: val })}
             />
+            {formError.note && <FormErrorMessage message={formError.note} />}
           </FormField>
         </FormColumn>
       </FormRow>
@@ -82,7 +103,7 @@ const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
         },
         {
           label: t("save"),
-          onClick: () => onSave(formValues),
+          onClick: () => handleValidation(formValues),
           icon: <LuCheck />,
         },
       ]}

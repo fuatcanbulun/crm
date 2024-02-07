@@ -28,7 +28,6 @@ const initialFormValues = {
   phone2: "",
   email: "",
   created_by: "",
-  created_at: "",
 };
 
 const PersonModal = ({ data, title, onSave, onCancel, visibility }) => {
@@ -36,6 +35,7 @@ const PersonModal = ({ data, title, onSave, onCancel, visibility }) => {
   const { personTypes, genderTypes, cities } = useSelector(
     (state) => state.enums
   );
+  const { userInfo } = useSelector((state) => state.user);
   const { validate } = useValidate();
   const [formValues, setFormValues] = useState(data ? data : initialFormValues);
   const [formError, setFormError] = useState({});
@@ -64,8 +64,7 @@ const PersonModal = ({ data, title, onSave, onCancel, visibility }) => {
     const response = validate(values, validation);
     setFormError(response);
     if (response === true) {
-      alert("nice");
-      //onSave(values);
+      onSave({ ...values, created_by: userInfo.user_name });
     }
   };
 
@@ -213,7 +212,9 @@ const PersonModal = ({ data, title, onSave, onCancel, visibility }) => {
         },
         {
           label: t("save"),
-          onClick: () => handleValidation(formValues),
+          onClick: () => {
+            handleValidation(formValues);
+          },
           icon: <LuCheck />,
         },
       ]}
