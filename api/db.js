@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const pool = new Pool({
-  user: process.env.POSTGRE_USER,
+  user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   host: "localhost",
   database: process.env.POSTGRES_DATABASE,
