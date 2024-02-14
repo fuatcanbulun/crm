@@ -31,20 +31,20 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get("/", (req, res) => {
+app.get("/lacehair/", (req, res) => {
   res.send("CRM API");
 });
 
-app.use("/api/v1/videos", videosRoutes);
-app.use("/api/v1/categories", categoriesRoutes);
-app.use("/api/v1/users", usersRoutes);
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/onlines", onlinesRoutes);
-app.use("/api/v1/favorites", favoritesRoutes);
-app.use("/api/v1/token", tokenRoutes);
-app.use("/api/v1/enums", enumsRoutes);
-app.use("/api/v1/persons", personsRoutes);
-app.use("/api/v1/appointments", appointmentsRoutes);
-app.use("/api/v1/notes", notesRoutes);
+app.use("/lacehair/api/v1/videos", videosRoutes);
+app.use("/lacehair/api/v1/categories", categoriesRoutes);
+app.use("/lacehair/api/v1/users", usersRoutes);
+app.use("/lacehair/api/v1/auth", authRoutes);
+app.use("/lacehair/api/v1/onlines", onlinesRoutes);
+app.use("/lacehair/api/v1/favorites", favoritesRoutes);
+app.use("/lacehair/api/v1/token", tokenRoutes);
+app.use("/lacehair/api/v1/enums", enumsRoutes);
+app.use("/lacehair/api/v1/persons", personsRoutes);
+app.use("/lacehair/api/v1/appointments", appointmentsRoutes);
+app.use("/lacehair/api/v1/notes", notesRoutes);
 
 app.listen(port, () => console.log(`app listening on ${port}`));
