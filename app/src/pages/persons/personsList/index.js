@@ -193,11 +193,7 @@ const PersonsList = ({}) => {
       </PageRow>
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="Kişi Listesi"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="Kişi Listesi" />
         </PageColumn>
       </PageRow>
     </PageLayout>

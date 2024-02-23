@@ -10,3 +10,9 @@
   height: 100vh;
   transition: 0.5s;
 }
+
+@media screen and (max-width: 576px) {
+  .ui-content-layout {
+    width: 100%;
+  }
+}

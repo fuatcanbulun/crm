@@ -55,3 +55,31 @@ export const getEnumAppointmentTypes = async () => {
   );
   return result;
 };
+
+export const getEnumProductTypes = async () => {
+  let result;
+  await Get(
+    "enums/product-types",
+    (response) => {
+      result = response;
+    },
+    (error) => {
+      result = error;
+    }
+  );
+  return result;
+};
+
+export const getEnumStockMovementTypes = async () => {
+  let result;
+  await Get(
+    "enums/stock-movement-types",
+    (response) => {
+      result = response;
+    },
+    (error) => {
+      result = error;
+    }
+  );
+  return result;
+};

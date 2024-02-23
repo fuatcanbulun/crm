@@ -20,6 +20,7 @@ router.get(
 router.get("/income-types", authenticateToken, controller.getEnumIncomeTypes);
 router.get("/expense-types", authenticateToken, controller.getEnumExpenseTypes);
 router.get("/payment-types", authenticateToken, controller.getEnumPaymentTypes);
+router.get("/product-types", authenticateToken, controller.getEnumProductTypes);
 router.get(
   "/currency-types",
   authenticateToken,

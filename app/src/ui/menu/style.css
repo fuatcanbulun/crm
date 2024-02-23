@@ -1,5 +1,6 @@
 .ui-menu {
   padding: 0;
+  overflow: hidden;
 }
 
 .ui-sub-menu {

@@ -63,6 +63,13 @@ const getEnumStockMovementTypes = (req, res) => {
   });
 };
 
+const getEnumProductTypes = (req, res) => {
+  pool.query(queries.getEnumProductTypes, (error, results) => {
+    if (error) throw error;
+    res.status(200).json(results.rows);
+  });
+};
+
 export default {
   getEnumPersonTypes,
   getEnumGenderTypes,
@@ -74,4 +81,5 @@ export default {
   getEnumPaymentTypes,
   getEnumCurrencyTypes,
   getEnumStockMovementTypes,
+  getEnumProductTypes,
 };

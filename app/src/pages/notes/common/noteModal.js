@@ -49,7 +49,7 @@ const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
   const personFormBody = () => {
     return (
       <FormRow className="col-12">
-        <FormColumn className="col-6">
+        <FormColumn className="xs:col-12 sm:col-12 col-6">
           <FormField>
             <FormLabel label={t("person")} />
             <SingleSelectInput
@@ -74,7 +74,7 @@ const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
             )}
           </FormField>
         </FormColumn>
-        <FormColumn className="col-6">
+        <FormColumn className="xs:col-12 sm:col-12 col-6">
           <FormField>
             <FormLabel label={t("note")} />
             <TextArea

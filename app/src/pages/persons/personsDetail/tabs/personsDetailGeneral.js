@@ -42,8 +42,8 @@ const PersonsDetailGeneral = ({ data, getRequiredData }) => {
         onCancel={() => setPersonModal(false)}
         onSave={(values) => confirmUpdatePerson(values)}
       />
-      <PageRow className="col-8 mt20">
-        <PageColumn className="col-6">
+      <PageRow className="xs:col-12 sm:col-12 col-8 mt20">
+        <PageColumn className="xs:col-12 sm:col-12 col-6">
           <InfoLine label={t("first_name")} value={data?.first_name} />
           <InfoLine label={t("last_name")} value={data?.last_name} />
           <InfoLine
@@ -66,7 +66,7 @@ const PersonsDetailGeneral = ({ data, getRequiredData }) => {
             }
           />
         </PageColumn>
-        <PageColumn className="col-6">
+        <PageColumn className="xs:col-12 sm:col-12 col-6">
           <InfoLine label={t("phone1")} value={data?.phone1} />
           <InfoLine label={t("phone2")} value={data?.phone2} />
           <InfoLine

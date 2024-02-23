@@ -5,6 +5,8 @@ const initialState = {
   genderTypes: [],
   cities: [],
   appointmentTypes: [],
+  productTypes: [],
+  stockMovementTypes: [],
 };
 
 export const enumsSlice = createSlice({
@@ -23,6 +25,12 @@ export const enumsSlice = createSlice({
     setAppointmentTypes: (state, action) => {
       state.appointmentTypes = action.payload;
     },
+    setProductTypes: (state, action) => {
+      state.productTypes = action.payload;
+    },
+    setStockMovementTypes: (state, action) => {
+      state.stockMovementTypes = action.payload;
+    },
   },
 });
 
@@ -31,5 +39,7 @@ export const {
   setGenderTypes,
   setCities,
   setAppointmentTypes,
+  setProductTypes,
+  setStockMovementTypes,
 } = enumsSlice.actions;
 export default enumsSlice.reducer;

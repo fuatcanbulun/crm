@@ -71,7 +71,7 @@ const PersonModal = ({ data, title, onSave, onCancel, visibility }) => {
   const personFormBody = () => {
     return (
       <FormRow className="col-12">
-        <FormColumn className="col-6">
+        <FormColumn className="xs:col-12 sm:col-12 col-6">
           <FormField>
             <FormLabel label={t("first_name")} />
             <TextInput
@@ -142,7 +142,7 @@ const PersonModal = ({ data, title, onSave, onCancel, visibility }) => {
             />
           </FormField>
         </FormColumn>
-        <FormColumn className="col-6">
+        <FormColumn className="xs:col-12 sm:col-12 col-6">
           <FormField>
             <FormLabel label={t("phone1")} />
             <PhoneInput

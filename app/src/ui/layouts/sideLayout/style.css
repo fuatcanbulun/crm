@@ -31,3 +31,15 @@
 .ui-side-layout-extended > .ui-side-layout-logo > img {
   height: 100px;
 }
+
+@media screen and (max-width: 576px) {
+  .ui-side-layout {
+    position: absolute;
+    width: 0;
+    min-width: 0;
+    z-index: 9;
+  }
+  .ui-side-layout.ui-side-layout-extended {
+    min-width: 300px;
+  }
+}

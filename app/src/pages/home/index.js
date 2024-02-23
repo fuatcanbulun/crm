@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import PersonsList from "../persons/personsList";
-import PersonsDetail from "../persons/personsDetail";
-import AppointmentCalendar from "../appointment/appointmentCalendar";
-import AppointmentList from "../appointment/appointmentList";
-import NotesList from "../notes/notesList";
-import ProductDescriptions from "../productDescriptions";
-import ProductList from "../productList";
-import AccountingGiro from "../accountingGiro";
-import AccountingRecord from "../accountingRecord";
+
 import SideLayout from "../../ui/layouts/sideLayout";
 import ContainerLayout from "../../ui/layouts/containerLayout";
 import ContentLayout from "../../ui/layouts/contentLayout";
@@ -22,13 +14,13 @@ import {
   LuPackage,
 } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
-import StockContent from "../stock/stockContent";
-import StockMovements from "../stock/stockMovements";
 import {
   getEnumPersonTypes,
   getEnumGenderTypes,
   getEnumCities,
   getEnumAppointmentTypes,
+  getEnumProductTypes,
+  getEnumStockMovementTypes,
 } from "../../services/enums";
 import { useDispatch } from "react-redux";
 import {
@@ -36,9 +28,24 @@ import {
   setGenderTypes,
   setAppointmentTypes,
   setCities,
+  setProductTypes,
+  setStockMovementTypes,
 } from "../../redux/app/enums/enumsSlice";
 import { setUserInfo } from "../../redux/app/user/userSlice";
 import { jwtDecode } from "jwt-decode";
+
+// pages
+import PersonsList from "../persons/personsList";
+import PersonsDetail from "../persons/personsDetail";
+import AppointmentCalendar from "../appointment/appointmentCalendar";
+import AppointmentList from "../appointment/appointmentList";
+import NotesList from "../notes/notesList";
+import ProductsList from "../products/productsList";
+import ProductsBrands from "../products/productsBrands";
+import AccountingGiro from "../accountingGiro";
+import AccountingRecord from "../accountingRecord";
+import StocksList from "../stocks/stocksList";
+import StocksMovements from "../stocks/stocksMovements";
 
 const Home = () => {
   const [isExtended, setIsExtended] = useState(true);
@@ -52,18 +59,28 @@ const Home = () => {
   }, []);
 
   const getEnums = async () => {
-    const [enumPersonTypes, enumGenderTypes, enumCities, enumAppointmentTypes] =
-      await Promise.all([
-        getEnumPersonTypes(),
-        getEnumGenderTypes(),
-        getEnumCities(),
-        getEnumAppointmentTypes(),
-      ]);
+    const [
+      enumPersonTypes,
+      enumGenderTypes,
+      enumCities,
+      enumAppointmentTypes,
+      enumProductTypes,
+      enumStockMovementTypes,
+    ] = await Promise.all([
+      getEnumPersonTypes(),
+      getEnumGenderTypes(),
+      getEnumCities(),
+      getEnumAppointmentTypes(),
+      getEnumProductTypes(),
+      getEnumStockMovementTypes(),
+    ]);
 
     dispatch(setPersonTypes(enumPersonTypes));
     dispatch(setGenderTypes(enumGenderTypes));
     dispatch(setCities(enumCities));
     dispatch(setAppointmentTypes(enumAppointmentTypes));
+    dispatch(setProductTypes(enumProductTypes));
+    dispatch(setStockMovementTypes(enumStockMovementTypes));
     dispatch(
       setUserInfo({ user_name: decoded.first_name + " " + decoded.last_name })
     );
@@ -107,9 +124,9 @@ const Home = () => {
       icon: <LuPackage />,
       children: [
         {
-          id: "stock_content",
-          label: t("stock_content"),
-          link: "/stock-content",
+          id: "stock_list",
+          label: t("stock_list"),
+          link: "/stock-list",
         },
         {
           id: "stock_movements",
@@ -141,14 +158,14 @@ const Home = () => {
       icon: <LuSpade />,
       children: [
         {
-          id: "product_definitions",
-          label: t("product_definitions"),
-          link: "/product-definitions",
+          id: "products_list",
+          label: t("product_list"),
+          link: "/products-list",
         },
         {
-          id: "product_list",
-          label: t("product_list"),
-          link: "/product-list",
+          id: "products_brands",
+          label: t("brands"),
+          link: "/products-brands",
         },
       ],
     },
@@ -163,7 +180,10 @@ const Home = () => {
       />
 
       <ContentLayout isExtended={isExtended}>
-        <HeaderLayout></HeaderLayout>
+        <HeaderLayout
+          isExtended={isExtended}
+          setIsExtended={setIsExtended}
+        ></HeaderLayout>
 
         <Routes>
           {/* person routes */}
@@ -184,15 +204,12 @@ const Home = () => {
           <Route path="/notes" element={<NotesList />} />
 
           {/* stock routes */}
-          <Route path="/stock-content" element={<StockContent />} />
-          <Route path="/stock-movements" element={<StockMovements />} />
+          <Route path="/stock-list" element={<StocksList />} />
+          <Route path="/stock-movements" element={<StocksMovements />} />
 
-          <Route
-            path="/product-descriptions"
-            element={<ProductDescriptions />}
-          />
+          <Route path="/products-list" element={<ProductsList />} />
+          <Route path="/products-brands" element={<ProductsBrands />} />
 
-          <Route path="/product-list" element={<ProductList />} />
           <Route path="/accounting-giro" element={<AccountingGiro />} />
           <Route path="/accounting-record" element={<AccountingRecord />} />
         </Routes>

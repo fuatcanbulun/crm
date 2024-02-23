@@ -16,6 +16,9 @@ const validations = {
   validation_required: (val) => {
     return val.length > 0;
   },
+  validation_required_selection: (val) => {
+    return val.length > 0;
+  },
 };
 
 const useValidate = () => {
@@ -28,6 +31,9 @@ const useValidate = () => {
         if (validationProperty === valuesProperty) {
           if (
             validation[validationProperty].includes("validation_required") ||
+            validation[validationProperty].includes(
+              "validation_required_selection"
+            ) ||
             (values[valuesProperty] !== "" &&
               values[valuesProperty] !== null &&
               values[valuesProperty] !== undefined)

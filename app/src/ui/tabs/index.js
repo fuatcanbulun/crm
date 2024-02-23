@@ -10,7 +10,9 @@ const Tabs = ({ options, value, onChange, className }) => {
       <div className="ui-tabs-controls">
         {options.map((option) => (
           <div
-            className="ui-tabs-controls-button"
+            className={`ui-tabs-controls-button ${
+              option.value == value ? "ui-tabs-selected" : ""
+            }`}
             onClick={() => onChange(option.value)}
           >
             <span

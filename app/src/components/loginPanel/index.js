@@ -39,6 +39,7 @@ const LoginPanel = ({ handleLogin }) => {
         <FormField className="mt10">
           <FormLabel label={t("password")} />
           <TextInput
+            type="password"
             id="password"
             value={loginFormValues.password}
             onChange={(val) =>
@@ -46,12 +47,14 @@ const LoginPanel = ({ handleLogin }) => {
             }
           />
         </FormField>
-        <BasicButton
-          className="mt20"
-          label={t("login")}
-          icon={<AiOutlineLogin />}
-          onClick={() => onLogin()}
-        />
+        <div className="comp-login-panel-right-buttons">
+          <BasicButton
+            className="mt20"
+            label={t("login")}
+            icon={<AiOutlineLogin />}
+            onClick={() => onLogin()}
+          />
+        </div>
       </div>
     </div>
   );

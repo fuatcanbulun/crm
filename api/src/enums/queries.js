@@ -8,6 +8,7 @@ const getEnumExpenseTypes = "SELECT * FROM enum_expense_types";
 const getEnumPaymentTypes = "SELECT * FROM enum_payment_types";
 const getEnumCurrencyTypes = "SELECT * FROM enum_currency_types";
 const getEnumStockMovementTypes = "SELECT * FROM enum_stock_movement_types";
+const getEnumProductTypes = "SELECT * FROM enum_product_types";
 
 export default {
   getEnumPersonTypes,
@@ -20,4 +21,5 @@ export default {
   getEnumPaymentTypes,
   getEnumCurrencyTypes,
   getEnumStockMovementTypes,
+  getEnumProductTypes,
 };

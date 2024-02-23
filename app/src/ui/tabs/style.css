@@ -37,3 +37,23 @@
   height: 6px;
   background-color: var(--color14);
 }
+
+@media screen and (max-width: 576px) {
+  .ui-tabs {
+    width: 100%;
+  }
+
+  .ui-tabs-controls {
+    width: 100%;
+    display: flex;
+  }
+  .ui-tabs-controls-button {
+    width: 100%;
+  }
+  .ui-tabs-slider-line {
+    display: none;
+  }
+  .ui-tabs-controls-button.ui-tabs-selected {
+    border-bottom: 5px solid var(--color14);
+  }
+}

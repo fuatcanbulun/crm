@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react";
-import TextInput from "../../../ui/inputs/textInput";
-import SingleSelectInput from "../../../ui/inputs/singleSelectInput";
-import TextArea from "../../../ui/inputs/textArea";
 import BasicButton from "../../../ui/buttons/basicButton";
 import PageRow from "../../../ui/rows/pageRow";
 import PageColumn from "../../../ui/columns/pageColumn";
-import FormLabel from "../../../ui/labels/formLabel";
 import TitleLabel from "../../../ui/labels/titleLabel";
 import PageLayout from "../../../ui/layouts/pageLayout";
 import Table from "../../../ui/table";
-import FormModal from "../../../ui/modals/formModal";
-import FormRow from "../../../ui/rows/formRow";
-import FormColumn from "../../../ui/columns/formColumn";
-import FormField from "../../../ui/fields/formField";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import DatePicker from "../../../ui/inputs/datePicker";
-import TimePicker from "../../../ui/inputs/timePicker";
+
 import {
   getAppointments,
   updateAppointment,
@@ -174,7 +164,10 @@ const AppointmentList = ({}) => {
           appointmentModalData ? t("edit_appointment") : t("new_appointment")
         }
         visibility={appointmentModal}
-        onCancel={() => setAppointmentModal(false)}
+        onCancel={() => {
+          setAppointmentModal(false);
+          setAppointmentModalData(null);
+        }}
         onSave={(values) =>
           appointmentModalData
             ? confirmUpdateAppointment(values)

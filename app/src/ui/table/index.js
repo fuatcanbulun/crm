@@ -4,9 +4,11 @@ import { exportExcel, exportPdf } from "./export";
 import "./style.css";
 import TextInput from "../../ui/inputs/textInput";
 import DatePicker from "../../ui/inputs/datePicker";
+import BasicButton from "../../ui/buttons/basicButton";
 import SingleSelectInput from "../../ui/inputs/singleSelectInput";
-import { LuFilter, LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { LuCheck, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { VscListFilter } from "react-icons/vsc";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Table = ({ tableOptions, tableTitle, className }) => {
   let timeoutId = 0;
@@ -33,6 +35,13 @@ const Table = ({ tableOptions, tableTitle, className }) => {
 
   const [tableOptionsData, setTableOptionsData] = useState(tableOptions);
   const [tableData, setTableData] = useState(tableOptions?.data);
+  const [viewWidth, setViewWidth] = useState(0);
+  const [headerVisibility, setHeaderVisibility] = useState(true);
+
+  useEffect(() => {
+    calculateView(window.innerWidth);
+    window.addEventListener("resize", () => calculateView(window.innerWidth));
+  }, []);
 
   const inputRef = useRef();
 
@@ -285,7 +294,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
       newFilters = newFilters?.filter((item) => item.field != column.field);
     }
 
-    handleTableQuery(newFilters, activePage, rowCount);
     setActiveFilters(newFilters);
   };
 
@@ -313,7 +321,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
       newFilters = newFilters?.filter((item) => item.field != column.field);
     }
 
-    handleTableQuery(newFilters, activePage, rowCount);
     setActiveFilters(newFilters);
   };
 
@@ -350,16 +357,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
       setTableData(tableOptions?.data);
     }
   }, [activeFilters]);
-
-  const selectColumn = (val) => {
-    let newData = [...activeColumns];
-    if (activeColumns?.map((item) => item.field).includes(val.field)) {
-      newData = newData?.filter((item) => item.field != val.field);
-    } else {
-      newData.push(val);
-    }
-    setActiveColumns(newData);
-  };
 
   const selectSorting = (column) => {
     let direction = "asc";
@@ -459,376 +456,181 @@ const Table = ({ tableOptions, tableTitle, className }) => {
     }, 1500);
   };
 
-  const handleTableQuery = async (activeFilters, activePage, rowCount) => {};
+  const calculateView = (innerWidth) => {
+    setViewWidth(innerWidth);
+
+    if (innerWidth < 576) {
+      setHeaderVisibility(false);
+    } else {
+      setHeaderVisibility(true);
+    }
+  };
 
   return (
     <div className={`ui-table ${className}`}>
-      {/* <div className="ui-table-topbar">
-        <div className="ui-table-topbar-title">
-          <span>{tableTitle}</span>
-        </div>
-        <div className="ui-table-topbar-controls">
-          <div className="ui-table-topbar-buttons">
-            {tableOptionsData?.headers?.dynamicButtons
-              ?.filter((button) => !button.operation)
-              ?.map((button) => (
-                <>
-                  {(button.disabled === false ||
-                    (button.disabled !== true && selectedRows?.length > 0)) && (
-                    <button
-                      type="button"
-                      className="ui-table-topbar-button"
-                      onClick={() =>
-                        button._onClick(
-                          tableOptions?.selectionMode == "multiple"
-                            ? selectedRows
-                            : selectedRows?.length > 0
-                            ? selectedRows[0]
-                            : {},
-                          tableData
-                        )
-                      }
-                    >
-                      <i className={button.icon}></i>
-                      <span>{button.label}</span>
-                    </button>
-                  )}
-                </>
-              ))}
-          </div>
-          {tableOptionsData?.headers?.dynamicButtons?.filter(
-            (button) => button.operation
-          )?.length > 0 && (
-            <div className="ui-table-topbar-operations">
-              {operationsMenu && (
-                <div
-                  className="ui-table-mask"
-                  onClick={() => setOperationsMenu(false)}
-                ></div>
-              )}
-              <button
-                type="button"
-                className="ui-table-topbar-operations-button"
-                onClick={() => setOperationsMenu(!operationsMenu)}
-              >
-                <i className="pi pi-cog"></i>
-              </button>
-              {operationsMenu && (
-                <div className="ui-table-topbar-operations-menu">
-                  {tableOptionsData?.headers?.dynamicButtons
-                    ?.filter((button) => button.operation)
-                    ?.map((button) => (
-                      <>
-                        {button.disabled !== true &&
-                          selectedRows?.length > 0 && (
-                            <button
-                              type="button"
-                              className="ui-table-topbar-button"
-                              onClick={() =>
-                                button._onClick(
-                                  tableOptions?.selectionMode == "multiple"
-                                    ? selectedRows
-                                    : selectedRows?.length > 0
-                                    ? selectedRows[0]
-                                    : {},
-                                  tableData
-                                )
-                              }
-                            >
-                              <i className={button.icon}></i>
-                              <span>{button.label}</span>
-                            </button>
-                          )}
-                      </>
-                    ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="ui-table-topbar-columns">
-            {columnsMenu && (
-              <div
-                className="ui-table-mask"
-                onClick={() => setColumnsMenu(false)}
-              ></div>
-            )}
-            <button
-              type="button"
-              className="ui-table-topbar-columns-button"
-              onClick={() => setColumnsMenu(!columnsMenu)}
-            >
-              <i className="pi pi-bars"></i>
-            </button>
-            {columnsMenu && (
-              <div className="ui-table-topbar-columns-menu">
-                <div
-                  className="ui-table-topbar-columns-menu-header"
-                  onClick={() =>
-                    setActiveColumns(
-                      activeColumns?.length == tableOptions?.columns?.length
-                        ? []
-                        : tableOptions?.columns
-                    )
-                  }
-                >
-                  <div
-                    className={`ui-table-topbar-columns-header-check ${
-                      activeColumns?.length == tableOptions?.columns?.length &&
-                      "active"
-                    } `}
-                  ></div>
-
-                  <span className="ui-table-topbar-columns-header-label">
-                    Hepsi
-                  </span>
-                </div>
-                <div className="ui-table-topbar-columns-menu-body">
-                  {tableOptions?.columns?.map((item) => (
-                    <div
-                      className="ui-table-topbar-columns-item"
-                      onClick={() => selectColumn(item)}
-                    >
-                      <div
-                        className={`ui-table-topbar-columns-item-check ${
-                          activeColumns
-                            ?.map((item) => item.field)
-                            .includes(item.field) && "active"
-                        } `}
-                      ></div>
-
-                      <span className="ui-table-topbar-columns-item-label">
-                        {item.header}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className={`ui-table-topbar-search ${searchInput && "active"}`}>
-            <input
-              className="ui-table-topbar-search-input"
-              placeholder="Search"
-              ref={inputRef}
-              value={searchInputValue}
-              onChange={(e) => {
-                handleSearch();
-                setSearchInputValue(e.target.value);
-              }}
-            ></input>
-
-            {searchInput ? (
-              <button
-                type="button"
-                className="ui-table-topbar-search-button"
-                onClick={() => {
-                  setTableData(tableOptions?.data);
-                  setSearchInputValue("");
-                  setSearchInput(false);
-                }}
-              >
-                <i className="pi pi-times"></i>
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="ui-table-topbar-search-button"
-                onClick={() => setSearchInput(true)}
-              >
-                <i className="pi pi-search"></i>
-              </button>
-            )}
-          </div>
-          <div className="ui-table-topbar-download">
-            {downloadMenu && (
-              <div
-                className="ui-table-mask"
-                onClick={() => setDownloadMenu(false)}
-              ></div>
-            )}
-            <button
-              type="button"
-              className="ui-table-topbar-download-button"
-              onClick={() => setDownloadMenu(!downloadMenu)}
-            >
-              <i className="pi pi-download"></i>
-            </button>
-            {downloadMenu && (
-              <div className="ui-table-topbar-download-menu">
-                {downloadOptions?.map((item) => (
-                  <>
-                    <div
-                      className="ui-table-topbar-download-item"
-                      onClick={() => item.onClick && item.onClick(tableData)}
-                    >
-                      <i className={item.icon}></i>
-                      <span>{item.label}</span>
-                    </div>
-                  </>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div> */}
       <div className="ui-table-scroll">
         <div className="ui-table-header">
-          <div className="ui-table-header-titles">
-            {!tableOptions?.isSelectionMode && (
-              <div className="ui-table-header-titles-selection"></div>
-            )}
-            {tableOptions?.isSelectionMode &&
-              tableOptions?.selectionMode !== "multiple" && (
-                <div className="ui-table-header-titles-radiobutton"></div>
+          <div className="ui-table-header-content">
+            <div className="ui-table-header-titles">
+              {!tableOptions?.isSelectionMode && (
+                <div className="ui-table-header-titles-selection"></div>
               )}
-            {tableOptions?.selectionMode == "multiple" && (
-              <div className="ui-table-header-titles-checkbox"></div>
-            )}
+              {tableOptions?.isSelectionMode &&
+                tableOptions?.selectionMode !== "multiple" && (
+                  <div className="ui-table-header-titles-radiobutton"></div>
+                )}
+              {tableOptions?.selectionMode == "multiple" && (
+                <div className="ui-table-header-titles-checkbox"></div>
+              )}
 
-            {tableOptions?.columns
-              ?.filter((column) =>
-                activeColumns?.map((item) => item.field).includes(column.field)
-              )
-              ?.map((column) => (
-                <div
-                  className={`ui-table-header-titles-column column-type-${column.dataType}`}
-                  style={{ minWidth: column.width && column.width }}
-                >
-                  <span className="ui-table-header-titles-title">
-                    {column.header}
-                  </span>
-                  <button
-                    type="button"
-                    className="ui-table-header-titles-sort"
-                    onClick={() => selectSorting(column)}
+              {tableOptions?.columns
+                ?.filter((column) =>
+                  activeColumns
+                    ?.map((item) => item.field)
+                    .includes(column.field)
+                )
+                ?.map((column) => (
+                  <div
+                    className={`ui-table-header-titles-column column-type-${column.dataType}`}
+                    style={{ minWidth: column.width && column.width }}
                   >
-                    {(sortParams.column == null ||
-                      sortParams.column != column.field ||
-                      sortParams.direction == null) && (
-                      <i className="pi pi-sort-alt"></i>
-                    )}
+                    <span className="ui-table-header-titles-title">
+                      {column.header}
+                    </span>
+                    <button
+                      type="button"
+                      className="ui-table-header-titles-sort"
+                      onClick={() => selectSorting(column)}
+                    >
+                      {(sortParams.column == null ||
+                        sortParams.column != column.field ||
+                        sortParams.direction == null) && (
+                        <i className="pi pi-sort-alt"></i>
+                      )}
 
-                    {sortParams.column == column.field &&
-                      sortParams.direction == "asc" && (
-                        <i className="pi pi-arrow-down ui-table-selected-sort"></i>
-                      )}
-                    {sortParams.column == column.field &&
-                      sortParams.direction == "desc" && (
-                        <i className="pi pi-arrow-up ui-table-selected-sort"></i>
-                      )}
-                  </button>
-                </div>
-              ))}
-          </div>
-          <div className="ui-table-header-filters">
-            {!tableOptions?.isSelectionMode && (
-              <div className="ui-table-header-filters-selection"></div>
-            )}
-            {tableOptions?.isSelectionMode &&
-              tableOptions?.selectionMode !== "multiple" && (
-                <div className="ui-table-header-filters-radiobutton"></div>
+                      {sortParams.column == column.field &&
+                        sortParams.direction == "asc" && (
+                          <i className="pi pi-arrow-down ui-table-selected-sort"></i>
+                        )}
+                      {sortParams.column == column.field &&
+                        sortParams.direction == "desc" && (
+                          <i className="pi pi-arrow-up ui-table-selected-sort"></i>
+                        )}
+                    </button>
+                  </div>
+                ))}
+            </div>
+            <div className="ui-table-header-filters">
+              {!tableOptions?.isSelectionMode && (
+                <div className="ui-table-header-filters-selection"></div>
               )}
-            {tableOptions?.selectionMode == "multiple" && (
-              <div
-                className={`ui-table-header-filters-checkbox ${
-                  selectedRows?.length == tableData?.length
-                    ? "ui-table-header-checkbox-filters-selected"
-                    : ""
-                } `}
-              >
+              {tableOptions?.isSelectionMode &&
+                tableOptions?.selectionMode !== "multiple" && (
+                  <div className="ui-table-header-filters-radiobutton"></div>
+                )}
+              {tableOptions?.selectionMode == "multiple" && (
                 <div
-                  className="ui-table-header-filters-select-all"
-                  onClick={() => handleSelectionAll()}
+                  className={`ui-table-header-filters-checkbox ${
+                    selectedRows?.length == tableData?.length
+                      ? "ui-table-header-checkbox-filters-selected"
+                      : ""
+                  } `}
                 >
-                  <div />
+                  <div
+                    className="ui-table-header-filters-select-all"
+                    onClick={() => handleSelectionAll()}
+                  >
+                    <div />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {tableOptions?.columns
-              ?.filter((column) =>
-                activeColumns?.map((item) => item.field).includes(column.field)
-              )
-              ?.map((column) => (
-                <div
-                  className={`ui-table-header-filters-column column-type-${column.dataType}`}
-                  style={{ minWidth: column.width && column.width }}
-                >
-                  {!column.disabledFilter && (
-                    <>
-                      <div className="ui-table-header-filters-input">
-                        {column.dataType == "text" && (
-                          <TextInput
-                            className="ui-table-input"
-                            onChange={(e) => {
-                              changeFilterValue(e, column);
-                            }}
-                          />
-                        )}
-                        {column.dataType == "dropdown" && (
-                          <SingleSelectInput
-                            className="ui-table-input"
-                            options={column.dropDownValues}
-                            onChange={(val) => changeFilterValue(val, column)}
-                          />
-                        )}
-                        {column.dataType == "date" && (
-                          <DatePicker
-                            className="ui-table-input"
-                            onChange={(val) => changeFilterValue(val, column)}
-                          />
-                        )}
-                      </div>
+              {tableOptions?.columns
+                ?.filter((column) =>
+                  activeColumns
+                    ?.map((item) => item.field)
+                    .includes(column.field)
+                )
+                ?.map((column) => (
+                  <div
+                    className={`ui-table-header-filters-column column-type-${column.dataType}`}
+                    style={{ minWidth: column.width && column.width }}
+                  >
+                    {!column.disabledFilter && (
+                      <>
+                        <div className="ui-table-header-filters-input">
+                          {column.dataType == "text" && (
+                            <TextInput
+                              className="ui-table-input"
+                              onChange={(e) => {
+                                changeFilterValue(e, column);
+                              }}
+                            />
+                          )}
+                          {column.dataType == "dropdown" && (
+                            <SingleSelectInput
+                              className="ui-table-input"
+                              options={column.dropDownValues}
+                              onChange={(val) => changeFilterValue(val, column)}
+                            />
+                          )}
+                          {column.dataType == "date" && (
+                            <DatePicker
+                              className="ui-table-input"
+                              onChange={(val) => changeFilterValue(val, column)}
+                            />
+                          )}
+                        </div>
 
-                      <button
-                        type="button"
-                        className="ui-table-header-filters-options"
-                        onClick={() => setVisibleFilterMenu(column)}
-                      >
-                        <VscListFilter />
-                      </button>
+                        <button
+                          type="button"
+                          className="ui-table-header-filters-options"
+                          onClick={() => setVisibleFilterMenu(column)}
+                        >
+                          <VscListFilter />
+                        </button>
 
-                      {visibleFilterMenu == column && (
-                        <>
-                          <div
-                            className="ui-table-mask"
-                            onClick={() => setVisibleFilterMenu(null)}
-                          ></div>
-                          <div className="ui-table-filter-menu">
-                            {filterOptions
-                              ?.filter((filter) =>
-                                column.filterOperator
-                                  ? filter?.id == column.filterOperator
-                                  : filter?.type.includes(column.dataType)
-                              )
-                              ?.map((filter) => (
-                                <div
-                                  className={`ui-table-filter-menu-item ${
-                                    activeFilters.find(
-                                      (item) =>
-                                        item.field == column.field &&
-                                        item.operator == filter?.id
-                                    ) && "active-filter"
-                                  }`}
-                                  onClick={() => {
-                                    changeFilterOperator(filter.id, column);
-                                    setVisibleFilterMenu(null);
-                                  }}
-                                >
-                                  <div className="ui-table-filter-menu-item-radio"></div>
-                                  <span className="ui-table-filter-menu-item-label">
-                                    {filter?.label}
-                                  </span>
-                                </div>
-                              ))}
-                          </div>
-                        </>
-                      )}
-                    </>
-                  )}
-                </div>
-              ))}
+                        {visibleFilterMenu == column && (
+                          <>
+                            <div
+                              className="ui-table-mask"
+                              onClick={() => setVisibleFilterMenu(null)}
+                            ></div>
+                            <div className="ui-table-filter-menu">
+                              {filterOptions
+                                ?.filter((filter) =>
+                                  column.filterOperator
+                                    ? filter?.id == column.filterOperator
+                                    : filter?.type.includes(column.dataType)
+                                )
+                                ?.map((filter) => (
+                                  <div
+                                    className={`ui-table-filter-menu-item ${
+                                      activeFilters.find(
+                                        (item) =>
+                                          item.field == column.field &&
+                                          item.operator == filter?.id
+                                      ) && "active-filter"
+                                    }`}
+                                    onClick={() => {
+                                      changeFilterOperator(filter.id, column);
+                                      setVisibleFilterMenu(null);
+                                    }}
+                                  >
+                                    <div className="ui-table-filter-menu-item-radio"></div>
+                                    <span className="ui-table-filter-menu-item-label">
+                                      {filter?.label}
+                                    </span>
+                                  </div>
+                                ))}
+                            </div>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
 
@@ -887,27 +689,53 @@ const Table = ({ tableOptions, tableTitle, className }) => {
                           ) : (
                             <>
                               {column.dataType == "text" && (
-                                <span className="ui-table-cell-text">
-                                  {row[column.field]}
-                                </span>
+                                <>
+                                  {viewWidth < 576 && (
+                                    <span className="ui-table-cell-header">
+                                      {column.header}
+                                    </span>
+                                  )}
+                                  <span className="ui-table-cell-text">
+                                    {row[column.field]}
+                                  </span>
+                                </>
                               )}
                               {column.dataType == "number" && (
-                                <span className="ui-table-cell-text">
-                                  {row[column.field]}
-                                </span>
+                                <>
+                                  {viewWidth < 576 && (
+                                    <span className="ui-table-cell-header">
+                                      {column.header}
+                                    </span>
+                                  )}
+                                  <span className="ui-table-cell-text">
+                                    {row[column.field]}
+                                  </span>
+                                </>
                               )}
                               {column.dataType == "date" && (
-                                <span className="ui-table-cell-text">
-                                  {row[column.field]
-                                    ? moment(
-                                        row[column.field],
-                                        "YYYY-MM-DD"
-                                      ).format("DD/MM/YYYY")
-                                    : ""}
-                                </span>
+                                <>
+                                  {viewWidth < 576 && (
+                                    <span className="ui-table-cell-header">
+                                      {column.header}
+                                    </span>
+                                  )}
+                                  <span className="ui-table-cell-text">
+                                    {row[column.field]
+                                      ? moment(
+                                          row[column.field],
+                                          "YYYY-MM-DD"
+                                        ).format("DD/MM/YYYY")
+                                      : ""}
+                                  </span>
+                                </>
                               )}
                               {column.dataType == "dropdown" && (
                                 <>
+                                  {viewWidth < 576 && (
+                                    <span className="ui-table-cell-header">
+                                      {column.header}
+                                    </span>
+                                  )}
                                   <span className="ui-table-cell-text">
                                     {
                                       column.dropDownValues.find(
@@ -920,6 +748,11 @@ const Table = ({ tableOptions, tableTitle, className }) => {
                               )}
                               {column.dataType == "refData" && (
                                 <>
+                                  {viewWidth < 576 && (
+                                    <span className="ui-table-cell-header">
+                                      {column.header}
+                                    </span>
+                                  )}
                                   <span className="ui-table-cell-text">
                                     {row["refData" + column.field]}
                                   </span>
@@ -951,7 +784,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
               activePage == 1 ? "ui-table-disabled-page" : ""
             }`}
             onClick={() => {
-              handleTableQuery(activeFilters, activePage - 1, rowCount);
               setActivePage(activePage - 1);
             }}
           >
@@ -964,7 +796,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
                 activePage == index + 1 ? "ui-table-active-page" : ""
               }`}
               onClick={() => {
-                handleTableQuery(activeFilters, index + 1, rowCount);
                 setActivePage(index + 1);
               }}
             >
@@ -977,7 +808,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
               pageCount == activePage ? "ui-table-disabled-page" : ""
             }`}
             onClick={() => {
-              handleTableQuery(activeFilters, activePage + 1, rowCount);
               setActivePage(activePage + 1);
             }}
           >
@@ -987,7 +817,6 @@ const Table = ({ tableOptions, tableTitle, className }) => {
           <SingleSelectInput
             options={rowCountOptions}
             onChange={(val) => {
-              handleTableQuery(activeFilters, activePage, val);
               setRowCount(val);
             }}
             value={rowCount}

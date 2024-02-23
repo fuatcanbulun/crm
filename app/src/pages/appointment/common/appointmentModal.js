@@ -64,7 +64,7 @@ const AppointmentModal = ({
   const appointmentFormBody = () => {
     return (
       <FormRow className="col-12">
-        <FormColumn className="col-6">
+        <FormColumn className="xs:col-12 sm:col-12 col-6">
           <FormField>
             <FormLabel label={t("person")} />
             <SingleSelectInput
@@ -118,7 +118,7 @@ const AppointmentModal = ({
             {formError.date && <FormErrorMessage message={formError.date} />}
           </FormField>
         </FormColumn>
-        <FormColumn className="col-6">
+        <FormColumn className="xs:col-12 sm:col-12 col-6">
           <FormField>
             <FormLabel label={t("start_time")} />
             <TimePicker

@@ -11,6 +11,10 @@ import enumsRoutes from "./src/enums/routes.js";
 import personsRoutes from "./src/persons/routes.js";
 import appointmentsRoutes from "./src/appointments/routes.js";
 import notesRoutes from "./src/notes/routes.js";
+import productsRoutes from "./src/products/routes.js";
+import brandsRoutes from "./src/brands/routes.js";
+import movementsRoutes from "./src/movements/routes.js";
+import stocksRoutes from "./src/stocks/routes.js";
 
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -46,5 +50,9 @@ app.use("/lacehair/api/v1/enums", enumsRoutes);
 app.use("/lacehair/api/v1/persons", personsRoutes);
 app.use("/lacehair/api/v1/appointments", appointmentsRoutes);
 app.use("/lacehair/api/v1/notes", notesRoutes);
+app.use("/lacehair/api/v1/products", productsRoutes);
+app.use("/lacehair/api/v1/brands", brandsRoutes);
+app.use("/lacehair/api/v1/movements", movementsRoutes);
+app.use("/lacehair/api/v1/stocks", stocksRoutes);
 
 app.listen(port, () => console.log(`app listening on ${port}`));

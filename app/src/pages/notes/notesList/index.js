@@ -148,7 +148,10 @@ const NotesList = ({}) => {
         data={noteModalData}
         title={t("new_note")}
         visibility={noteModal}
-        onCancel={() => setNoteModal(false)}
+        onCancel={() => {
+          setNoteModal(false);
+          setNoteModalData(null);
+        }}
         onSave={(values) =>
           noteModalData ? confirmUpdateNote(values) : confirmAddNote(values)
         }
