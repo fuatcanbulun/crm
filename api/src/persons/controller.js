@@ -1,6 +1,9 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
 import { uuid } from "uuidv4";
+import { updateAppointmentByPersonId } from "../appointments/controller.js";
+import { updateNoteByPersonId } from "../notes/controller.js";
+import { updateAccountingByPersonId } from "../accountings/controller.js";
 
 const getPersons = (req, res) => {
   pool.query(queries.getPersons, (error, results) => {
@@ -99,13 +102,42 @@ const updatePerson = (req, res) => {
       address,
       created_by,
     ],
-    (error, results) => {
+    async (error, results) => {
       if (error) throw error;
-      res
-        .status(200)
-        .json({ message: "Person updated successfully", refresh: true });
+      const appointment_updated = await updateAppointmentByPersonId(
+        id,
+        first_name,
+        last_name
+      );
+      const note_updated = await updateNoteByPersonId(
+        id,
+        first_name,
+        last_name
+      );
+      const accounting_updated = await updateAccountingByPersonId(
+        id,
+        first_name,
+        last_name
+      );
+
+      res.status(200).json({
+        message: "Person updated successfully",
+        refresh: true,
+        appointment_updated: appointment_updated,
+        note_updated: note_updated,
+        accounting_updated: accounting_updated,
+      });
     }
   );
+};
+
+export const getPersonDataById = async (id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(queries.getPersonById, [id], (error, results) => {
+      if (error) reject(error);
+      resolve(results.rows[0]);
+    });
+  });
 };
 
 export default {

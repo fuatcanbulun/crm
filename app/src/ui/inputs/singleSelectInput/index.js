@@ -11,6 +11,12 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
   const [filteredOptions, setFilteredOptions] = useState(options);
 
   useEffect(() => {
+    if (value) {
+      setSelected(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
     let newData;
     if (options?.length > 0) {
       newData = options.sort(function (a, b) {
@@ -62,7 +68,9 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
         className="ui-single-select-input-value"
         onClick={() => setOptionsVisibility(!optionsVisibility)}
       >
-        <span>{options.find((option) => option.value == selected)?.label}</span>
+        <span>
+          {options?.find((option) => option.value == selected)?.label}
+        </span>
         <LuChevronDown />
       </div>
       {optionsVisibility && (
@@ -77,7 +85,7 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
             >
               <span>Seçiniz</span>
             </div>
-            {filteredOptions.map((option, index) => (
+            {filteredOptions?.map((option, index) => (
               <div
                 key={index}
                 className="ui-single-select-input-option"

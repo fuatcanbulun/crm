@@ -1,4 +1,5 @@
 const getBrands = "SELECT * FROM brands";
+const getBrandById = "SELECT * FROM brands WHERE id = $1";
 const addBrand =
   "INSERT INTO brands (id, label, created_by, created_at) VALUES ($1, $2, $3, NOW())";
 const removeBrandById = "DELETE FROM brands WHERE id = $1";
@@ -10,4 +11,5 @@ export default {
   addBrand,
   removeBrandById,
   updateBrand,
+  getBrandById,
 };

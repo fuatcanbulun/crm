@@ -99,12 +99,12 @@ const NoteModal = ({ data, title, onSave, onCancel, visibility, persons }) => {
         {
           label: t("cancel"),
           onClick: () => onCancel(),
-          icon: <AiOutlineClose />,
+          icon: <AiOutlineClose size={20} />,
         },
         {
           label: t("save"),
           onClick: () => handleValidation(formValues),
-          icon: <LuCheck />,
+          icon: <LuCheck size={20} />,
         },
       ]}
     />

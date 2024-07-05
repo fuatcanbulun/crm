@@ -19,7 +19,10 @@ const ConfirmModal = ({
           <div className="ui-confirm-modal-box">
             <div className="ui-confirm-modal-box-header">
               <span>{title}</span>
-              <IconButton onClick={() => close()} icon={<AiOutlineClose />} />
+              <IconButton
+                onClick={() => close()}
+                icon={<AiOutlineClose size={20} />}
+              />
             </div>
             <div className="ui-confirm-modal-box-body">{message}</div>
             <div className="ui-confirm-modal-box-footer">

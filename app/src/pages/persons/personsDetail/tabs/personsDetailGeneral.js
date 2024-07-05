@@ -87,7 +87,7 @@ const PersonsDetailGeneral = ({ data, getRequiredData }) => {
         <PageColumn className="col-6">
           <BasicButton
             label={t("edit")}
-            icon={<LuPen />}
+            icon={<LuPen size={15} />}
             className="mt10"
             onClick={() => setPersonModal(true)}
           />

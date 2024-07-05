@@ -15,8 +15,6 @@
 }
 
 .ui-basic-button > svg {
-  min-width: 25px;
-  height: 25px;
   color: var(--text01);
 }
 

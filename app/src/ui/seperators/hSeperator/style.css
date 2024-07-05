@@ -1,0 +1,15 @@
+.ui-h-seperator {
+  height: 10px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-h-seperator:before {
+  content: " ";
+  height: 1px;
+  width: 100%;
+  background-color: var(--color05);
+}

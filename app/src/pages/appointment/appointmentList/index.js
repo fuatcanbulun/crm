@@ -25,7 +25,13 @@ import ConfirmModal from "../../../ui/modals/confirmModal";
 const AppointmentList = ({}) => {
   const { toastMessage } = useToastMessage();
   const { t } = useTranslation();
-  const { appointmentTypes } = useSelector((state) => state.enums);
+  const { appointmentTypes, appointmentStatusTypes } = useSelector(
+    (state) => state.enums
+  );
+
+  console.log("appointmentTypes1", appointmentTypes);
+  console.log("appointmentStatusTypes1", appointmentStatusTypes);
+
   const [persons, setPersons] = useState([]);
   const [appointmentModal, setAppointmentModal] = useState(false);
   const [appointmentModalData, setAppointmentModalData] = useState(null);
@@ -67,6 +73,14 @@ const AppointmentList = ({}) => {
         }),
       },
       {
+        field: "appointment_type",
+        header: t("appointment_type"),
+        dataType: "dropdown",
+        dropDownValues: appointmentStatusTypes.map((item) => {
+          return { ...item, value: item.id, label: t(item.tr) };
+        }),
+      },
+      {
         field: "created_by",
         header: t("created_by"),
         dataType: "text",
@@ -83,7 +97,7 @@ const AppointmentList = ({}) => {
   const [tableData, setTableData] = useState(initialTableData);
 
   useEffect(() => {
-    if (appointmentTypes.length > 0) {
+    if (appointmentTypes.length > 0 && appointmentStatusTypes.length > 0) {
       getRequiredData();
     }
   }, [appointmentTypes]);
@@ -94,20 +108,10 @@ const AppointmentList = ({}) => {
       getPersons(),
     ]);
 
-    const newData = [];
-    for (const item of appointmentsData) {
-      const matchedData = personsData.find(
-        (person) => person.id == item.person_id
-      );
-      let person_name = "";
-      if (matchedData) {
-        person_name = matchedData.first_name + " " + matchedData.last_name;
-      }
-      newData.push({ ...item, person_name: person_name });
-    }
+    console.log("appointmentsData", appointmentsData);
 
     setPersons(personsData);
-    setTableData({ ...initialTableData, data: newData });
+    setTableData({ ...initialTableData, data: appointmentsData });
   };
 
   const confirmAddAppointment = async (values) => {
@@ -159,6 +163,7 @@ const AppointmentList = ({}) => {
   return (
     <PageLayout>
       <AppointmentModal
+        isEdit={appointmentModalData}
         data={appointmentModalData}
         title={
           appointmentModalData ? t("edit_appointment") : t("new_appointment")
@@ -184,41 +189,38 @@ const AppointmentList = ({}) => {
           {
             label: t("no"),
             onClick: () => setAppointmentDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeleteAppointment(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
 
       <PageRow className="col-12">
-        <PageColumn className="col-12">
+        <PageColumn className="col-6">
           <TitleLabel label={t("appointment_list")} />
         </PageColumn>
-      </PageRow>
-
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new")}
-            icon={<LuPlus />}
+            icon={<LuPlus size={20} />}
             onClick={() => setAppointmentModal(true)}
           />
           {selectedAppointment && (
             <>
               <BasicButton
                 label={t("edit")}
-                icon={<LuPen />}
+                icon={<LuPen size={15} />}
                 onClick={() => {
                   setAppointmentModalData(selectedAppointment);
                 }}
               />
               <BasicButton
                 label={t("delete")}
-                icon={<LuTrash />}
+                icon={<LuTrash size={20} />}
                 onClick={() => setAppointmentDeleteModal(true)}
               />
             </>
@@ -228,11 +230,7 @@ const AppointmentList = ({}) => {
 
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="Kişi Listesi"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="Kişi Listesi" />
         </PageColumn>
       </PageRow>
     </PageLayout>

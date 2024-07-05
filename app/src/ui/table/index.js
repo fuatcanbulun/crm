@@ -775,7 +775,7 @@ const Table = ({ tableOptions, tableTitle, className }) => {
       </div>
       <div className="ui-table-footer">
         <div className="ui-table-footer-left">
-          <span>{`${tableData?.length} result found`}</span>
+          <span>{`${tableData?.length} Sonuç Bulundu`}</span>
         </div>
         <div className="ui-table-footer-pager">
           <button

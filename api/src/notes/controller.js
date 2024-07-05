@@ -1,6 +1,7 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
 import { uuid } from "uuidv4";
+import { getPersonDataById } from "../persons/controller.js";
 
 const getNotes = (req, res) => {
   pool.query(queries.getNotes, (error, results) => {
@@ -17,12 +18,15 @@ const getNotesByPersonId = (req, res) => {
   });
 };
 
-const addNote = (req, res) => {
+const addNote = async (req, res) => {
   const { person_id, note, created_by } = req.body;
+
+  const { first_name, last_name } = await getPersonDataById(person_id);
+  const person_name = first_name + " " + last_name;
 
   pool.query(
     queries.addNote,
-    [uuid(), person_id, note, created_by],
+    [uuid(), person_id, person_name, note, created_by],
     (error, results) => {
       if (error) throw error;
       res
@@ -55,6 +59,25 @@ const updateNote = (req, res) => {
         .json({ message: "Note updated successfully", refresh: true });
     }
   );
+};
+
+export const updateNoteByPersonId = async (
+  person_id,
+  first_name,
+  last_name
+) => {
+  const person_name = first_name + " " + last_name;
+
+  return new Promise((resolve, reject) => {
+    pool.query(
+      queries.updateNoteByPersonId,
+      [person_id, person_name],
+      (error, results) => {
+        if (error) reject(error);
+        resolve(true);
+      }
+    );
+  });
 };
 
 export default {

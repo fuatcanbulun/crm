@@ -2,6 +2,8 @@ const getEnumPersonTypes = "SELECT * FROM enum_person_types";
 const getEnumGenderTypes = "SELECT * FROM enum_gender_types";
 const getEnumCities = "SELECT * FROM enum_cities";
 const getEnumAppointmentTypes = "SELECT * FROM enum_appointment_types";
+const getEnumAppointmentStatusTypes =
+  "SELECT * FROM enum_appointment_status_types";
 const getEnumAccountingTypes = "SELECT * FROM enum_accounting_types";
 const getEnumIncomeTypes = "SELECT * FROM enum_income_types";
 const getEnumExpenseTypes = "SELECT * FROM enum_expense_types";
@@ -15,6 +17,7 @@ export default {
   getEnumGenderTypes,
   getEnumCities,
   getEnumAppointmentTypes,
+  getEnumAppointmentStatusTypes,
   getEnumAccountingTypes,
   getEnumIncomeTypes,
   getEnumExpenseTypes,

@@ -3,35 +3,35 @@ import PageRow from "../../../../ui/rows/pageRow";
 import PageColumn from "../../../../ui/columns/pageColumn";
 import Table from "../../../../ui/table";
 import { useTranslation } from "react-i18next";
-import {
-  accountingTypes,
-  paymentTypes,
-  currencyTypes,
-  incomeTypes,
-} from "../../../../constants/types";
 import BasicButton from "../../../../ui/buttons/basicButton";
 import { LuPlus, LuEye } from "react-icons/lu";
+import { useSelector } from "react-redux";
 
-const PersonsDetailAccounting = ({}) => {
+const PersonsDetailAccounting = ({ data, getRequiredData }) => {
+  const {
+    accountingTypes,
+    paymentTypes,
+    incomeTypes,
+    currencyTypes,
+    expenseTypes,
+  } = useSelector((state) => state.enums);
+
   const { t } = useTranslation();
   const initialTableData = {
     tableId: "test",
     isSelectionMode: true,
     columns: [
       {
-        field: "accounting_type",
-        header: t("accounting_type"),
-        dataType: "dropdown",
-        dropDownValues: accountingTypes.map((item) => {
-          return { ...item, value: item.id, label: t(item.label) };
-        }),
+        field: "created_at",
+        header: t("created_at"),
+        dataType: "date",
       },
       {
-        field: "payment_type",
-        header: t("payment_type"),
+        field: "accounting_type_id",
+        header: t("accounting_type"),
         dataType: "dropdown",
-        dropDownValues: paymentTypes.map((item) => {
-          return { ...item, value: item.id, label: t(item.label) };
+        dropDownValues: accountingTypes?.map((item) => {
+          return { ...item, value: item.id, label: t(item.tr) };
         }),
       },
       {
@@ -40,19 +40,27 @@ const PersonsDetailAccounting = ({}) => {
         dataType: "text",
       },
       {
-        field: "currency_type",
+        field: "currency_type_id",
         header: t("currency_type"),
         dataType: "dropdown",
-        dropDownValues: currencyTypes.map((item) => {
-          return { ...item, value: item.id, label: t(item.label) };
+        dropDownValues: currencyTypes?.map((item) => {
+          return { ...item, value: item.id, label: t(item.tr) };
         }),
       },
       {
-        field: "income_type",
-        header: t("income_type"),
+        field: "payment_type_id",
+        header: t("payment_type"),
         dataType: "dropdown",
-        dropDownValues: incomeTypes.map((item) => {
-          return { ...item, value: item.id, label: t(item.label) };
+        dropDownValues: paymentTypes?.map((item) => {
+          return { ...item, value: item.id, label: t(item.tr) };
+        }),
+      },
+      {
+        field: "accounting_model_id",
+        header: t("accounting_model"),
+        dataType: "dropdown",
+        dropDownValues: incomeTypes.concat(expenseTypes)?.map((item) => {
+          return { ...item, value: item.id, label: t(item.tr) };
         }),
       },
       {
@@ -60,24 +68,43 @@ const PersonsDetailAccounting = ({}) => {
         header: t("created_by"),
         dataType: "text",
       },
-      {
-        field: "created_at",
-        header: t("created_at"),
-        dataType: "date",
-      },
     ],
-    data: [
-      {
-        id: 1,
-        accounting_type: 1,
-        payment_type: 1,
-        amount: "500",
-        currency_type: 1,
-        income_type: 1,
-        created_by: "Can Yılmaz",
-        created_at: "14/01/2024 15:30",
-      },
-    ],
+    headers: {
+      dynamicButtons: [
+        {
+          id: "add",
+          name: "add",
+          icon: "pi pi-plus",
+          type: "button",
+          label: "add",
+          _onClick: (secilenData, tumData) => {
+            console.log("secilenData", secilenData);
+          },
+          disabled: false,
+        },
+        {
+          id: "detail",
+          name: "detail",
+          icon: "pi pi-pencil",
+          type: "button",
+          label: "detail",
+          _onClick: (secilenData, tumData) => {
+            console.log("secilenData", secilenData);
+          },
+        },
+        {
+          id: "remove",
+          name: "remove",
+          icon: "pi pi-pencil",
+          type: "button",
+          label: "remove",
+          _onClick: (secilenData, tumData) => {
+            console.log("secilenData", secilenData);
+          },
+        },
+      ],
+    },
+    data: data,
   };
 
   const [tableData, setTableData] = useState(initialTableData);
@@ -86,12 +113,12 @@ const PersonsDetailAccounting = ({}) => {
     <>
       <PageRow className="col-12 mt10">
         <PageColumn className="col-12 flex justify-content-flex-end gap5">
-          <BasicButton
+          {/* <BasicButton
             label={t("new_entry")}
             icon={<LuPlus />}
             className="mt10"
-            //onClick={() => setPersonModal(true)}
-          />
+            onClick={() => setPersonModal(true)}
+          /> */}
           {/* {selectedPerson && (
             <BasicButton
               label={t("detail")}
@@ -104,11 +131,7 @@ const PersonsDetailAccounting = ({}) => {
       </PageRow>
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="accounting"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="appointments" />
         </PageColumn>
       </PageRow>
     </>

@@ -39,7 +39,7 @@ const ProductsList = ({}) => {
     getSelectionValue: (selectedData) => setSelectedProduct(selectedData),
     columns: [
       {
-        field: "brand",
+        field: "brand_name",
         header: t("brand"),
         dataType: "text",
       },
@@ -84,18 +84,8 @@ const ProductsList = ({}) => {
       getBrands(),
     ]);
 
-    const newData = [];
-    for (const item of productsData) {
-      const matchedData = brandsData.find((brand) => brand.id == item.brand_id);
-      let brand_label = "";
-      if (matchedData) {
-        brand_label = matchedData.label;
-      }
-      newData.push({ ...item, brand: brand_label });
-    }
-
     setBrands(brandsData);
-    setTableData({ ...initialTableData, data: newData });
+    setTableData({ ...initialTableData, data: productsData });
   };
 
   const confirmAddProduct = async (values) => {
@@ -170,22 +160,21 @@ const ProductsList = ({}) => {
           {
             label: t("no"),
             onClick: () => setProductDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeleteProduct(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
+
       <PageRow className="col-12">
-        <PageColumn className="col-12">
+        <PageColumn className="col-6">
           <TitleLabel label="Ürün Listesi" />
         </PageColumn>
-      </PageRow>
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new")}
             icon={<LuPlus />}
@@ -195,14 +184,14 @@ const ProductsList = ({}) => {
             <>
               <BasicButton
                 label={t("edit")}
-                icon={<LuPen />}
+                icon={<LuPen size={15} />}
                 onClick={() => {
                   setProductModalData(selectedProduct);
                 }}
               />
               <BasicButton
                 label={t("delete")}
-                icon={<LuTrash />}
+                icon={<LuTrash size={20} />}
                 onClick={() => setProductDeleteModal(true)}
               />
             </>
@@ -212,11 +201,7 @@ const ProductsList = ({}) => {
 
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="product_list"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="product_list" />
         </PageColumn>
       </PageRow>
     </PageLayout>

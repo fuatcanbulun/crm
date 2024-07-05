@@ -19,6 +19,7 @@ import useValidate from "../../../hooks/useValidate";
 const initialFormValues = {
   person_id: "",
   appointment_type: "",
+  appointment_status_type: "352b2f2e-187e-4493-9b55-c54df4290bb9",
   date: "",
   start_time: "",
   end_time: "",
@@ -32,9 +33,12 @@ const AppointmentModal = ({
   onCancel,
   visibility,
   persons,
+  isEdit,
 }) => {
   const { t } = useTranslation();
-  const { appointmentTypes } = useSelector((state) => state.enums);
+  const { appointmentTypes, appointmentStatusTypes } = useSelector(
+    (state) => state.enums
+  );
   const { userInfo } = useSelector((state) => state.user);
 
   const { validate } = useValidate();
@@ -147,6 +151,28 @@ const AppointmentModal = ({
               <FormErrorMessage message={formError.end_time} />
             )}
           </FormField>
+          {isEdit && (
+            <FormField className="mt10">
+              <FormLabel label={t("appointment_status")} />
+              <SingleSelectInput
+                id="appointment_status_type"
+                options={appointmentStatusTypes.map((item) => {
+                  return {
+                    ...item,
+                    value: item.id,
+                    label: t(item.tr),
+                  };
+                })}
+                onChange={(val) =>
+                  setFormValues({ ...formValues, appointment_status_type: val })
+                }
+                value={formValues.appointment_status_type}
+              />
+              {formError.appointment_status_type && (
+                <FormErrorMessage message={formError.appointment_status_type} />
+              )}
+            </FormField>
+          )}
         </FormColumn>
       </FormRow>
     );
@@ -162,12 +188,12 @@ const AppointmentModal = ({
         {
           label: t("cancel"),
           onClick: () => onCancel(),
-          icon: <AiOutlineClose />,
+          icon: <AiOutlineClose size={20} />,
         },
         {
           label: t("save"),
           onClick: () => handleValidation(formValues),
-          icon: <LuCheck />,
+          icon: <LuCheck size={20} />,
         },
       ]}
     />

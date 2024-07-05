@@ -81,7 +81,7 @@ const PersonsDetailCalls = ({}) => {
         <PageColumn className="col-12 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new_entry")}
-            icon={<LuPlus />}
+            icon={<LuPlus size={20} />}
             className="mt10"
             //onClick={() => setPersonModal(true)}
           />

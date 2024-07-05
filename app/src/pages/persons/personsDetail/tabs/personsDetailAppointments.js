@@ -116,11 +116,7 @@ const PersonsDetailAppointments = ({ data, getRequiredData }) => {
       </PageRow>
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="appointments"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="appointments" />
         </PageColumn>
       </PageRow>
     </>

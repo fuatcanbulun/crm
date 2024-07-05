@@ -154,37 +154,36 @@ const PersonsList = ({}) => {
           {
             label: t("no"),
             onClick: () => setPersonDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeletePerson(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
+
       <PageRow className="col-12">
-        <PageColumn className="col-12">
+        <PageColumn className="col-6">
           <TitleLabel label="Kişiler" />
         </PageColumn>
-      </PageRow>
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new")}
-            icon={<LuPlus />}
+            icon={<LuPlus size={20} />}
             onClick={() => setPersonModal(true)}
           />
           {selectedPerson && (
             <>
               <BasicButton
                 label={t("detail")}
-                icon={<LuEye />}
+                icon={<LuEye size={20} />}
                 onClick={() => navigate(`/persons-detail/${selectedPerson.id}`)}
               />
               <BasicButton
                 label={t("delete")}
-                icon={<LuTrash />}
+                icon={<LuTrash size={20} />}
                 onClick={() => setPersonDeleteModal(true)}
               />
             </>

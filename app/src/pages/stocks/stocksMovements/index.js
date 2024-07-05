@@ -40,12 +40,12 @@ const StocksMovements = ({}) => {
     getSelectionValue: (selectedData) => setSelectedMovement(selectedData),
     columns: [
       {
-        field: "brand",
+        field: "product_brand_name",
         header: t("brand"),
         dataType: "text",
       },
       {
-        field: "description",
+        field: "product_description",
         header: t("description"),
         dataType: "text",
       },
@@ -91,25 +91,7 @@ const StocksMovements = ({}) => {
       getProducts(),
     ]);
 
-    const newData = [];
-    for (const item of movementsData) {
-      const matchedProduct = productsData.find(
-        (product) => product.id == item.product_id
-      );
-
-      const matchedBrand = brandsData.find(
-        (brand) => brand.id == matchedProduct.brand_id
-      );
-
-      newData.push({
-        ...item,
-        brand: matchedBrand.label,
-        description: matchedProduct.description,
-        amount: item.amount,
-      });
-    }
-
-    setTableData({ ...initialTableData, data: newData });
+    setTableData({ ...initialTableData, data: movementsData });
   };
 
   const confirmAddMovement = async (values) => {
@@ -184,22 +166,21 @@ const StocksMovements = ({}) => {
           {
             label: t("no"),
             onClick: () => setMovementDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeleteMovement(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
+
       <PageRow className="col-12">
-        <PageColumn className="col-12">
+        <PageColumn className="col-6">
           <TitleLabel label="Stok Hareketleri" />
         </PageColumn>
-      </PageRow>
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           {/* <BasicButton
             label={t("new")}
             icon={<LuPlus />}
@@ -226,11 +207,7 @@ const StocksMovements = ({}) => {
 
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="movement_list"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="movement_list" />
         </PageColumn>
       </PageRow>
     </PageLayout>

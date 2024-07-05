@@ -8,6 +8,10 @@
   border-bottom: 1px solid var(--color05);
 }
 
+.ui-info-line:last-child {
+  border-bottom: none !important;
+}
+
 .ui-info-line-label {
   font-size: 14px;
   color: var(--text00);

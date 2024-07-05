@@ -57,7 +57,7 @@ const PersonsDetailNotes = ({ data, getRequiredData }) => {
       </PageRow>
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table tableOptions={tableData} tableTitle="notes" className="mt10" />
+          <Table tableOptions={tableData} tableTitle="notes" />
         </PageColumn>
       </PageRow>
     </>

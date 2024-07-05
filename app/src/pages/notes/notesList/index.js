@@ -80,20 +80,8 @@ const NotesList = ({}) => {
       getPersons(),
     ]);
 
-    const newData = [];
-    for (const item of notesData) {
-      const matchedData = personsData.find(
-        (person) => person.id == item.person_id
-      );
-      let person_name = "";
-      if (matchedData) {
-        person_name = matchedData.first_name + " " + matchedData.last_name;
-      }
-      newData.push({ ...item, person_name: person_name });
-    }
-
-    setTableData({ ...tableData, data: newData });
     setPersons(personsData);
+    setTableData({ ...tableData, data: notesData });
   };
 
   const confirmAddNote = async (values) => {
@@ -166,39 +154,38 @@ const NotesList = ({}) => {
           {
             label: t("no"),
             onClick: () => setNoteDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeleteNote(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
+
       <PageRow className="col-12">
-        <PageColumn className="col-12">
+        <PageColumn className="col-6">
           <TitleLabel label={t("notes")} />
         </PageColumn>
-      </PageRow>
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new")}
-            icon={<LuPlus />}
+            icon={<LuPlus size={20} />}
             onClick={() => setNoteModal(true)}
           />
           {selectedNote && (
             <>
               <BasicButton
                 label={t("edit")}
-                icon={<LuEye />}
+                icon={<LuEye size={15} />}
                 onClick={() => {
                   setNoteModalData(selectedNote);
                 }}
               />
               <BasicButton
                 label={t("delete")}
-                icon={<LuTrash />}
+                icon={<LuTrash size={20} />}
                 onClick={() => setNoteDeleteModal(true)}
               />
             </>
@@ -207,11 +194,7 @@ const NotesList = ({}) => {
       </PageRow>
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle={t("notes")}
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle={t("notes")} />
         </PageColumn>
       </PageRow>
     </PageLayout>

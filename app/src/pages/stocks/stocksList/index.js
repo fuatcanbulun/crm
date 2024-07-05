@@ -40,12 +40,12 @@ const StocksList = ({}) => {
     getSelectionValue: (selectedData) => setSelectedStock(selectedData),
     columns: [
       {
-        field: "brand",
+        field: "product_brand_name",
         header: t("brand"),
         dataType: "text",
       },
       {
-        field: "description",
+        field: "product_description",
         header: t("description"),
         dataType: "text",
       },
@@ -85,27 +85,9 @@ const StocksList = ({}) => {
     console.log("productsData", productsData);
     console.log("brandsData", brandsData);
 
-    const newData = [];
-    for (const item of stocksData) {
-      const matchedProduct = productsData.find(
-        (product) => product.id == item.product_id
-      );
-
-      const matchedBrand = brandsData.find(
-        (brand) => brand.id == matchedProduct.brand_id
-      );
-
-      newData.push({
-        ...item,
-        brand: matchedBrand.label,
-        description: matchedProduct.description,
-        amount: item.amount,
-      });
-    }
-
     setProducts(productsData);
     setBrands(brandsData);
-    setTableData({ ...initialTableData, data: newData });
+    setTableData({ ...initialTableData, data: stocksData });
   };
 
   const confirmAddStock = async (values) => {
@@ -157,25 +139,24 @@ const StocksList = ({}) => {
           {
             label: t("no"),
             onClick: () => setStockDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeleteStock(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
+
       <PageRow className="col-12">
-        <PageColumn className="col-12">
+        <PageColumn className="col-6">
           <TitleLabel label="Stok Listesi" />
         </PageColumn>
-      </PageRow>
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("stock_in")}
-            icon={<LuPlus />}
+            icon={<LuPlus size={20} />}
             onClick={() => {
               setStockType("in");
               setStockModal(true);
@@ -183,7 +164,7 @@ const StocksList = ({}) => {
           />
           <BasicButton
             label={t("stock_out")}
-            icon={<LuMinus />}
+            icon={<LuMinus size={20} />}
             onClick={() => {
               setStockType("out");
               setStockModal(true);
@@ -193,7 +174,7 @@ const StocksList = ({}) => {
             <>
               <BasicButton
                 label={t("delete")}
-                icon={<LuTrash />}
+                icon={<LuTrash size={20} />}
                 onClick={() => setStockDeleteModal(true)}
               />
             </>
@@ -203,11 +184,7 @@ const StocksList = ({}) => {
 
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="stock_list"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="stock_list" />
         </PageColumn>
       </PageRow>
     </PageLayout>

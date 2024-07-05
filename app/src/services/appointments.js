@@ -2,6 +2,9 @@ import { Get, Post, Put, Delete } from "./requests";
 
 export const getAppointments = async () => {
   let result;
+
+  console.log("getAppointments0");
+
   await Get(
     "appointments",
     (response) => {
@@ -29,8 +32,6 @@ export const getAppointmentsByPersonId = async (personId) => {
 };
 
 export const addAppointment = async (values, onSuccess) => {
-  console.log("addAppointmentValues", values);
-
   const postBody = values;
   let result;
   await Post(

@@ -51,6 +51,32 @@ const removeMovementById = (req, res) => {
 //   );
 // };
 
+export const updateMovementByBrandId = async (brand_id, brand_name) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      queries.updateMovementByBrandId,
+      [brand_id, brand_name],
+      (error, results) => {
+        if (error) reject(error);
+        resolve(true);
+      }
+    );
+  });
+};
+
+export const updateMovementByProductId = async (product_id, description) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      queries.updateMovementByProductId,
+      [product_id, description],
+      (error, results) => {
+        if (error) reject(error);
+        resolve(true);
+      }
+    );
+  });
+};
+
 export default {
   getMovements,
   //addMovement,

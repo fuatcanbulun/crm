@@ -1,6 +1,9 @@
 import pool from "../../db.js";
 import queries from "./queries.js";
 import { uuid } from "uuidv4";
+import { updateProductByBrandId } from "../products/controller.js";
+import { updateStockByBrandId } from "../stocks/controller.js";
+import { updateMovementByBrandId } from "../movements/controller.js";
 
 const getBrands = (req, res) => {
   pool.query(queries.getBrands, (error, results) => {
@@ -39,11 +42,31 @@ const updateBrand = (req, res) => {
 
   const { id, label, created_by } = req.body;
 
-  pool.query(queries.updateBrand, [id, label, created_by], (error, results) => {
-    if (error) throw error;
-    res
-      .status(200)
-      .json({ message: "Brand updated successfully", refresh: true });
+  pool.query(
+    queries.updateBrand,
+    [id, label, created_by],
+    async (error, results) => {
+      if (error) throw error;
+      const product_updated = await updateProductByBrandId(id, label);
+      const stock_updated = await updateStockByBrandId(id, label);
+      const movement_updated = await updateMovementByBrandId(id, label);
+      res.status(200).json({
+        message: "Brand updated successfully",
+        refresh: true,
+        product_updated: product_updated,
+        stock_updated: stock_updated,
+        movement_updated: movement_updated,
+      });
+    }
+  );
+};
+
+export const getBrandDataById = async (id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(queries.getBrandById, [id], (error, results) => {
+      if (error) reject(error);
+      resolve(results.rows[0]);
+    });
   });
 };
 

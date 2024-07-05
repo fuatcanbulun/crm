@@ -136,39 +136,38 @@ const ProductsBrands = ({}) => {
           {
             label: t("no"),
             onClick: () => setBrandDeleteModal(false),
-            icon: <AiOutlineClose />,
+            icon: <AiOutlineClose size={20} />,
           },
           {
             label: t("yes"),
             onClick: () => confirmDeleteBrand(),
-            icon: <LuCheck />,
+            icon: <LuCheck size={20} />,
           },
         ]}
       />
+
       <PageRow className="col-12">
-        <PageColumn className="col-12">
-          <TitleLabel label="Ürün Listesi" />
+        <PageColumn className="col-6">
+          <TitleLabel label="Markalar" />
         </PageColumn>
-      </PageRow>
-      <PageRow className="col-12">
-        <PageColumn className="col-12 flex justify-content-flex-end gap5">
+        <PageColumn className="col-6 flex justify-content-flex-end gap5">
           <BasicButton
             label={t("new")}
-            icon={<LuPlus />}
+            icon={<LuPlus size={20} />}
             onClick={() => setBrandModal(true)}
           />
           {selectedBrand && (
             <>
               <BasicButton
                 label={t("edit")}
-                icon={<LuPen />}
+                icon={<LuPen size={15} />}
                 onClick={() => {
                   setBrandModalData(selectedBrand);
                 }}
               />
               <BasicButton
                 label={t("delete")}
-                icon={<LuTrash />}
+                icon={<LuTrash size={20} />}
                 onClick={() => setBrandDeleteModal(true)}
               />
             </>
@@ -178,11 +177,7 @@ const ProductsBrands = ({}) => {
 
       <PageRow className="col-12">
         <PageColumn className="col-12">
-          <Table
-            tableOptions={tableData}
-            tableTitle="brand_list"
-            className="mt10"
-          />
+          <Table tableOptions={tableData} tableTitle="brand_list" />
         </PageColumn>
       </PageRow>
     </PageLayout>

@@ -258,7 +258,7 @@ const DatePicker = ({ value, onChange, className }) => {
         <span>{value ? moment(value).format("DD/MM/YYYY") : ""}</span>
         {value ? (
           <button onClick={() => onChange("")}>
-            <AiOutlineClose />
+            <AiOutlineClose size={20} />
           </button>
         ) : (
           <LuCalendar />

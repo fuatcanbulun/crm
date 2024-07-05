@@ -25,6 +25,12 @@ const getEnumAppointmentTypes = (req, res) => {
     res.status(200).json(results.rows);
   });
 };
+const getEnumAppointmentStatusTypes = (req, res) => {
+  pool.query(queries.getEnumAppointmentStatusTypes, (error, results) => {
+    if (error) throw error;
+    res.status(200).json(results.rows);
+  });
+};
 const getEnumAccountingTypes = (req, res) => {
   pool.query(queries.getEnumAccountingTypes, (error, results) => {
     if (error) throw error;
@@ -75,6 +81,7 @@ export default {
   getEnumGenderTypes,
   getEnumCities,
   getEnumAppointmentTypes,
+  getEnumAppointmentStatusTypes,
   getEnumAccountingTypes,
   getEnumIncomeTypes,
   getEnumExpenseTypes,

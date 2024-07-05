@@ -51,7 +51,7 @@ const LoginPanel = ({ handleLogin }) => {
           <BasicButton
             className="mt20"
             label={t("login")}
-            icon={<AiOutlineLogin />}
+            icon={<AiOutlineLogin size={20} />}
             onClick={() => onLogin()}
           />
         </div>

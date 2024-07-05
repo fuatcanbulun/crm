@@ -21,6 +21,12 @@ import {
   getEnumAppointmentTypes,
   getEnumProductTypes,
   getEnumStockMovementTypes,
+  getEnumAccountingTypes,
+  getEnumCurrencyTypes,
+  getEnumPaymentTypes,
+  getEnumIncomeTypes,
+  getEnumExpenseTypes,
+  getEnumAppointmentStatusTypes,
 } from "../../services/enums";
 import { useDispatch } from "react-redux";
 import {
@@ -30,6 +36,12 @@ import {
   setCities,
   setProductTypes,
   setStockMovementTypes,
+  setAccountingTypes,
+  setCurrencyTypes,
+  setPaymentTypes,
+  setIncomeTypes,
+  setExpenseTypes,
+  setAppointmentStatusTypes,
 } from "../../redux/app/enums/enumsSlice";
 import { setUserInfo } from "../../redux/app/user/userSlice";
 import { jwtDecode } from "jwt-decode";
@@ -42,8 +54,8 @@ import AppointmentList from "../appointment/appointmentList";
 import NotesList from "../notes/notesList";
 import ProductsList from "../products/productsList";
 import ProductsBrands from "../products/productsBrands";
-import AccountingGiro from "../accountingGiro";
-import AccountingRecord from "../accountingRecord";
+import AccountingAnalysis from "../accounting/accountingAnalysis";
+import AccountingList from "../accounting/accountingList";
 import StocksList from "../stocks/stocksList";
 import StocksMovements from "../stocks/stocksMovements";
 
@@ -66,6 +78,12 @@ const Home = () => {
       enumAppointmentTypes,
       enumProductTypes,
       enumStockMovementTypes,
+      enumAccountingTypes,
+      enumCurrencyTypes,
+      enumPaymentTypes,
+      enumIncomeTypes,
+      enumExpenseTypes,
+      enumAppointmentStatusTypes,
     ] = await Promise.all([
       getEnumPersonTypes(),
       getEnumGenderTypes(),
@@ -73,7 +91,15 @@ const Home = () => {
       getEnumAppointmentTypes(),
       getEnumProductTypes(),
       getEnumStockMovementTypes(),
+      getEnumAccountingTypes(),
+      getEnumCurrencyTypes(),
+      getEnumPaymentTypes(),
+      getEnumIncomeTypes(),
+      getEnumExpenseTypes(),
+      getEnumAppointmentStatusTypes(),
     ]);
+
+    console.log("enumAppointmentStatusTypes", enumAppointmentStatusTypes);
 
     dispatch(setPersonTypes(enumPersonTypes));
     dispatch(setGenderTypes(enumGenderTypes));
@@ -81,6 +107,12 @@ const Home = () => {
     dispatch(setAppointmentTypes(enumAppointmentTypes));
     dispatch(setProductTypes(enumProductTypes));
     dispatch(setStockMovementTypes(enumStockMovementTypes));
+    dispatch(setAccountingTypes(enumAccountingTypes));
+    dispatch(setCurrencyTypes(enumCurrencyTypes));
+    dispatch(setPaymentTypes(enumPaymentTypes));
+    dispatch(setIncomeTypes(enumIncomeTypes));
+    dispatch(setExpenseTypes(enumExpenseTypes));
+    dispatch(setAppointmentStatusTypes(enumAppointmentStatusTypes));
     dispatch(
       setUserInfo({ user_name: decoded.first_name + " " + decoded.last_name })
     );
@@ -141,14 +173,14 @@ const Home = () => {
       icon: <LuWallet2 />,
       children: [
         {
-          id: "giro",
-          label: t("giro"),
-          link: "/giro",
+          id: "accounting_list",
+          label: t("accounting_list"),
+          link: "/accounting-list",
         },
         {
-          id: "incomeExpense",
-          label: t("incomeExpense"),
-          link: "/income-expense",
+          id: "accounting_analysis",
+          label: t("accounting_analysis"),
+          link: "/accounting-analysis",
         },
       ],
     },
@@ -207,11 +239,13 @@ const Home = () => {
           <Route path="/stock-list" element={<StocksList />} />
           <Route path="/stock-movements" element={<StocksMovements />} />
 
+          {/* product routes */}
           <Route path="/products-list" element={<ProductsList />} />
           <Route path="/products-brands" element={<ProductsBrands />} />
 
-          <Route path="/accounting-giro" element={<AccountingGiro />} />
-          <Route path="/accounting-record" element={<AccountingRecord />} />
+          {/* accounting routes */}
+          <Route path="/accounting-analysis" element={<AccountingAnalysis />} />
+          <Route path="/accounting-list" element={<AccountingList />} />
         </Routes>
       </ContentLayout>
     </ContainerLayout>

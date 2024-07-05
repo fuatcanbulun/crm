@@ -1,4 +1,7 @@
 .ui-title-label {
-  font-size: 24px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 20px;
   color: var(--text00);
+  display: block;
 }

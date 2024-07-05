@@ -11,7 +11,7 @@ const HeaderLayout = ({ className, children, isExtended, setIsExtended }) => {
           isExtended ? "ui-header-layout-menu-button-extended" : ""
         }`}
         onClick={() => setIsExtended(!isExtended)}
-        icon={<FaBars />}
+        icon={<FaBars size={20} />}
       />
     </div>
   );

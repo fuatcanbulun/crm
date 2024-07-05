@@ -13,6 +13,11 @@ router.get(
   controller.getEnumAppointmentTypes
 );
 router.get(
+  "/appointment-status-types",
+  authenticateToken,
+  controller.getEnumAppointmentStatusTypes
+);
+router.get(
   "/accounting-types",
   authenticateToken,
   controller.getEnumAccountingTypes

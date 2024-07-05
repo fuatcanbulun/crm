@@ -12,7 +12,10 @@ const FormModal = ({ className, visibility, close, body, title, buttons }) => {
           <div className="ui-form-modal-box">
             <div className="ui-form-modal-box-header">
               <span>{title}</span>
-              <IconButton onClick={() => close()} icon={<AiOutlineClose />} />
+              <IconButton
+                onClick={() => close()}
+                icon={<AiOutlineClose size={20} />}
+              />
             </div>
             <div className="ui-form-modal-box-body">{body}</div>
             <div className="ui-form-modal-box-footer">

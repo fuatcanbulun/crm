@@ -812,6 +812,10 @@
   padding: 0 10px;
 }
 
+.ui-table-footer-left {
+  font-size: 14px;
+}
+
 .ui-table-footer-pager {
   height: 35px;
   display: flex;

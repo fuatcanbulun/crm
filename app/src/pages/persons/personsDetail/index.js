@@ -14,13 +14,14 @@ import { getPersonById } from "../../../services/persons";
 import { useParams } from "react-router-dom";
 import { getAppointmentsByPersonId } from "../../../services/appointments";
 import { getNotesByPersonId } from "../../../services/notes";
+import { getAccountingsByPersonId } from "../../../services/accountings";
 
 const PersonsDetail = ({}) => {
   const { t } = useTranslation();
   const [personGeneralData, setPersonGeneralData] = useState(null);
   const [personNotesData, setPersonNotesData] = useState(null);
   const [personAppointmentsData, setPersonAppointmentsData] = useState(null);
-  const [personAccounintingsData, setPersonAccountingsData] = useState(null);
+  const [personAccountingsData, setPersonAccountingsData] = useState(null);
   const [personCallsData, setPersonCallsData] = useState(null);
 
   const tabsOptions = [
@@ -39,15 +40,15 @@ const PersonsDetail = ({}) => {
       label: t("notes"),
       value: "notes",
     },
+    {
+      icon: "",
+      label: t("accounting"),
+      value: "accounting",
+    },
     // {
     //   icon: "",
     //   label: t("calls"),
     //   value: "calls",
-    // },
-    // {
-    //   icon: "",
-    //   label: t("accounting"),
-    //   value: "accounting",
     // },
   ];
   const { person_id } = useParams();
@@ -57,15 +58,18 @@ const PersonsDetail = ({}) => {
   }, []);
 
   const getRequiredData = async () => {
-    const [generalData, appointmentsData, notesData] = await Promise.all([
-      getPersonById(person_id),
-      getAppointmentsByPersonId(person_id),
-      getNotesByPersonId(person_id),
-    ]);
+    const [generalData, appointmentsData, notesData, accountingsData] =
+      await Promise.all([
+        getPersonById(person_id),
+        getAppointmentsByPersonId(person_id),
+        getNotesByPersonId(person_id),
+        getAccountingsByPersonId(person_id),
+      ]);
 
     setPersonGeneralData(generalData);
     setPersonAppointmentsData(appointmentsData);
     setPersonNotesData(notesData);
+    setPersonAccountingsData(accountingsData);
   };
 
   const [selectedTab, setSelectedTab] = useState(tabsOptions[0].value);
@@ -111,7 +115,12 @@ const PersonsDetail = ({}) => {
         />
       )}
       {selectedTab == "calls" && <PersonsDetailCalls />}
-      {selectedTab == "accounting" && <PersonsDetailAccounting />}
+      {selectedTab == "accounting" && (
+        <PersonsDetailAccounting
+          data={personAccountingsData}
+          getRequiredData={getRequiredData}
+        />
+      )}
     </PageLayout>
   );
 };

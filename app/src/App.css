@@ -21,6 +21,11 @@ body {
   --color13: #b7def8;
   --color14: #eb4863;
   --color15: #f8ced5;
+  --color16: #dcf4ff;
+
+  --color21: #f03939;
+  --color22: #ffae00;
+  --color23: #00b88a;
 
   --text00: #000000;
   --text01: #ffffff;
@@ -62,6 +67,14 @@ body {
 
 .mt20 {
   margin-top: 20px !important;
+}
+
+.pt0 {
+  padding-top: 0 !important;
+}
+
+.pb0 {
+  padding-bottom: 0 !important;
 }
 
 .col-1 {
