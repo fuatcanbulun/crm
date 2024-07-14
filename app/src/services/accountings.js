@@ -43,6 +43,8 @@ export const getAccountingsByDate = async (startDate, endDate) => {
 };
 
 export const addAccounting = async (values, onSuccess) => {
+  console.log("addAccountingvalues", values);
+
   const postBody = values;
   let result;
   await Post(

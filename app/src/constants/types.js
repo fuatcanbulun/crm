@@ -34,7 +34,7 @@ export const cityTypes = [
 export const appointmentTypes = [
   {
     id: 1,
-    label: "hairCare",
+    label: "hair_care",
   },
   {
     id: 2,
@@ -56,7 +56,7 @@ export const accountingTypes = [
 export const incomeTypes = [
   {
     id: 1,
-    label: "hairCare",
+    label: "hair_care",
   },
   {
     id: 2,

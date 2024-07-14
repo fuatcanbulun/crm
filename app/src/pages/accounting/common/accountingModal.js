@@ -15,6 +15,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import FormErrorMessage from "../../../ui/messages/formErrorMessage";
 import useValidate from "../../../hooks/useValidate";
+import moment from "moment";
 
 const initialFormValues = {
   accounting_type_id: "",
@@ -84,7 +85,11 @@ const AccountingModal = ({
     const response = validate(values, validation);
     setFormError(response);
     if (response === true) {
-      onSave({ ...values, created_by: userInfo.user_name });
+      onSave({
+        ...values,
+        created_by: userInfo.user_name,
+        date: moment().format("YYYY-MM-DD"),
+      });
     }
   };
 

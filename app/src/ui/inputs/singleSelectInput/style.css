@@ -85,3 +85,11 @@
   font-size: 14px;
   color: var(--text00);
 }
+
+.ui-options-top {
+  top: 37px;
+}
+
+.ui-options-bottom {
+  bottom: 37px;
+}

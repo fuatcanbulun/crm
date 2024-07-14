@@ -52,7 +52,6 @@
   min-height: 50px;
   padding: 10px;
   box-sizing: border-box;
-  max-height: calc(100vh - 210px);
 }
 
 .ui-form-modal-box-footer {
@@ -81,8 +80,8 @@
     border-top-left-radius: 0;
     border-bottom-right-radius: 10px;
   }
-  .ui-form-modal-box-body {
+  /* .ui-form-modal-box-body {
     height: calc(100vh - 110px);
     overflow-y: auto;
-  }
+  } */
 }

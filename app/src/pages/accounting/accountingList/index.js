@@ -130,7 +130,6 @@ const AccountingList = ({}) => {
   const confirmAddAccounting = async (values) => {
     setAccountingModal(false);
 
-    alert("xx");
     await addAccounting(values, async () => {
       getRequiredData();
       toastMessage({
@@ -140,22 +139,24 @@ const AccountingList = ({}) => {
         duration: 3000,
       });
 
-      await addStock(
-        {
-          product_id: values.product_id,
-          amount: values.piece,
-          created_by: values.created_by,
-          type: "out",
-        },
-        () => {
-          toastMessage({
-            title: "success",
-            text: "message_stock_dropped",
-            type: "success",
-            duration: 3000,
-          });
-        }
-      );
+      if (values.product_id) {
+        await addStock(
+          {
+            product_id: values.product_id,
+            amount: values.piece,
+            created_by: values.created_by,
+            type: "out",
+          },
+          () => {
+            toastMessage({
+              title: "success",
+              text: "message_stock_dropped",
+              type: "success",
+              duration: 3000,
+            });
+          }
+        );
+      }
     });
   };
 

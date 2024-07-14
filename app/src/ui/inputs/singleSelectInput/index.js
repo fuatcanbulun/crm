@@ -3,12 +3,14 @@ import "./style.css";
 import { LuChevronDown } from "react-icons/lu";
 
 const SingleSelectInput = ({ value, options, onChange, className }) => {
-  const inputOptions = useRef();
+  const inputRef = useRef();
+  const inputOptionsRef = useRef();
 
   const [optionsVisibility, setOptionsVisibility] = useState(false);
   const [selected, setSelected] = useState(value ? value : {});
   const [sortedOptions, setSortedOptions] = useState(options);
   const [filteredOptions, setFilteredOptions] = useState(options);
+  const [optionsPosition, setOptionsPosition] = useState("top");
 
   useEffect(() => {
     if (value) {
@@ -42,7 +44,10 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
   }, [optionsVisibility]);
 
   const handleOutsideClick = (e) => {
-    if (inputOptions.current && !inputOptions.current.contains(e.target)) {
+    if (
+      inputOptionsRef.current &&
+      !inputOptionsRef.current.contains(e.target)
+    ) {
       setOptionsVisibility(false);
     }
   };
@@ -62,11 +67,23 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
     setFilteredOptions(filteredData);
   };
 
+  const handleOptionsToggle = () => {
+    const rect = inputRef.current.getBoundingClientRect();
+    console.log(window.innerHeight);
+
+    if (window.innerHeight - rect.y < 250) {
+      setOptionsPosition("bottom");
+    } else {
+      setOptionsPosition("top");
+    }
+    setOptionsVisibility(!optionsVisibility);
+  };
+
   return (
-    <div className={`ui-single-select-input ${className}`}>
+    <div className={`ui-single-select-input ${className}`} ref={inputRef}>
       <div
         className="ui-single-select-input-value"
-        onClick={() => setOptionsVisibility(!optionsVisibility)}
+        onClick={() => handleOptionsToggle()}
       >
         <span>
           {options?.find((option) => option.value == selected)?.label}
@@ -74,7 +91,14 @@ const SingleSelectInput = ({ value, options, onChange, className }) => {
         <LuChevronDown />
       </div>
       {optionsVisibility && (
-        <div className="ui-single-select-input-options" ref={inputOptions}>
+        <div
+          className={`ui-single-select-input-options ${
+            optionsPosition === "bottom"
+              ? "ui-options-bottom"
+              : "ui-options-top"
+          }`}
+          ref={inputOptionsRef}
+        >
           <div className="ui-single-select-input-options-search">
             <input onChange={(e) => handleSearch(e.target.value)} />
           </div>

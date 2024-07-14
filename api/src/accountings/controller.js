@@ -41,52 +41,9 @@ const getAccountingsByDate = (req, res) => {
     [start_date, end_date],
     (error, results) => {
       if (error) throw error;
-
-      const totalAmountByDate = calculateTotalAmountByDate(results.rows);
-
-      const categories = Object.keys(totalAmountByDate);
-      const data = categories.map((date) => totalAmountByDate[date]);
-
-      res.status(200).json({ categories: categories, data: data });
+      res.status(200).json(results.rows);
     }
   );
-
-  // Gelen verileri işleyerek aynı gün için toplam değeri hesaplayan fonksiyon
-  const calculateTotalAmountByDate = (accountings) => {
-    return accountings.reduce((totalAmountByDate, accounting) => {
-      const date = accounting.date;
-      const amount = accounting.amount;
-
-      // Eğer tarih için bir girdi yoksa, başlangıç değerini 0 olarak ata
-      totalAmountByDate[date] = (totalAmountByDate[date] || 0) + amount;
-
-      return totalAmountByDate;
-    }, {});
-  };
-
-  // chart1Options ve chart1Series formatına dönüştürme fonksiyonu
-  const formatChartData = (totalAmountByDate) => {
-    const categories = Object.keys(totalAmountByDate);
-    const data = categories.map((date) => totalAmountByDate[date]);
-
-    const chart1Options = {
-      chart: {
-        id: "chart1",
-      },
-      xaxis: {
-        categories: categories,
-      },
-    };
-
-    const chart1Series = [
-      {
-        name: "series1",
-        data: data,
-      },
-    ];
-
-    return { chart1Options, chart1Series };
-  };
 };
 
 const addAccounting = async (req, res) => {
@@ -98,6 +55,7 @@ const addAccounting = async (req, res) => {
     accounting_model_id,
     related_person_id,
     created_by,
+    date,
   } = req.body;
 
   const { first_name, last_name } = await getPersonDataById(related_person_id);
@@ -115,6 +73,7 @@ const addAccounting = async (req, res) => {
       related_person_id,
       related_person_name,
       created_by,
+      date,
     ],
     (error, results) => {
       if (error) throw error;
